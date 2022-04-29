@@ -53,17 +53,6 @@ exports.addProducts = (req, res) => {
 
 }
 
-//delete product......................................
-
-exports.deleteProduct = (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-    Productdb.findByIdAndDelete(id)
-        .then(data => {
-            res.redirect('/admin-products')
-        })
-}
-
 //update product......................................
 
 exports.updateProduct = async (req, res) => {
@@ -96,6 +85,17 @@ exports.updateProduct = async (req, res) => {
 
 }
 
+
+//delete product......................................
+
+exports.deleteProduct = (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    Productdb.findByIdAndDelete(id)
+        .then(data => {
+            res.redirect('/admin-products')
+        })
+}
 
 //search products..................
 exports.productSearch = (req, res) => {

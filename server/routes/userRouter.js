@@ -12,6 +12,7 @@ const client = require("twilio")(accountSID,authToken);
 
 //user login............................................
 userRouter.get('/user-login',(req,res) => {
+
     res.render('user/user_login')
 })
 
@@ -34,7 +35,7 @@ userRouter.post('/user-home',async (req,res) => {
         
         const products = await Productdb.find()
         // console.log(products);
-            res.status(200).render('user/user_home', {products})
+            res.status(200).redirect('/user-home')
         
     }
     else{
@@ -106,9 +107,9 @@ userRouter.get('/loginwithOtp',(req,res) => {
     res.render('user/userLoginwithOtp')
 })
 
-userRouter.get('/user-logout',(req,res) => {
+userRouter.get('/user-logout',async (req,res) => {
     // res.render('user/user_login', {logout: "User Logged out successfully."})
-    const products = Productdb.find()
+    const products =await Productdb.find()
     res.render('landing',{products})
 })
 
@@ -159,7 +160,9 @@ userRouter.post('/otp',(req,res) => {
 
 //user cart....................
 userRouter.get('/user-cart', (req,res) => {
-    res.render('user/user_cart')
+    const products = Productdb.find()
+
+    res.render('user/user_cart', {products})
 })
 
 

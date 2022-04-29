@@ -63,6 +63,7 @@ app.use(session({
 //....Home route......................
 app.get('/', async (req, res) => {
 
+    console.log(req.session.isUserlogin);
     if (req.session.isUserlogin) {
         const user = await Userdb.findOne({
             email: req.body.email,
@@ -74,14 +75,14 @@ app.get('/', async (req, res) => {
     }
     else {
         const products = await Productdb.find()
-        console.log(products);
+        console.log("000000000000000000000000000000000000000000000000000000000000000000000000000",products);
         res.render('landing', {products});
     }
 })
 
 // load routers...................
-// app.use('/', require('./server/routes/router'));
-// app.use('/', require('./server/routes/userRouter'));
+app.use('/', require('./server/routes/router'));
+app.use('/', require('./server/routes/userRouter'));
 
 
 app.use((req, res, next) => {

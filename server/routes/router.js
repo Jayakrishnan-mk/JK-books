@@ -18,7 +18,7 @@ const credential = {
 //admin check .........................
 router.get('/admin', (req, res) => {
     if (req.session.isAdminlogin) {
-        console.log('isAdminlogin'); 
+        console.log('isAdminlogin');
         res.redirect('/admin-home')
     } else {
         console.log('no admin login');

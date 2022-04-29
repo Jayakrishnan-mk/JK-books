@@ -80,8 +80,8 @@ app.get('/', async (req, res) => {
 })
 
 // load routers...................
-app.use('/', require('./server/routes/router'));
-app.use('/', require('./server/routes/userRouter'));
+// app.use('/', require('./server/routes/router'));
+// app.use('/', require('./server/routes/userRouter'));
 
 
 app.use((req, res, next) => {

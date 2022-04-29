@@ -1,0 +1,45 @@
+<%- include('../include/header') -%>
+
+
+<div class="nav">
+    <h1>JK Books</h1>
+</div>
+    <div class="main">
+        <div class="text-center center-div" id="login ">
+
+            <div class="container adminhome w-55 border py-5">
+                <div class="title">
+                    <h2 class="font-weight-bold">Otp </h2><br>
+
+                    <% if(locals.logout){ %>
+                        <div class="alter alert-success text-center">
+                            <%= logout %>
+                        </div>
+                        <% } %>
+
+                            <% if(locals.error){ %>
+                                <div class="alter alert-danger text-center">
+                                    <%= error %>
+                                </div>
+                                <% } %>
+                </div><br>
+
+                <form action="/otp" method="post" class="pt-3">
+                    <div class="form-group">
+                        <input type="hidden" name="number" value="<%=number%>">
+                        <label for="name" >Enter Your otp</label><br>
+                        <input type="number"  name="otp" placeholder="otp" >
+                    </div><br>
+                    <div class="form-group">
+                       
+                    </div>  
+                    <br>
+                    <button type="submit" class="btn btn-primary rounded-pill" style="width: 15%;">Submit</button>
+                    <p id="err"></p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <%- include("../include/footer") -%>

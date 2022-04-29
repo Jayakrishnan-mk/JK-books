@@ -1,0 +1,58 @@
+<%-include ('../include/_header') %>
+
+  
+    <main id="site-main">
+        <div class="container">
+
+            <div class="box-nav d-flex justify-between">
+
+                <a href="/add-user" class="border-shadow" style="margin-left: -7%;">
+                    <span class="new">New User <i class="fa-solid fa-user-plus"></i> </span>
+                </a>
+
+                <form action="/user-search" method="get">
+                    <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
+                    <!-- <button class="btn btn-outline-success" style="height: 32px; width: 30px;" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button> -->
+                    <button type="button" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                      </button>
+                </form>
+
+
+                <!-- <a href="/admin-logout" onclick="e()" class="border-shadow">
+                    <span class="new"><i class="fa-solid fa-arrow-right"></i> Log out </span>
+                </a> -->
+
+            </div>
+
+        </div>
+        <br><br>
+
+        <!-- form handling................... -->
+
+        <!-- <form action="/admin-home" method="post"> -->
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>@email</th>
+                        <th>number</th>
+                        <th>Gender</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%-include ('../include/_show') %>
+                </tbody>
+            </table>
+        </form>
+
+        <!-- form handling.............................. -->
+
+    </main>
+
+
+    <%-include ('../include/_footer') %>

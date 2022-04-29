@@ -1,0 +1,99 @@
+<%-include ('../include/_header') %>
+
+
+
+    <main id="site-main">
+        <div class="container">
+
+            <div class="box-nav d-flex justify-between">
+
+                <a href="/add-product" class="border-shadow" style="margin-left: -7%;">
+                    <span class="new">Add Product <i class="fa-solid fa-book"></i></span>
+                </a>
+
+
+
+
+                <form action="/product-search" method="get">
+                    <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
+
+                    <button type="button" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+
+            </div>
+
+        </div>
+        <br><br>
+
+        <!-- form handling................... -->
+
+        <!-- <form action="/admin-home" method="post"> -->
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Category</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% products.sort((a,b)=> (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)) %>
+                    <% for (var i=0 ; i<products.length ; i++ ) { %>
+
+                        <tr>
+                            <td>
+                                <%= i + 1 %>
+                            </td>
+                            <td>
+                                <%= products[i].name %>
+                            </td>
+                            <td>
+                                <%= products[i].price %>
+                            </td>
+                            <td>
+                                <%= products[i].quantity %>
+                            </td>
+                            <td>
+                                <%= products[i].category %>
+                            </td>
+                            <td>
+                                <img style="width: 50px; height: 50px;" src=" <%= products[i].image %> ">
+                            </td>
+
+                            <td>
+                               
+                                    <a href=" /update-product/:id?id=<%= products[i]._id%> ">
+                                            <i class="fa-solid fa-pen-to-square pencil-icon"></i>
+                                    </a>
+
+                                <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post">
+                                    <a href=""                
+                                        onclick="return confirm ('Are you want to delete <%= products[i].name %> ?')">
+                                            <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button>
+                                    </a>                     
+                                </form>
+
+                            </td>
+                        </tr>
+
+                        <% } %>
+
+
+            </tbody>
+        </table>
+        </form>
+
+        <!-- form handling.............................. -->
+
+    </main>
+
+
+    <%-include ('../include/_footer') %>

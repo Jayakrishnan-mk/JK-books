@@ -4,18 +4,19 @@ const path = require('path');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const session = require('express-session');
-const { v4 : uuidv4} = require('uuid');
-const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 const fileUpload = require('express-fileupload');
 
 
 const connectDB = require('./server/database/connection');
+const Userdb = require('./server/model/model');
+const Productdb = require('./server/model/product_model');
 
-const app = express(); 
+const app = express();
 
-dotenv.config({ path: '/config.env'});
+dotenv.config({ path: '/config.env' });
 
-const PORT = process.env.PORT || 3005;
+const PORT = 3000   ;
 
 //override the method in form......
 app.use(methodOverride('_method'));
@@ -28,20 +29,23 @@ connectDB();
 
 //parse json bodies...............
 app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
-app.set ('view engine', 'ejs');
+app.set('view engine', 'ejs');
 
-app.use('/css', express.static(path.join(__dirname, "assets/css")));
-app.use('/bootstrap', express.static(path.join(__dirname, "assets/css/bootstrap")));
-app.use('/theme', express.static(path.join(__dirname, "assets/css/theme")));
-app.use('/img', express.static(path.join(__dirname, "assets/img")));
-app.use('/fonts', express.static(path.join(__dirname, "assets/fonts")));
-app.use('/js', express.static(path.join(__dirname, "assets/js")));
+app.use('/css', express.static(path.join(__dirname, "public/assets/css")));
+app.use('/bootstrap', express.static(path.join(__dirname, "public/assets/css/bootstrap")));
+app.use('/theme', express.static(path.join(__dirname, "public/assets/css/theme")));
+app.use('/img', express.static(path.join(__dirname, "public/assets/img")));
+app.use('/fonts', express.static(path.join(__dirname, "public/assets/fonts")));
+app.use('/js', express.static(path.join(__dirname, "public/assets/js")));
+app.use('/public/product_images', express.static(path.join(__dirname, "public/product_images")))
+
+app.use(fileUpload());
 
 //...cache clearing...............
 app.use((req, res, next) => {
-    if(!req.user){
+    if (!req.user) {
         res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         res.header('Expires', '-1');
         res.header('Pragma', 'no-cache');
@@ -52,34 +56,37 @@ app.use((req, res, next) => {
 //..session handling.............
 app.use(session({
     secret: uuidv4(),
-    resave: false, 
+    resave: false,
     saveUninitialized: true
 }))
 
 //....Home route......................
-// app.get('/', async(req, res) =>{
-//     if(req.session.userLogin){
-//         const user = await userdb.findOne({
-//             email: req.body.email,
-//             password: req.body.password
-//         })
-//         res.render('user_home', {user: user});
-//     }
-//     else{
-//         res.render('user_login');
-//     }
-// })
+app.get('/', async (req, res) => {
 
-app.get('/', async(req, res) =>{
-   
-        res.render('index');
-    
+    if (req.session.isUserlogin) {
+        const user = await Userdb.findOne({
+            email: req.body.email,
+            password: req.body.password
+        })
+        const products = await Productdb.find()
+
+        res.render('user/user_home', { user , products});
+    }
+    else {
+        const products = await Productdb.find()
+        console.log(products);
+        res.render('landing', {products});
+    }
 })
 
-
 // load routers...................
-// app.use('/', require('./server/routes/router'));
-// app.use('/', require('./server/routes/adminRouter'));
+app.use('/', require('./server/routes/router'));
+app.use('/', require('./server/routes/userRouter'));
 
-app.listen(PORT, () => { console.log(`Server running on http://localhost:${PORT}`);});
+
+app.use((req, res, next) => {
+    res.status(404).render('error.ejs')
+})
+
+app.listen(PORT, () => { console.log(`Server running on http://localhost:${PORT}`); });
 

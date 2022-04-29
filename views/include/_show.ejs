@@ -1,0 +1,39 @@
+<% users.sort((a,b)=> (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)) %>
+    <% for (var i=0 ; i<users.length ; i++ ) { %>
+
+        <tr>
+            <td>
+                <%= i + 1 %>
+            </td>
+            <td>
+                <%= users[i].name %>
+            </td>
+            <td>
+                <%= users[i].email %>
+            </td>
+
+            <td>
+                <%= users[i].number %>
+            </td>
+            <td>
+                <%= users[i].gender %>
+            </td>
+
+            <% if(users[i].isBlocked) { %>
+                <form action="/status/<%= users[i]._id%>?_method=patch" method="post">
+                    <td>
+                        <button type="submit" class="btn btn-danger">Blocked</button>
+                    </td>
+                </form>
+                <% } else { %>
+                    <form action="/status/<%= users[i]._id%>?_method=patch" method="post">
+                        <td>
+                            <button type="submit" class="btn btn-success">Unblock</button>
+                        </td>
+                    </form>
+                    <% } %>
+                        </td>
+
+        </tr>
+
+        <% } %>

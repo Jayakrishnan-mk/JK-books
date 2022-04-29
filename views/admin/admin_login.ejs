@@ -1,0 +1,53 @@
+<%- include('../include/header') -%>
+
+
+<div class="nav" style="background-color: cadetblue;">
+    <h1 >Admin</h1>
+</div>
+    <div class="main">
+        <div class="text-center center-div" id="login ">
+
+            <div class="container adminhome w-55 border py-5">
+                <div class="title">
+                    <h2 class="font-weight-bold">Login System</h2><br>
+                    <!-- <span>Log in for the Admin</span> -->
+
+                    <% if(locals.logout){ %>
+                        <div class="alter alert-success text-center">
+                            <%= logout %>
+                        </div>
+                        <% } %>
+
+                            <% if(locals.error){ %>
+                                <div class="alter alert-danger text-center">
+                                    <%= error %>
+                                </div>
+                                <% } %>
+
+
+                </div><br>
+
+                <form action="/admin-home" method="post" class="pt-3">
+                    <div class="form-group">
+                        <!-- <input type="email" class="form-control" placeholder="Email" name="email"> -->
+                        <!-- <small class="form-text text-muted text-left">Enter Email address</small> -->
+
+                        <input type="text" class="form-control" placeholder="Email" name="email" required
+                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" required />
+                    </div><br>
+                    <div class="form-group">
+                        <!-- <small class="form-text text-muted text-left">Enter Password</small> -->
+
+                        <input style="background-color: white;" type="password" class="form-control" name="password"
+                            placeholder="Password">
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-success rounded-pill" style="width: 15%;">Submit</button>
+                    <p id="err"></p>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <%- include("../include/footer") -%>

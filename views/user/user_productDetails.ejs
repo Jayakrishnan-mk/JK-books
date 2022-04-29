@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK Books</title>
+    <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
+        media="screen">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body style="margin: 0; " >
+   
+
+    <nav class="prod-nav">
+        <h2 class="prod-head"> JK Books</h2>
+        <h5 style="margin: auto; margin-left: 80rem; width: 5%; font-size: medium; color: white;">Home</h5>
+    </nav>
+    <!-- 
+    
+
+    <!-- //-------------------------------------------------------------------// -->
+
+        <div class="row" style="display: flex;">
+        <div style="display: flex;">
+            <img class="prod-img" src="<%= products.image %>" alt="#" />
+        </div>
+        <div class="product-des">
+            <h2 style="text-align: center;color: #f53f51; padding: 3rem 8rem 3rem 3rem;">
+                <%= products.name %>
+            </h2>
+
+            <h3 style="margin-left: 7rem;">By : <span style="color: #f53f51;"><%= products.author %></span></h3>
+            <div>
+                
+                <p style="width: 100%; padding: 3rem 0rem 0rem 0rem; margin-left: 7rem;">About the Book:
+                    <br><br>
+                    <%= products.description %>
+                </p>
+
+            </div>
+            <div style="margin-left: 8%; display: flex;    padding: 5rem;">
+                <a href="/user-cart"><button style=" width: 10rem; height: 3rem; background-color: #ff3457; color: white;" class="btn mt-4">Add to Cart</button></a>
+                <a href=""><button style="height: 3rem; width: 10rem; background-color: #ff6e3e; color: white;"  class="btn  mt-4">Buy Now</button></a>
+            </div>
+        </div>
+        
+    </div>
+    <!-- <td valign="top" align="left">
+        <iframe style="margin-left: 8rem;"
+            src="https://www.facebook.com/plugins/like.php?href=https://www.bookswagon.com/book/rich-poor-dad-t-robert/9781612680194&amp;width=62&amp;layout=button_count&amp;action=like&amp;size=small&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=1910926215834205"
+            width="62" height="21" style="border: none; overflow: hidden" scrolling="no" frameborder="0"
+            allowtransparency="true"></iframe>
+    </td> -->
+    
+</body>
+
+</html>

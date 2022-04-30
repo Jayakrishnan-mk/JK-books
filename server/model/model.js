@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var schema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     name: {
         type: "string",
         required: true
@@ -23,7 +23,8 @@ var schema = new mongoose.Schema({
     isBlocked: {
         type: "boolean",
         default: false
-    } 
+    },
+    // wishlist: [{productId: { type: mongoose.Types.ObjectId(),ref:"productdb" }}]
 
 })
 

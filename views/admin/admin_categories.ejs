@@ -1,0 +1,100 @@
+<%-include ('../include/_header') %>
+
+
+
+    <main id="site-main">
+        <div class="container">
+
+            <div class="box-nav d-flex justify-between">
+
+                <a href="/add-category" class="border-shadow" style="margin-left: -7%;">
+                    <span class="new">Add Category <i class="fa-solid fa-book"></i></span>
+                </a>
+
+
+
+
+                <form action="/category-search" method="get">
+                    <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+
+            </div>
+
+        </div>
+        <br><br>
+
+        <!-- form handling................... -->
+
+        <!-- <form action="/admin-home" method="post"> -->
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>Category</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <% categories.sort((a,b)=> (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)) %>
+                    <% for (var i=0 ; i<categories.length ; i++ ) { %>
+
+                        <tr>
+                            <td>
+                                <%= i + 1 %>
+                            </td>
+                            <td>
+                                <%= categories[i].name %>
+                            </td>
+
+
+
+                            <td>
+
+                                <a href=" /update-category/:id?id=<%= categories[i]._id%> ">
+                                    <!-- <i class="fa-solid fa-pen-to-square pencil-icon"></i> -->
+                                    <li class="list-inline-item">
+                                        <button class="btn btn-success btn-sm rounded-0" type="button"
+                                            data-toggle="tooltip" data-placement="top" title="Edit"><i
+                                                class="fa fa-edit"></i></button>
+                                    </li>
+                                </a>
+                            </td>
+
+                            <td>
+
+                            <form action="/delete-category/<%= categories[i]._id%>?_method=DELETE" method="post">
+                                <a href=""
+                                    onclick="return confirm ('Are you want to delete <%= categories[i].name %> ?')">
+                                    <!-- <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button> -->
+                                    <li class="list-inline-item" >
+                                        <button class="btn btn-danger btn-sm rounded-0" type="submit"
+                                            data-toggle="tooltip" data-placement="top" title="Delete"><i
+                                                class="fa fa-trash"></i></button>
+                                    </li>
+                                </a>
+                            </form>
+                        </td>
+
+                            </td>
+                        </tr>
+
+                        <% } %>
+
+
+            </tbody>
+        </table>
+        </form>
+
+        <!-- form handling.............................. -->
+
+    </main>
+
+
+    <%-include ('../include/_footer') %>

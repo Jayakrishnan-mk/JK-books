@@ -11,6 +11,7 @@ const fileUpload = require('express-fileupload');
 const connectDB = require('./server/database/connection');
 const Userdb = require('./server/model/model');
 const Productdb = require('./server/model/product_model');
+const Categorydb = require('./server/model/category_model');
 
 const app = express();
 
@@ -43,7 +44,7 @@ app.use('/public/product_images', express.static(path.join(__dirname, "public/pr
 
 app.use(fileUpload());
 
-//...cache clearing...............
+//...cache clearing............... 
 app.use((req, res, next) => {
     if (!req.user) {
         res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
@@ -75,7 +76,7 @@ app.get('/', async (req, res) => {
     }
     else {
         const products = await Productdb.find()
-        console.log("000000000000000000000000000000000000000000000000000000000000000000000000000",products);
+        console.log(products);
         res.render('landing', {products});
     }
 })

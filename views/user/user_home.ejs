@@ -23,11 +23,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
     </style>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" 
-    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" 
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
-<!--     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!--     
     <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
         integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
         crossorigin="anonymous"></script> -->
@@ -75,6 +75,13 @@
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
 
+                            <li class="menu-has-children"><a href="">Profile</a>
+                                <ul>
+                                  <li><a href="generic.html">My Orders</a></li>
+                                  <li><a href="elements.html">Wishlist</a></li>
+                                </ul>
+                              </li>
+
                             <li><a href="/user-logout">Logout</a></li>
 
                             </li>
@@ -121,10 +128,12 @@
                         New Adventure
                     </h1>
                     <p class="text-white pt-20 pb-20">
-                        A fantastically written book of one man's journey, 
-                        experience and ideas of <br> what it takes to follow one's passions for creativity and collaboration in the world .
+                        A fantastically written book of one man's journey,
+                        experience and ideas of <br> what it takes to follow one's passions for creativity and
+                        collaboration in the world .
                     </p>
-                    <a href="http://localhost:3000/product-details?id=626a40133890c8e94f304d93" class="primary-btn text-uppercase">Buy Now for ₹1999</a>
+                    <a href="http://localhost:3000/product-details?id=626a40133890c8e94f304d93"
+                        class="primary-btn text-uppercase">Buy Now for ₹1999</a>
                 </div>
                 <div class="col-lg-5 banner-right">
                     <img class="img-fluid" src="img/header-img.png" alt="">
@@ -285,8 +294,8 @@
             <div class="row d-flex justify-content-center">
                 <div class="menu-content pb-60 col-lg-9">
                     <div class="title text-center">
-                        <h1 class="mb-10">Books of the Month</h1>
-                        <p>Top 5</p>
+                        <h1 class="mb-10">Trending</h1>
+                        <!-- <p>Top 5</p> -->
                     </div>
                 </div>
             </div>
@@ -310,10 +319,40 @@
                             <input type="hidden" value="<%= products[i]._id %>">
 
                             <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
-                                    src="<%= products[i].image %>" style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
+                                    src="<%= products[i].image %>"
+                                    style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
                             <!-- <p class="sale-btn">For Sale</p> -->
+
+
+
+
                             <div class="details">
-                                <a href="#">
+                                
+
+                                    <div class="offer position-absolute" style="position:absolute; z-index:9">
+                                        <button type="button" onclick="wishlist()" class="btn btn-outline-danger"  id="wishlist-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                class="bi bi-heart" viewBox="0 0 16 16">
+                                                <path
+                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
+                                                </path>
+                                            </svg>
+        
+                                        </button>
+                                    </div>
+
+
+                                    <script>
+                                      async  function wishlist(){
+                                            console.log("entred");
+                                          const button= await document.getElementById("wishlist-btn")
+                                          button.style["background-color"]="red"
+                                          
+                                        }
+                                    </script>
+
+
+
                                     <h4 style="text-align: center; font-weight: bold;">
                                         <%= products[i].name %>
                                             <h4 style="text-align: center; font-weight: bolder;">
@@ -324,16 +363,24 @@
                                                         </div>
                                                     </h4>
                                                     <div style="margin-left: 8%;">
-                                                    <a href="/user-cart"><button style="background-color: #ff3457; color: white;" class="btn mt-4">Add to Cart</button></a>
-                                                    <a href=""><button style="background-color: #ff6e3e; color: white;"  class="btn  mt-4">Buy Now</button></a>
-                                                </div>
-                                </a>
+                                                        <a href="/user-cart"><button
+                                                                style="background-color: #ff3457; color: white;"
+                                                                class="btn mt-4">Add to Cart</button></a>
+                                                        <a href=""><button
+                                                                style="background-color: #ff6e3e; color: white;"
+                                                                class="btn  mt-4">Buy Now</button></a>
+                                                    </div>
+                                
                                 <!-- <p>
                                     <%= products[i].description %>
                                 </p> -->
+                                
                             </div>
+                            
                         </div>
+                        
                         <% } %>
+                        
 
                             <!-- <div class="single-course item">
                               <img class="img-fluid" src="img/c3.jpg" alt="">

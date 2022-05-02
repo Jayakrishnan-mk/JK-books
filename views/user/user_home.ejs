@@ -29,7 +29,7 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    
+
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
     <!--
@@ -82,29 +82,13 @@
                             </li>
                             </li>
 
+                            <a href="/cart"><i style="color: white;" class="fa-solid fa-cart-shopping"></i></a>
+
                             <!-- <li><a href="/user-logout">Logout</a></li> -->
-                            <button style="color: white;  border: none; background-color: #f53f51;"
+                            <button style="color: white; margin-left: 1rem;  border: none; background-color: #f53f51;"
                                 onclick="userLogout()">Logout</button>
 
-                            <script>
-                                function userLogout() {
 
-                                    Swal.fire({
-                                        title: 'Are you sure?',
-                                        text: "You want to logout!",
-                                        icon: 'warning',
-                                        showCancelButton: true,
-                                        confirmButtonColor: '#3085d6',
-                                        cancelButtonColor: '#d33',
-                                        confirmButtonText: 'Yes!'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            location.href = "/user-logout";
-                                        }
-                                    })
-                                }
-
-                            </script>
                         </ul>
                     </nav>
                     <!-- #nav-menu-container -->
@@ -360,14 +344,7 @@
                             </a>
                             <!-- <p class="sale-btn">For Sale</p> -->
 
-                            <script>
-                                async function wishlist() {
-                                    console.log("entered");
-                                    const button = await document.getElementById("wishlist-btn")
-                                    button.style["background-color"] = "red"
 
-                                }
-                            </script>
 
 
 
@@ -381,9 +358,9 @@
                                                 </div>
                                             </h4>
                                             <div style="margin-left: 8%;">
-                                                <a href="/user-cart"><button
+                                            <button onclick="addCart('<%= products[i]._id %>')"
                                                         style="background-color: #ff3457; color: white;"
-                                                        class="btn mt-4">Add to Cart</button></a>
+                                                        class="btn mt-4">Add to Cart</button>
                                                 <a href=""><button style="background-color: #ff6e3e; color: white;"
                                                         class="btn  mt-4">Buy Now</button></a>
                                             </div>
@@ -654,6 +631,52 @@
     <script src="js/jquery.counterup.min.js"></script>
     <script src="js/mail-script.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+        async function wishlist() {
+            console.log("entered");
+            const button = await document.getElementById("wishlist-btn")
+            button.style["background-color"] = "red"
+
+        }
+
+        function addCart(proId) {
+            $.ajax({
+                url: `/add-to-cart/${proId}`,
+                method: 'get',
+                // success: (response) => {
+                //     if (response.status) {
+                //         let count = $('#cartCount').html();
+                //         count = parseInt(count) + 1;
+                //         $('#cartCount').html(count);
+                //     }
+                //     console.log("ajaxcartttttttttttt", proId);
+                //     alert("Added to cart");
+                // },
+            });
+        }
+
+        function userLogout() {
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to logout!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = "/user-logout";
+                }
+            })
+        }
+
+
+    </script>
+
+
 </body>
 
 </html>

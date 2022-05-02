@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const shemaCart = new mongoose.Schema({
-    user: {
+    userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userdb'
     },
-    product: Array
+    products: Array
 
 });
 

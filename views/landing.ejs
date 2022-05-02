@@ -27,10 +27,6 @@
 		integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
 		crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-	<!--     
-    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
-        integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
-        crossorigin="anonymous"></script> -->
 
 	<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
 	<!--
@@ -325,14 +321,7 @@
                             </a>
                             <!-- <p class="sale-btn">For Sale</p> -->
 
-                            <script>
-                                async function wishlist() {
-                                    console.log("entered");
-                                    const button = await document.getElementById("wishlist-btn")
-                                    button.style["background-color"] = "red"
-
-                                }
-                            </script>
+                           
 
 
 
@@ -346,7 +335,7 @@
                                                 </div>
                                             </h4>
                                             <div style="margin-left: 8%;">
-                                                <a href="/user-cart"><button
+                                                <a href="/add-to-cart"><button
                                                         style="background-color: #ff3457; color: white;"
                                                         class="btn mt-4">Add to Cart</button></a>
                                                 <a href=""><button style="background-color: #ff6e3e; color: white;"
@@ -619,6 +608,15 @@
     <script src="js/jquery.counterup.min.js"></script>
     <script src="js/mail-script.js"></script>
     <script src="js/main.js"></script>
+
+    <script>
+        async function wishlist() {
+            console.log("entered");
+            const button = await document.getElementById("wishlist-btn")
+            button.style["background-color"] = "red"
+
+        }
+    </script>
 </body>
 
 </html>

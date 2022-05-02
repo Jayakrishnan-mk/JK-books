@@ -45,14 +45,52 @@
                             <tbody>
                                 <tr>
                                     <td>
+                                        <% for(i= 1; i<products.length; i++ ) { %>
                                         <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="<%= products[0].image%>" class="img-sm"></div>
+                                            <div class="aside"><img src="<%= products[i].image%>" class="img-sm"></div>
                                             <figcaption class="info"> <a href="#" class="title text-dark"
                                                     data-abc="true">
-                                                    <%= products[0].name %>
+                                                    <%= products[i].name %>
                                                 </a>
                                                 <p class="text-muted small">
-                                                    <%= products[0].author %><br>
+                                                    <%= products[i].author %><br>
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
+                                        <select class="form-control" style="border: none;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap" style="text-align: center;"> <var
+                                                class="price">$10.00</var> <small class="text-muted"> $9.20 each
+                                            </small> </div>
+                                    </td>
+                                    <td class="text-right d-none d-md-block"
+                                        style="width: 4rem; display: flex; justify-content: center; margin-left: 4rem;">
+                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
+                                            data-toggle="tooltip" data-abc="true"> </a>
+                                        <a href="" class="btn btn-light" data-abc="true"> Remove</a>
+                                    </td>
+                                </tr>
+
+                                <% } %>
+
+                                <!-- <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img src="<%= products.image%>" class="img-sm"></div>
+                                            <figcaption class="info"> <a href="#" class="title text-dark"
+                                                    data-abc="true">
+                                                    <%= products.name %>
+                                                </a>
+                                                <p class="text-muted small">
+                                                    <%= products.author %><br>
                                                 </p>
                                             </figcaption>
                                         </figure>
@@ -80,13 +118,13 @@
                                 <tr>
                                     <td>
                                         <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="<%= products[0].image%>" class="img-sm"></div>
+                                            <div class="aside"><img src="<%= products.image%>" class="img-sm"></div>
                                             <figcaption class="info"> <a href="#" class="title text-dark"
                                                     data-abc="true">
-                                                    <%= products[0].name %>
+                                                    <%= products.name %>
                                                 </a>
                                                 <p class="text-muted small">
-                                                    <%= products[0].author %><br>
+                                                    <%= products.author %><br>
                                                 </p>
                                             </figcaption>
                                         </figure>
@@ -110,41 +148,7 @@
                                             data-toggle="tooltip" data-abc="true"> </a>
                                         <a href="" class="btn btn-light" data-abc="true"> Remove</a>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="<%= products[0].image%>" class="img-sm"></div>
-                                            <figcaption class="info"> <a href="#" class="title text-dark"
-                                                    data-abc="true">
-                                                    <%= products[0].name %>
-                                                </a>
-                                                <p class="text-muted small">
-                                                    <%= products[0].author %><br>
-                                                </p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
-                                        <select class="form-control" style="border: none;">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap" style="text-align: center;"> <var
-                                                class="price">$10.00</var> <small class="text-muted"> $9.20 each
-                                            </small> </div>
-                                    </td>
-                                    <td class="text-right d-none d-md-block"
-                                        style="width: 4rem; display: flex; justify-content: center; margin-left: 4rem;">
-                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
-                                            data-toggle="tooltip" data-abc="true"> </a>
-                                        <a href="" class="btn btn-light" data-abc="true"> Remove</a>
-                                    </td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
                     </div>

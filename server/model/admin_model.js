@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-
+const mongoose = require('mongoose'); 
+  
 const schemaAdmin = new mongoose.Schema({
     email: {
         type: "string",

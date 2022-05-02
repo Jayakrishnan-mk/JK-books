@@ -47,15 +47,16 @@ router.post('/admin-home',async (req, res) => {
 
 })
 
-// router.use((req,res,next) => {
-//     if(!req.session.isAdminlogin){
-//         res.redirect('/admin')
+//middleware for route protect..................
+router.use((req,res,next) => {
+    if(!req.session.isAdminlogin){
+        res.redirect('/admin')
 
-//     }
-//     else{
-//         next();
-//     }
-// })
+    }
+    else{
+        next();
+    }
+})
 
 //for delete ............................
 router.use((req,res,next) => {
@@ -187,7 +188,7 @@ router.post('/adding-category', category_controller.addCategory)
 
 //delete product.................................. 
 router.delete('/delete-product/:id', product_controller.deleteProduct);
-
+ 
 //update product.................................. 
 router.put('/update-product/:id', product_controller.updateProduct);
 

@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 const fileUpload = require('express-fileupload');
+const swal = require('sweetalert2');
 
 
 const connectDB = require('./server/database/connection');
@@ -15,10 +16,9 @@ const Categorydb = require('./server/model/category_model');
 
 const app = express();
 
-dotenv.config({ path: '/config.env' });
+dotenv.config();
 
-const PORT = 3000   ;
-
+const PORT = 3000 ;
 //override the method in form......
 app.use(methodOverride('_method'));
 
@@ -82,7 +82,7 @@ app.get('/', async (req, res) => {
 })
 
 // load routers...................
-app.use('/', require('./server/routes/router'));
+app.use('/admin', require('./server/routes/router'));
 app.use('/', require('./server/routes/userRouter'));
 
 

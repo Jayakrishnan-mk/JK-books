@@ -18,6 +18,8 @@
     <title>JK Books</title>
     <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
@@ -27,10 +29,7 @@
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!--     
-    <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
-        integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc"
-        crossorigin="anonymous"></script> -->
+    
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
     <!--
@@ -56,7 +55,7 @@
                 </div>
 
 
-                <div class="input-group" style="width: 25%;">
+                <!-- <div class="input-group" style="width: 25%;">
                     <div class="form-outline">
                         <input type="search" id="form1" placeholder="search category" class="form-control search-bar"
                             style="background-color: #ffffff;" />
@@ -65,7 +64,7 @@
                         style="background-color: #ff3457; border-color: #ff3457;">
                         <i class="fas fa-search"></i>
                     </button>
-                </div>
+                </div> -->
 
 
                 <div>
@@ -77,14 +76,35 @@
 
                             <li class="menu-has-children"><a href="">Profile</a>
                                 <ul>
-                                  <li><a href="generic.html">My Orders</a></li>
-                                  <li><a href="elements.html">Wishlist</a></li>
+                                    <li><a href="generic.html">My Orders</a></li>
+                                    <li><a href="elements.html">Wishlist</a></li>
                                 </ul>
-                              </li>
-
-                            <li><a href="/user-logout">Logout</a></li>
-
                             </li>
+                            </li>
+
+                            <!-- <li><a href="/user-logout">Logout</a></li> -->
+                            <button style="color: white;  border: none; background-color: #f53f51;"
+                                onclick="userLogout()">Logout</button>
+
+                            <script>
+                                function userLogout() {
+
+                                    Swal.fire({
+                                        title: 'Are you sure?',
+                                        text: "You want to logout!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Yes!'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            location.href = "/user-logout";
+                                        }
+                                    })
+                                }
+
+                            </script>
                         </ul>
                     </nav>
                     <!-- #nav-menu-container -->
@@ -132,8 +152,9 @@
                         experience and ideas of <br> what it takes to follow one's passions for creativity and
                         collaboration in the world .
                     </p>
-                    <a href="http://localhost:3000/product-details?id=626a40133890c8e94f304d93"
-                        class="primary-btn text-uppercase">Buy Now for ₹1999</a>
+
+                    <a href="/product-details?id=626d42ca95c5dcdbd1650f1c" class="primary-btn text-uppercase">Buy Now
+                        for ₹1999</a>
                 </div>
                 <div class="col-lg-5 banner-right">
                     <img class="img-fluid" src="img/header-img.png" alt="">
@@ -317,72 +338,68 @@
                         <div class="single-course item">
 
                             <input type="hidden" value="<%= products[i]._id %>">
-
                             <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
                                     src="<%= products[i].image %>"
-                                    style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
-                            <!-- <p class="sale-btn">For Sale</p> -->
+                                    style="width: 270px; height: 310px; object-fit: contain;" alt="">
 
+                                <div class="details">
 
-
-
-                            <div class="details">
-                                
 
                                     <div class="offer position-absolute" style="position:absolute; z-index:9">
-                                        <button type="button" onclick="wishlist()" class="btn btn-outline-danger"  id="wishlist-btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                class="bi bi-heart" viewBox="0 0 16 16">
+                                        <button type="button" onclick="wishlist()" class="btn btn-outline-danger"
+                                            id="wishlist-btn">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                                 <path
                                                     d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
                                                 </path>
                                             </svg>
-        
+
                                         </button>
                                     </div>
+                            </a>
+                            <!-- <p class="sale-btn">For Sale</p> -->
+
+                            <script>
+                                async function wishlist() {
+                                    console.log("entered");
+                                    const button = await document.getElementById("wishlist-btn")
+                                    button.style["background-color"] = "red"
+
+                                }
+                            </script>
 
 
-                                    <script>
-                                      async  function wishlist(){
-                                            console.log("entred");
-                                          const button= await document.getElementById("wishlist-btn")
-                                          button.style["background-color"]="red"
-                                          
-                                        }
-                                    </script>
 
+                            <h4 style="text-align: center; font-weight: bold;">
+                                <%= products[i].name %>
+                                    <h4 style="text-align: center; font-weight: bolder;">
+                                        <%= products[i].author %>
+                                            <h4 style="text-align: center;">
+                                                <div class="price">
+                                                    <span>₹<%= products[i].price %></span>
+                                                </div>
+                                            </h4>
+                                            <div style="margin-left: 8%;">
+                                                <a href="/user-cart"><button
+                                                        style="background-color: #ff3457; color: white;"
+                                                        class="btn mt-4">Add to Cart</button></a>
+                                                <a href=""><button style="background-color: #ff6e3e; color: white;"
+                                                        class="btn  mt-4">Buy Now</button></a>
+                                            </div>
 
-
-                                    <h4 style="text-align: center; font-weight: bold;">
-                                        <%= products[i].name %>
-                                            <h4 style="text-align: center; font-weight: bolder;">
-                                                <%= products[i].author %>
-                                                    <h4 style="text-align: center;">
-                                                        <div class="price">
-                                                            <span>₹<%= products[i].price %></span>
-                                                        </div>
-                                                    </h4>
-                                                    <div style="margin-left: 8%;">
-                                                        <a href="/user-cart"><button
-                                                                style="background-color: #ff3457; color: white;"
-                                                                class="btn mt-4">Add to Cart</button></a>
-                                                        <a href=""><button
-                                                                style="background-color: #ff6e3e; color: white;"
-                                                                class="btn  mt-4">Buy Now</button></a>
-                                                    </div>
-                                
-                                <!-- <p>
+                                            <!-- <p>
                                     <%= products[i].description %>
                                 </p> -->
-                                
-                            </div>
-                            
-                        </div>
-                        
-                        <% } %>
-                        
 
-                            <!-- <div class="single-course item">
+                        </div>
+
+                </div>
+
+                <% } %>
+
+
+                    <!-- <div class="single-course item">
                               <img class="img-fluid" src="img/c3.jpg" alt="">
                               <p class="sale-btn">For Sale</p>
                               <div class="details">
@@ -392,8 +409,8 @@
                                   </p>
                               </div>
                           </div>								 -->
-                </div>
             </div>
+        </div>
         </div>
     </section>
     <!-- End course Area -->

@@ -7,14 +7,14 @@
 
             <div class="box-nav d-flex justify-between">
 
-                <a href="/add-product" class="border-shadow" style="margin-left: -7%;">
+                <a href="/admin/add-product" class="border-shadow" style="margin-left: -7%;">
                     <span class="new">Add Product <i class="fa-solid fa-book"></i></span>
                 </a>
 
 
 
 
-                <form action="/product-search" method="get">
+                <form action="/admin/product-search" method="get">
                     <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
 
                     <button type="submit" class="btn btn-primary">
@@ -64,28 +64,47 @@
                             <td>
                                 <%= products[i].category %>
                             </td>
+                            <!-- <% console.log('llllllllllllllllllllll', products[i].image )%> -->
                             <td>
                                 <img style="width: 50px; height: 50px;" src=" <%= products[i].image %> ">
                             </td>
 
                             <td>
-                               
-                                    <a href=" /update-product/:id?id=<%= products[i]._id%> ">
-                                            <!-- <i class="fa-solid fa-pen-to-square pencil-icon"></i> -->
-                                            <li class="list-inline-item" style="display: grid;">
-                                                <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
-                                            </li>
-                                    </a>
 
-                                <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post">
+                                <a href=" /admin/update-product/:id?id=<%= products[i]._id%> ">
+                                    <!-- <i class="fa-solid fa-pen-to-square pencil-icon"></i> -->
+                                    <li class="list-inline-item" style="display: grid;">
+                                        <button class="btn btn-success btn-sm rounded-0" type="button"
+                                            data-toggle="tooltip" data-placement="top" title="Edit"><i
+                                                class="fa fa-edit"></i></button>
+                                    </li>
+                                </a>
+
+                                        <!-- <li class="list-inline-item" style="display: grid;">
+                                            <button onclick="confirmDelete()" class="btn btn-danger btn-sm rounded-0" type="button"
+                                                data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="fa fa-trash"></i></button>
+                                        </li> -->
+
+                                        <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post"> -->
+                                        <li class="list-inline-item" style="display: grid;">
+                                            <button onclick="confirmDelete('<%= products[i]._id %>')" class="btn btn-danger btn-sm rounded-0" type="button"
+                                                data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="fa fa-trash"></i></button>
+                                        </li>
+                                    <!-- </form> -->
+
+                             <!-- //--------------------------------------------------------------------------------------------// -->
+
+                                <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post">
                                     <a href=""                
-                                        onclick="return confirm ('Are you want to delete <%= products[i].name %> ?')">
-                                            <!-- <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button> -->
-                                            <li class="list-inline-item" style="display: grid;">
+                                        onclick="return confirm ('Are you want to delete <%= products[i].name %> ?')"> -->
+                                <!-- <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button> -->
+                                <!-- <li class="list-inline-item" style="display: grid;">
                                                 <button class="btn btn-danger btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                                             </li>                                    
                                         </a>                     
-                                </form>
+                                </form> -->
 
                             </td>
                         </tr>

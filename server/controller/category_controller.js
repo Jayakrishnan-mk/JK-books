@@ -17,7 +17,7 @@ exports.addCategory = (req,res) => {
         category
         .save(category)
         .then(data => {
-            res.redirect('/admin-categories');
+            res.redirect('/admin/admin-categories');
         })
         .catch(err => {
             res.render('admin/add_category', {category: "" , error: "Category already exist"})
@@ -47,18 +47,18 @@ exports.deleteCategory = (req, res) => {
     console.log(id);
     Categorydb.findByIdAndDelete(id)
         .then(data => {
-            res.redirect('/admin-categories')
+            res.redirect('/admin/admin-categories')
         })
 }
 
 
  //update category......................................
-exports.updateCategory = (req,res) => {
+exports.updateCategory = (req,res) => { 
     const id = req.params.id;
     console.log(id);
     Categorydb.findByIdAndUpdate(id, req.body, { UserFindAndModify: false })
         .then(data => {
-            res.redirect('/admin-categories')
+            res.redirect('/admin/admin-categories')
 
         })
 

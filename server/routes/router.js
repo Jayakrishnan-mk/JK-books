@@ -5,23 +5,20 @@ const controller = require('../controller/controller');
 const product_controller = require('../controller/product_controller');
 const category_controller = require('../controller/category_controller');
 
+const admin = require('../model/admin_model');
 const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
 const Categorydb = require('../model/category_model');
 
-const credential = {
-    email: 'admin@gmail.com',
-    password: 'admin123'
-}
 
 //invalid url......................
 
 
 //admin check .........................
-router.get('/admin', (req, res) => {
+router.get('/', (req, res) => {
     if (req.session.isAdminlogin) {
         console.log('isAdminlogin');
-        res.redirect('/admin-home')
+        res.redirect('admin/admin-home')
     } else {
         console.log('no admin login');
         res.render('admin/admin_login');
@@ -29,12 +26,19 @@ router.get('/admin', (req, res) => {
 })
 
 //admin home post.........................
-router.post('/admin-home', (req, res) => {
-    if (req.body.email === credential.email && req.body.password == credential.password) {
-        req.session.admin = req.body.email;
+router.post('/admin-home',async (req, res) => {
+    console.log(req.body);
+    const Admin = await admin.findOne({
+        email: req.body.email,
+        password: req.body.password
+    })
+    if (Admin) {
+          
+    req.session.admin = req.body.email;
         req.session.isAdminlogin = true;
+        // console.log(req.session.isAdminlogin);
 
-        res.redirect('/admin-home')
+        res.redirect('/admin/admin-home')
 
     }
     else {
@@ -43,15 +47,42 @@ router.post('/admin-home', (req, res) => {
 
 })
 
+// router.use((req,res,next) => {
+//     if(!req.session.isAdminlogin){
+//         res.redirect('/admin')
+
+//     }
+//     else{
+//         next();
+//     }
+// })
+
+//for delete ............................
+router.use((req,res,next) => {
+    if(req.query._method == "DELETE"){
+        req.method = "DELETE";
+        req.url = req.path
+    }
+    next();
+})
+
 
 //admin home get.................................. 
 router.get('/admin-home', (req, res) => {
-
-    Userdb.find()
+    console.log(req.session.isAdminlogin);
+    if(req.session.isAdminlogin){
+        Userdb.find()
         .then(data => {
             res.render('admin/admin_home', { users: data })
         })
+    }
+    else{
+        res.redirect('/admin')
+    }
 })
+
+
+
 
 //add user.................................
 router.get('/add-user', (req, res) => {
@@ -68,7 +99,10 @@ router.get('/users-list', (req, res) => {
 
 //admin logout.................................. 
 router.get('/admin-logout', (req, res) => {
+    console.log(req.session.isAdminlogin);
+ 
     req.session.destroy((err) => {
+        console.log(req.session);
         res.clearCookie();
         if (err) {
             res.status(403).send('Hey Admin, Error while Logging out!')
@@ -76,7 +110,10 @@ router.get('/admin-logout', (req, res) => {
         else {
             res.status(200).render('admin/admin_login', { logout: "Logout Successfully." })
         }
-    })
+        console.log(req.session);
+
+    }
+    )
 })
 
 
@@ -136,7 +173,7 @@ router.get('/update-category/:id', async (req, res) => {
     console.log('--------------------------------------------compiler');
 
 });
-
+ 
 
 //delete category.................................. 
 router.delete('/delete-category/:id', category_controller.deleteCategory);
@@ -150,7 +187,6 @@ router.post('/adding-category', category_controller.addCategory)
 
 //delete product.................................. 
 router.delete('/delete-product/:id', product_controller.deleteProduct);
-
 
 //update product.................................. 
 router.put('/update-product/:id', product_controller.updateProduct);

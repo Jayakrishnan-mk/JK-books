@@ -9,7 +9,7 @@ function changeVal(el) {
   
   changeTotal();      
 }
-
+ 
 function changeTotal() {
   
   var price = 0;
@@ -74,7 +74,7 @@ $(document).ready(function(){
     
     var el = $(this);
     window.setTimeout(function(){el.parent().children(".full-price").removeClass("minused"); changeVal(el);}, 150);
-  });
+  }); 
   
   window.setTimeout(function(){$(".is-open").removeClass("is-open")}, 1200);
   

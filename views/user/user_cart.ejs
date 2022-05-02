@@ -1,159 +1,190 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK Books</title>
 
-  <link rel="stylesheet" href="css/cartcss.css">
-  <link rel="stylesheet" href="js/cartjs.js">
+    <link rel="stylesheet" href="css/cartcss.css">
+    <link rel="stylesheet" href="js/cartjs.js">
+
+    <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
+
+
+
 </head>
 
 <body>
 
 
-  <nav class="prod-nav">
-    <h2 class="prod-head"> JK Books</h2>
-    <h3 style="width: 0px;  margin: auto; color: white; font-size: xxx-large; position: relative;"> Cart</h3>
-    <a href="/user-home"><h5 style="margin-right: 50px; margin-top: 22px; color: white;">Home</h5></a>
-</nav>
+    <nav class="prod-nav">
+        <h2 class="prod-head"> JK Books</h2>
+        <h3 style="width: 0px;  margin: auto; color: white; font-size: xxx-large; position: relative;"> Cart</h3>
+        <a href="/user-home">
+            <h5 style="margin-right: 50px; margin-top: 22px; color: white;">Home</h5>
+        </a>
+    </nav>
 
 
-
-  <div class="container">
-
-    <section id="cart">
-      <article class="product">
-        <header>
-          <a class="remove">
-            <img src="<%= products.image %>" alt="">
-
-            <h3>Remove product</h3>
-          </a>
-        </header>
-
-        <div class="content">
-
-          <h1><%= products.name %></h1>
-
-          <%= products.author %>
-
-          <div title="You have selected this product to be shipped in the color yellow." style="top: 0"
-            class=""></div>
+    <div class="container-fluid">
+        <div class="row">
+            <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
+                <div class="card">
+                    <div class="table-responsive">
+                        <table class="table table-borderless table-shopping-cart">
+                            <thead class="text-muted">
+                                <tr class="small text-uppercase">
+                                    <th scope="col">Product</th>
+                                    <th scope="col" width="120">Quantity</th>
+                                    <th scope="col" width="120">Price</th>
+                                    <th scope="col" class="text-right d-none d-md-block" width="200"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img src="<%= products[0].image%>" class="img-sm"></div>
+                                            <figcaption class="info"> <a href="#" class="title text-dark"
+                                                    data-abc="true">
+                                                    <%= products[0].name %>
+                                                </a>
+                                                <p class="text-muted small">
+                                                    <%= products[0].author %><br>
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
+                                        <select class="form-control" style="border: none;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap" style="text-align: center;"> <var
+                                                class="price">$10.00</var> <small class="text-muted"> $9.20 each
+                                            </small> </div>
+                                    </td>
+                                    <td class="text-right d-none d-md-block"
+                                        style="width: 4rem; display: flex; justify-content: center; margin-left: 4rem;">
+                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
+                                            data-toggle="tooltip" data-abc="true"> </a>
+                                        <a href="" class="btn btn-light" data-abc="true"> Remove</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img src="<%= products[0].image%>" class="img-sm"></div>
+                                            <figcaption class="info"> <a href="#" class="title text-dark"
+                                                    data-abc="true">
+                                                    <%= products[0].name %>
+                                                </a>
+                                                <p class="text-muted small">
+                                                    <%= products[0].author %><br>
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
+                                        <select class="form-control" style="border: none;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap" style="text-align: center;"> <var
+                                                class="price">$10.00</var> <small class="text-muted"> $9.20 each
+                                            </small> </div>
+                                    </td>
+                                    <td class="text-right d-none d-md-block"
+                                        style="width: 4rem; display: flex; justify-content: center; margin-left: 4rem;">
+                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
+                                            data-toggle="tooltip" data-abc="true"> </a>
+                                        <a href="" class="btn btn-light" data-abc="true"> Remove</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <figure class="itemside align-items-center">
+                                            <div class="aside"><img src="<%= products[0].image%>" class="img-sm"></div>
+                                            <figcaption class="info"> <a href="#" class="title text-dark"
+                                                    data-abc="true">
+                                                    <%= products[0].name %>
+                                                </a>
+                                                <p class="text-muted small">
+                                                    <%= products[0].author %><br>
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </td>
+                                    <td style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
+                                        <select class="form-control" style="border: none;">
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="price-wrap" style="text-align: center;"> <var
+                                                class="price">$10.00</var> <small class="text-muted"> $9.20 each
+                                            </small> </div>
+                                    </td>
+                                    <td class="text-right d-none d-md-block"
+                                        style="width: 4rem; display: flex; justify-content: center; margin-left: 4rem;">
+                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
+                                            data-toggle="tooltip" data-abc="true"> </a>
+                                        <a href="" class="btn btn-light" data-abc="true"> Remove</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </aside>
+            <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
+                <!-- <div class="card mb-3">
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group"> <label>Have coupon?</label>
+                                <div class="input-group"> <input type="text" class="form-control coupon" name=""
+                                        placeholder="Coupon code"> <span class="input-group-append"> <button
+                                            class="btn btn-primary btn-apply coupon">Apply</button> </span> </div>
+                            </div>
+                        </form>
+                    </div>
+                </div> -->
+                <div class="card">
+                    <div class="card-body">
+                        <dl class="dlist-align">
+                            <dt>Total price:</dt>
+                            <dd class="text-right ml-3">$69.97</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Discount:</dt>
+                            <dd class="text-right text-danger ml-3">- $10.00</dd>
+                        </dl>
+                        <dl class="dlist-align">
+                            <dt>Total:</dt>
+                            <dd class="text-right text-dark b ml-3"><strong>$59.97</strong></dd>
+                        </dl>
+                        <hr> <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Make
+                            Purchase </a> <a href="#" class="btn btn-out btn-success btn-square btn-main mt-2"
+                            data-abc="true">Continue Shopping</a>
+                    </div>
+                </div>
+            </aside>
         </div>
-
-        <footer class="content">
-          <span class="qt-minus">-</span>
-          <span class="qt">2</span>
-          <span class="qt-plus">+</span>
-
-          <h2 class="full-price">
-            ₹
-          </h2>
-
-          <h2 class="price">
-            ₹<%= products.price %>
-          </h2>
-        </footer>
-      </article>
-
-      <!-- <article class="product">
-        <header>
-          <a class="remove">
-            <img src="http://www.astudio.si/preview/blockedwp/wp-content/uploads/2012/08/3.jpg" alt="">
-
-            <h3>Remove product</h3>
-          </a>
-        </header>
-
-        <div class="content">
-
-          <h1>Lorem ipsum dolor</h1>
-
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, numquam quis perspiciatis ea ad omnis
-          provident laborum dolore in atque.
-
-          <div title="You have selected this product to be shipped in the color red." style="top: 0" class="">
-          </div>
-          
-        </div>
-
-        <footer class="content">
-
-          <span class="qt-minus">-</span>
-          <span class="qt">1</span>
-          <span class="qt-plus">+</span>
-
-          <h2 class="full-price">
-            ₹79.99
-          </h2>
-
-          <h2 class="price">
-            ₹79.99 
-          </h2>
-        </footer>
-      </article>
-
-      <article class="product">
-        <header>
-          <a class="remove">
-            <img src="http://www.astudio.si/preview/blockedwp/wp-content/uploads/2012/08/5.jpg" alt="">
-
-            <h3>Remove product</h3>
-          </a>
-        </header>
-
-        <div class="content">
-
-          <h1>Lorem ipsum dolor ipsdu</h1>
-
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Soluta, numquam quis perspiciatis ea ad omnis
-          provident laborum dolore in atque.
-
-          <div title="You have selected this product to be shipped in the color blue." style="top: 0"
-            class=""></div>
-        </div>
-
-        <footer class="content">
-
-          <span class="qt-minus">-</span>
-          <span class="qt">3</span>
-          <span class="qt-plus">+</span>
-
-          <h2 class="full-price">
-             ₹53.99
-          </h2>
-
-          <h2 class="price">
-            ₹17.99
-          </h2>
-        </footer>
-      </article> -->
-
-    </section>
-
-  </div>
-
-  <footer id="site-footer">
-    <div class="container clearfix">
-
-      <div class="left">
-        <h2 class="subtotal" style="color: white;">Subtotal: ₹<span>163.96</span></h2>
-        <h3 class="tax" style="color: white;">Taxes (5%): ₹<span>8.2</span></h3>
-        <h3 class="shipping" style="color: white;">Shipping: ₹<span>5.00</span></h3>
-      </div>
-
-      <div class="right">
-        <h1 class="total">Total: ₹<span>177.16</span></h1>
-        <a class="btn">Checkout</a>
-      </div>
-
     </div>
-  </footer>
+
 
 </body>
 

@@ -3,18 +3,24 @@ const userRouter = express.Router();
 const controller = require('../controller/controller');
 const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
+const Cartdb = require('../model/cart_model');
 
 const serviceSID = "VA75b5e7e997850aab64166f43c82d9a0e";
 const accountSID = "ACc126eca5b1a3058319ed7c5da0e1baea";
-const authToken = "83608ae88cbea48400f9d5d386bfde6b";
+// const authToken = "83608ae88cbea48400f9d5d386bfde6b";
+const authToken = "59cc916f1fcf219db72e57080cc4c32b"
 const client = require("twilio")(accountSID,authToken);
  
 
 //user login............................................
 userRouter.get('/user-login',(req,res) => {
-
+    if(req.session.isUserlogin){
+        res.redirect('/user/user-home')
+    }
+    else{
     res.render('user/user_login')
-})
+    }
+}) 
 
 //user signup............................................
 userRouter.get('/user-signup',(req,res) => {
@@ -39,7 +45,7 @@ userRouter.post('/user-home',async (req,res) => {
         
     }
     else{
-        res.status(403).render('user/user_login', {error:"Invalid User id"})
+        res.status(403).redirect('user/user-login')
     }
 })  
 
@@ -96,18 +102,19 @@ userRouter.post('/user-signup',(req,res) => {
 
 //product details....................
 userRouter.get('/product-details',async (req,res)=>{
-    console.log(req.query.id);
     const products=await Productdb.findById(req.query.id)
     console.log(products); 
     res.render('user/user_productDetails',{products})
+   
 }) 
 
 //user login with otp....................
 userRouter.get('/loginwithOtp',(req,res) => {
-    res.render('user/userLoginwithOtp')
+    res.render('user/userLoginwithOtp') 
 })
 
 userRouter.get('/user-logout',async (req,res) => {
+    req.session.destroy();
     // res.render('user/user_login', {logout: "User Logged out successfully."})
     const products =await Productdb.find()
     res.render('landing',{products})
@@ -116,7 +123,7 @@ userRouter.get('/user-logout',async (req,res) => {
 
 //login with otp....................
 userRouter.post('/mobile',(req,res) => {
-    // console.log(req.body.number); 
+    console.log(req.body.number); 
     client.verify
     .services(serviceSID) 
     .verifications.create({
@@ -135,8 +142,8 @@ userRouter.post('/mobile',(req,res) => {
 
 //otp checks....................
 userRouter.post('/otp',(req,res) => {
-    const  otp  = req.body;
-    console.log("otp  ", otp);
+ 
+    const otp = req.body.otp;
     client.verify
         .services(serviceSID) 
         .verificationChecks.create({
@@ -153,19 +160,43 @@ userRouter.post('/otp',(req,res) => {
             })
         } 
         else{
-            res.render('user/userLoginOtpCheck')
+            res.render('user/userLoginOtpCheck', {error: "Invalid OTP",number: req.body.number})
         }
     })
 })
 
 //user cart....................
-userRouter.get('/user-cart', (req,res) => {
-    const products = Productdb.find()
+userRouter.get('/user-cart', async (req,res) => {
+    const products = await  Productdb.find()
+    console.log("products",products);
+    if(req.session.isUserlogin){
+        res.render('user/user_cart', {products})
+    }
+    else{
+    res.redirect('/')
+    }
+})
 
-    res.render('user/user_cart', {products})
+userRouter.post('/user-cart', (req,res) => {
+    console.log(req.body);
+    
+    //validate request
+    const cart = new cartdb({
+        product_id: req.body.product_id,
+        object_id: req.body.object_id,
+        quantity: 1
+    })
+    cart
+    .save(cart)
+    .then(data => {
+        res.redirect('/user-cart')
+    })
+    .catch(error => {
+        res.send({message: error})
+    })
 })
 
 
-
+  
 
 module.exports = userRouter;

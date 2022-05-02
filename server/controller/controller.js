@@ -44,11 +44,11 @@ exports.block = async (req, res) => {
         console.log("req.params.id", req.params.id);
         if (user.isBlocked) {
             await Userdb.updateOne({ _id: req.params.id }, { isBlocked: false })
-            res.status(200).redirect('/admin-home')
+            res.status(200).redirect('/admin/admin-home')
         }
         else {
             await Userdb.updateOne({ _id: req.params.id }, { isBlocked: true })
-            res.status(200).redirect('/admin-home')
+            res.status(200).redirect('/admin/admin-home')
         }
     }
     catch (error) {

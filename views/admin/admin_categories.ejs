@@ -7,14 +7,14 @@
 
             <div class="box-nav d-flex justify-between">
 
-                <a href="/add-category" class="border-shadow" style="margin-left: -7%;">
+                <a href="/admin/add-category" class="border-shadow" style="margin-left: -7%;">
                     <span class="new">Add Category <i class="fa-solid fa-book"></i></span>
                 </a>
 
 
 
 
-                <form action="/category-search" method="get">
+                <form action="/admin/category-search" method="get">
                     <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
 
                     <button type="submit" class="btn btn-primary">
@@ -57,7 +57,7 @@
 
                             <td>
 
-                                <a href=" /update-category/:id?id=<%= categories[i]._id%> ">
+                                <a href="/admin/update-category/:id?id=<%= categories[i]._id%> ">
                                     <!-- <i class="fa-solid fa-pen-to-square pencil-icon"></i> -->
                                     <li class="list-inline-item">
                                         <button class="btn btn-success btn-sm rounded-0" type="button"
@@ -69,17 +69,31 @@
 
                             <td>
 
-                            <form action="/delete-category/<%= categories[i]._id%>?_method=DELETE" method="post">
+
+
+                                <!-- <form action="/delete-category/<%= categories[i]._id%>?_method=DELETE" method="post"> -->
+                                   
+                                        <li class="list-inline-item" >
+                                            <button onclick="confirmDelCat ('<%= categories[i]._id %>')" class="btn btn-danger btn-sm rounded-0" type="button"
+                                                data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="fa fa-trash"></i></button>
+                                        </li>
+                                  
+
+
+
+                            <!-- <form action="/delete-category/<%= categories[i]._id%>?_method=DELETE" method="post">
                                 <a href=""
                                     onclick="return confirm ('Are you want to delete <%= categories[i].name %> ?')">
                                     <!-- <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button> -->
-                                    <li class="list-inline-item" >
+                                    <!-- <li class="list-inline-item" >
                                         <button class="btn btn-danger btn-sm rounded-0" type="submit"
                                             data-toggle="tooltip" data-placement="top" title="Delete"><i
                                                 class="fa fa-trash"></i></button>
                                     </li>
                                 </a>
-                            </form>
+                            </form> --> 
+                            
                         </td>
 
                             </td>

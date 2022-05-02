@@ -20,16 +20,20 @@
 
     <nav class="prod-nav">
         <h2 class="prod-head"> JK Books</h2>
-        <h5 style="margin: auto; margin-left: 80rem; width: 5%; font-size: medium; color: white;">Home</h5>
+        <a href="/"><button style="background-color: #f53f51; margin: auto; border: none; margin-left: 80rem; padding: 1rem; width: 5%; font-size: medium; color: white;">Home</button></a>
     </nav>
+
+    <!-- <h5 style="margin: auto; margin-left: 80rem; padding: 1rem; width: 5%; font-size: medium; color: white;">Home</h5> -->
     <!-- 
+        
     
 
     <!-- //-------------------------------------------------------------------// -->
 
         <div class="row" style="display: flex;">
         <div style="display: flex;">
-            <img class="prod-img" src="<%= products.image %>" alt="#" />    
+            
+            <img class="prod-img" src="<%= products.image %>" />    
         </div>
         <div class="product-des">
             <h2 style="text-align: center;color: #f53f51; padding: 3rem 8rem 3rem 3rem;">
@@ -45,11 +49,11 @@
                 </p>
 
             </div>
-            <div style="margin-left: 8%; display: flex;    padding: 5rem;">
-                <a href="/user-cart"><button style=" width: 10rem; height: 3rem; background-color: #ff3457; color: white;" class="btn mt-4">Add to Cart</button></a>
-                <a href=""><button style="height: 3rem; width: 10rem; background-color: #ff6e3e; color: white;"  class="btn  mt-4">Buy Now</button></a>
+            <div style="margin-left: 8%; display: flex; padding: 5rem;">
+                <a href="/user-cart/<%= products._id %>"><button class="addCartBtn btn mt-4">Add to Cart</button></a>
+                <a href=""><button class="buyNowBtn btn  mt-4" >Buy Now</button></a>
             </div>
-        </div>
+        </div> 
         
     </div>
     <!-- <td valign="top" align="left">

@@ -2,61 +2,142 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JK books</title>
-    <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JK books</title>
+  <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
 
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-        <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
 
-    <link rel="stylesheet" href="css/style.css">
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <header id="header">
-        <nav style="height: 4em;">
-            <div class="container">
-                <div class="text-center">
-                    <p class="logo-heading" style="font-family: 'Pacifico', cursive;">JK Books</p>
-                </div>
-            </div>
-        </nav>
-    </header>
+  <header id="header">
+    <nav style="height: 4em;">
+      <div class="container">
+        <div class="text-center">
+          <p class="logo-heading" style="font-family: 'Pacifico', cursive;">JK Books</p>
+        </div>
+      </div>
+    </nav>
+  </header>
 
-    
-<nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 3em ; padding: 1%; padding-left: 7%">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 3em ; padding: 1%; padding-left: 7%">
     <a class="navbar-brand" href="#">Admin</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-  
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="/admin-home">Users <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/admin/admin-home">Users <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin-products">Products</a>
+          <a class="nav-link" href="/admin/admin-products">Products</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/admin-categories">Categories</a>
+          <a class="nav-link" href="/admin/admin-categories">Categories</a>
         </li>
 
-        
-        
+
+
       </ul>
     </div>
-    <a href="/admin-logout" class="border-shadow" style="margin: right; padding-right: 7%;">
+    <!-- <a href="/admin-logout" class="border-shadow" style="margin: right; padding-right: 7%;">
       <span class="new"><i class="fa-solid fa-arrow-right"></i> Log out </span>
-  </a>
+  </a> -->
+
+
+    <button class="btn btn-dark" style="margin-right: 5%;" onclick="logoutBtn()"> Log out</button>
+
+
+    <script>
+      function logoutBtn() {
+        console.log('hhhhhhhhhhhhhhh');
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to logout!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.href = "/admin/admin-logout";
+          }
+        })
+      }
+
+
+      function confirmDelete(id) {
+
+        console.log(id);
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to delete this product !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            type = "delete",
+              location.href = `/admin/delete-product/${id}?_method=DELETE`;
+            Swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          }
+        })
+      }
+
+
+
+      function confirmDelCat(id) {
+
+        console.log(id);
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You want to delete this category !",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            type = "delete",
+              location.href = `/admin/delete-category/${id}?_method=DELETE`;
+            Swal.fire(
+              'Deleted!',
+              'Your file has been deleted.',
+              'success'
+            )
+          }
+        })
+      }
+    </script>
+
   </nav>
-  

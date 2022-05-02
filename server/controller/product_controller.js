@@ -44,7 +44,7 @@ exports.addProducts = (req, res) => {
                 })
             }
 
-            res.redirect("/admin-products")
+            res.redirect("/admin/admin-products")
 
         })
         .catch(err => {
@@ -81,7 +81,7 @@ exports.updateProduct = async (req, res) => {
     await Productdb.updateOne({_id: id}, {$set: product})
     
 
-    res.redirect('/admin-products')
+    res.redirect('/admin/admin-products')
 
 }
 
@@ -93,7 +93,7 @@ exports.deleteProduct = (req, res) => {
     console.log(id);
     Productdb.findByIdAndDelete(id)
         .then(data => {
-            res.redirect('/admin-products')
+            res.redirect('/admin/admin-products')
         })
 }
 

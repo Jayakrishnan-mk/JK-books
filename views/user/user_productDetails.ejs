@@ -11,35 +11,46 @@
     <!-- //ajax..........................................// -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
         media="screen">
 
+    <link type="text/css" rel="stylesheet" href="css/magiczoomplus.css" />
+    <script type="text/javascript" src="js/magiczoomplus.js"></script>
+
+   
+
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body style="margin: 0; ">
+<body style="margin: 0; overflow: hidden;">
 
 
     <nav class="prod-nav">
         <h2 class="prod-head"> JK Books</h2>
-        <a href="/"><button
-                style="background-color: #f53f51; margin: auto; border: none; margin-left: 80rem; padding: 1rem; width: 5%; font-size: medium; color: white;">Home</button></a>
+        <!-- <a href="/cart"><i class="fa-solid fa-cart-shopping cartLogo"><sup><span id="cartCountId" style="font-size: small;" class="badge badge-info"><%= count %></span></sup></i></a> -->
+        <a href="/"><button class="homeBtn">Home</button></a>
     </nav>
 
-    <!-- <h5 style="margin: auto; margin-left: 80rem; padding: 1rem; width: 5%; font-size: medium; color: white;">Home</h5> -->
-    <!-- 
-        
     
+    
+        
 
     <!-- //-------------------------------------------------------------------// -->
 
     <div class="row" style="display: flex;">
         <div style="display: flex;">
 
-            <img class="prod-img" src="<%= products.image %>" />
+            <!-- <img class="prod-img" src="<%= products.image %>" /> -->
+
+            <a href="<%= products.image  %>" class="MagicZoom prod-img" data-options="zoomPosition: inner"><img
+                    src="<%= products.image  %>" style="max-width: 300px max-height 300px;" /></a>`
         </div>
+
         <div class="product-des">
             <h2 style="text-align: center;color: #f53f51; padding: 3rem 8rem 3rem 3rem;">
                 <%= products.name %>
@@ -57,8 +68,7 @@
 
             </div>
             <div style="margin-left: 8%; display: flex; padding: 5rem;">
-                <button onclick=" addCart('<%= products._id %>') "
-                        class="addCartBtn btn mt-4">Add to Cart</button>
+                <button onclick="addCart('<%= products._id %>') " class="addCartBtn btn mt-4">Add to Cart</button>
                 <a href=""><button class="buyNowBtn btn  mt-4">Buy Now</button></a>
             </div>
         </div>
@@ -77,15 +87,15 @@
             $.ajax({
                 url: `/add-to-cart/${proId}`,
                 method: 'get',
-                // success: (response) => {
-                //     if (response.status) {
-                //         let count = $('#cartCount').html();
-                //         count = parseInt(count) + 1;
-                //         $('#cartCount').html(count);
-                //     }
-                //     console.log("ajaxcartttttttttttt", proId);
-                //     alert("Added to cart");
-                // },
+                success: (response) => {
+                    if (response.status) {
+                        let count = $('#cartCount').html();
+                        count = parseInt(count) + 1;
+                        $('#cartCount').html(count);
+                    }
+                    console.log("ajaxcartttttttttttt", proId);
+                    alert("Added to cart");
+                },
             });
         }
     </script>

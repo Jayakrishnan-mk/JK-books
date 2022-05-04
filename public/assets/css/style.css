@@ -345,4 +345,32 @@ table {
 
 }
 
+.signUpHeader{
+    font-family: 'Pacifico', cursive;
+     width: 30%;
+      position: absolute;
+}
+.loginLink{
+    float: right;
+   text-decoration: none;
+    color: white;
+    padding: 1rem;
+    padding-right: 11rem;
+}
+
+.cartLogo{
+    color: white; 
+    float: right; 
+    margin: 12px 140px 0px 0px; 
+}
+.homeBtn{
+    background-color: #f53f51; 
+    margin: auto; 
+    border: none; 
+    margin-left: 80rem; 
+    padding: 1rem; 
+    width: 5%; 
+    font-size: medium; 
+    color: white;
+}
 /* //--------------------------------------------------------------------------------------------// */

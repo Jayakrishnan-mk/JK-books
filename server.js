@@ -13,12 +13,14 @@ const connectDB = require('./server/database/connection');
 const Userdb = require('./server/model/model');
 const Productdb = require('./server/model/product_model');
 const Categorydb = require('./server/model/category_model');
+const Cartdb = require('./server/model/cart_model')
+const objectId = require('mongoose').Types.ObjectId;
 
 const app = express();
 
 dotenv.config();
 
-const PORT = 3000 ;
+const PORT = 3000;
 //override the method in form......
 app.use(methodOverride('_method'));
 
@@ -71,13 +73,20 @@ app.get('/', async (req, res) => {
             password: req.body.password
         })
         const products = await Productdb.find()
-
-        res.render('user/user_home', { user , products});
+        // let cpro = cartCount.products.length()
+        // console.log("cartCount--------------",cartCount[0].products.length );
+        const count = null;
+        if(req.session.user){
+            const cartCount = await Cartdb.find({ userId : objectId(req.session.user._id)})
+            const count = cartCount[0]?.products?.length;
+            res.render('user/user_home', { user, products, count })
+        }
+        
     }
-    else {
+    else { 
         const products = await Productdb.find()
         console.log(products);
-        res.render('landing', {products});
+        res.render('landing', { products });
     }
 })
 

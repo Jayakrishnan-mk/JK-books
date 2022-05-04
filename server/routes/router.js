@@ -101,20 +101,8 @@ router.get('/users-list', (req, res) => {
 //admin logout.................................. 
 router.get('/admin-logout', (req, res) => {
     console.log(req.session.isAdminlogin);
- 
-    req.session.destroy((err) => {
-        console.log(req.session);
-        res.clearCookie();
-        if (err) {
-            res.status(403).send('Hey Admin, Error while Logging out!')
-        }
-        else {
-            res.status(200).render('admin/admin_login', { logout: "Logout Successfully." })
-        }
-        console.log(req.session);
-
-    }
-    )
+    req.session.isAdminlogin = false;
+    res.redirect('/')
 })
 
 

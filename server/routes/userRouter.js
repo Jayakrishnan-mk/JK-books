@@ -25,7 +25,7 @@ const verifyLogin = (req, res, next) => {
 //user login............................................
 userRouter.get('/user-login', (req, res) => {
     if (req.session.isUserlogin) {
-        res.redirect('/user/user-home')
+        res.redirect('/user-home')
     }
     else {
         res.render('user/user_login')
@@ -35,68 +35,6 @@ userRouter.get('/user-login', (req, res) => {
 //user signup............................................
 userRouter.get('/user-signup', (req, res) => {
     res.render('user/user_signup')
-})
-
-
-
-userRouter.get('/product-details', async (req, res) => {
-    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-    const products = await Productdb.findById(req.query.id)
-    console.log("products>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", products);
-    res.render('user/user_productDetails', { products })
-
-})
-//middleware for route protect..................
-// userRouter.use((req,res,next) => {
-//     if(!req.session.isUserlogin){
-//         res.redirect('/')
-//     }
-//     else{
-//         next();
-//     }
-// })
- 
-//user home page............................................
-userRouter.post('/user-home', async (req, res) => {
-
-    const user = await Userdb.findOne({
-        email: req.body.email,
-        password: req.body.password
-    })
-    if (user) {
-        req.session.user = user;
-        req.session.isUserlogin = true;
-
-        const products = await Productdb.find()
-        // console.log(products);
-        res.status(200).redirect('/user-home')
-
-    }
-    else {
-        res.status(403).redirect('user/user-login')
-    }
-})
-
-
-//user home page............................................
-userRouter.get('/user-home', async (req, res) => {
-
-    const user = await Userdb.findOne({
-        email: req.body.email,
-        password: req.body.password
-    })
-    if (user) {
-        req.session.user = req.body.email;
-        req.session.isUserlogin = true;
-
-        const products = await Productdb.find()
-        // console.log(products);
-        res.status(200).render('user/user_home', { products })
-
-    }
-    else {
-        res.redirect('/')
-    }
 })
 
 
@@ -128,7 +66,76 @@ userRouter.post('/user-signup', (req, res) => {
         })
 })
 
-//product details....................
+
+//product details..........................................
+
+userRouter.get('/product-details', async (req, res) => {
+    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
+    const products = await Productdb.findById(req.query.id)
+    console.log("products>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", products);
+
+    // const count = cartCount[0].products.length;
+
+    const count = null;
+    if (req.session.user) {
+        const cartCount = await Cartdb.find({ userId: objectId(req.session.user._id) })
+        const count = cartCount[0]?.products?.length;
+        res.render('user/user_productDetails', { products, count })
+    }
+
+    res.render('user/user_productDetails', { products, count })
+})
+
+//user home page............................................
+userRouter.post('/user-home', async (req, res) => {
+
+    const user = await Userdb.findOne({
+        email: req.body.email,
+        password: req.body.password
+    })
+    if (user) {
+        req.session.user = user;
+        req.session.isUserlogin = true;
+        res.status(200).redirect('/')
+
+    }
+    else {
+        res.status(403).redirect('/user-login')
+    }
+})
+
+//middleware for route protect..................
+userRouter.use((req, res, next) => {
+    if (!req.session.isUserlogin) {
+        res.redirect('/')
+    }
+    else {
+        next();
+    }
+})
+
+
+//user home page............................................
+userRouter.get('/user-home', async (req, res) => {
+
+    const user = await Userdb.findOne({
+        email: req.body.email,
+        password: req.body.password
+    })
+    if (user) {
+        req.session.user = req.body.email;
+        req.session.isUserlogin = true;
+
+        const products = await Productdb.find()
+        // console.log(products);
+        res.status(200).render('user/user_home', { products })
+
+    }
+    else {
+        res.redirect('/')
+    }
+})
+
 
 //user login with otp....................
 userRouter.get('/loginwithOtp', (req, res) => {
@@ -136,10 +143,14 @@ userRouter.get('/loginwithOtp', (req, res) => {
 })
 
 userRouter.get('/user-logout', async (req, res) => {
-    req.session.destroy();
-    // res.render('user/user_login', {logout: "User Logged out successfully."})
-    const products = await Productdb.find()
-    res.render('landing', { products })
+    // req.session.destroy();
+    // // res.render('user/user_login', {logout: "User Logged out successfully."})
+    // const products = await Productdb.find()
+    // res.render('landing', { products })
+
+    req.session.isUserlogin = false;
+    req.session.user = null;
+    res.redirect('/')
 })
 
 
@@ -172,7 +183,7 @@ userRouter.post('/otp', (req, res) => {
 
             to: `+91${req.body.number}`,
             code: otp,
-        })  
+        })
         .then(resp => {
             console.log("response", resp);
             if (resp.valid) {
@@ -190,24 +201,40 @@ userRouter.post('/otp', (req, res) => {
 //user cart....................
 userRouter.get('/add-to-cart/:id', verifyLogin, async (req, res) => {
     const userId = req.session.user._id;
-    console.log(userId);
-    console.log('userid printed...................................');
+    console.log('userid printed...................................', userId);
     const proId = req.params.id;
-    console.log("productid...............................", proId);
-    const userCart = await Cartdb.findOne({ user: objectId(userId) })
-    
-    const product = { 
-        id: proId,
+    console.log("productid printed.................................", proId);
+
+    const product = {
+        id: objectId(proId),
         quantity: 1
     }
 
+    const userCart = await Cartdb.findOne({ user: objectId(userId) })
+
     if (userCart) {
-        const cart = await Cartdb.updateOne({ userId: objectId(userId) },
-        
-            { $push: { products: product } } )
-    
+        let proExist = userCart.products.findIndex(product => product.id == proId)
+        console.log("proExist-------------", proExist);
+
+        if (proExist != -1) {
+            console.log(objectId(proId));
+            await Cartdb.updateOne({ userId: objectId(userId), 'products.id': objectId(proId) },
+                {
+                    $inc: { "products.$.quantity": 1 }
+                })
+            res.json({ status: true })
+        }
+
+        else {
+            const cart = await Cartdb.updateOne({ userId: objectId(userId) },
+                {
+                    $push: { products: product }
+                })
+            res.json({ status: true })
+
+        }
     }
-    
+
     else {
         const cart = new Cartdb({
             userId: objectId(userId),
@@ -215,50 +242,67 @@ userRouter.get('/add-to-cart/:id', verifyLogin, async (req, res) => {
         })
         // await Cartdb.insertOne({ user: userId, product: product })
         cart
-        .save()
+            .save()
         console.log('cart saved...................................');
+        res.json({ status: true })
     }
-    
-    
 })
 
 
 
-userRouter.get('/cart', async (req,res) => {
+userRouter.get('/cart', async (req, res) => {
 
     const userId = req.session.user?._id;
-    console.log(userId);
-    let cartItems = await  Cartdb.aggregate([
-        { 
-            $match:{userId:objectId(userId)}
-            
+    console.log("userId-----", userId);
+    let cartItems = await Cartdb.aggregate([
+        {
+            $match: { userId: objectId(userId) }
+
         },
         {
             $unwind: "$products"
         },
-        // {
-        //     $lookup: { 
-        //         from: "productdbs",
-        //         let : {proList: '$products'},
-        //         pipeline: [
-        //             {
-        //                 $match: {
-        //                     $expr: {
-        //                         $in: ['$_id', '$$proList']
-        //                     }
-        //                 }
-        //             }
-        //         ],
-        //         as: 'cartItems'
-        //     }
-        // }
+        {
+            $project: {
+                id: "$products.id",
+                quantity: "$products.quantity"
+            }
+            
+        },
+        {
+            $lookup: {
+                from: "productdbs",
+                localField: "id",
+                foreignField: '_id',
+                as: 'product'
+            }
+        } 
     ])
-    console.log("cartItems---" , cartItems); 
+    const pros = await Cartdb.find({id: objectId(userId)})
+    console.log("pros>>>>>>>>>>>>>>>>>>", pros[0]);
+    console.log("cartItems---", cartItems[0]);
 
-    const products = Productdb.find()
-    res.render('user/cart', {products})
-  
+
+    
+    res.render('user/cart', { products : cartItems, pros: pros[0].products })
+
 })
+
+userRouter.get('/pro-remove/:id', async (req,res) => {
+    const proId = req.params.id;
+    console.log("proid--------" ,proId);
+    const userId = req.session.user._id;
+    await Cartdb.updateOne({userId: objectId(userId)} ,
+     
+    {
+
+        $pull: { products : {id: objectId(proId) } }
+    
+    })
+    res.redirect('/cart'); 
+    
+})
+
 
 
 userRouter.post('/add-to-cart', (req, res) => {
@@ -281,6 +325,6 @@ userRouter.post('/add-to-cart', (req, res) => {
 })
 
 
-  
+
 
 module.exports = userRouter;

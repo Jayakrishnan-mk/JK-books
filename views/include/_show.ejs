@@ -22,13 +22,13 @@
             <% if(users[i].isBlocked) { %>
                 <form action="/admin/status/<%= users[i]._id%>?_method=patch" method="post">
                     <td>
-                        <button type="submit" class="btn btn-danger">Blocked</button>
+                        <button type="submit" class="btn btn-danger">Unblock</button>
                     </td>
                 </form>
                 <% } else { %>
                     <form action="/admin/status/<%= users[i]._id%>?_method=patch" method="post">
                         <td>
-                            <button type="submit" class="btn btn-success">Unblock</button>
+                            <button type="submit" class="btn btn-success">Block</button>
                         </td>
                     </form>
                     <% } %>

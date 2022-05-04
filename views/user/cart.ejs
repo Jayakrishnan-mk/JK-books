@@ -33,6 +33,10 @@
             <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
                 <div class="card">
                     <div class="table-responsive">
+                        <% if (products.length==0) { %>
+                            <h1>Your Cart is Empty</h1>
+                            
+                                <% } else { %>
                         <table class="table table-borderless table-shopping-cart">
                             <thead class="text-muted">
                                 <tr class="small text-uppercase">
@@ -43,45 +47,57 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <% for(i= 1; i<products.length; i++ ) { %>
-                                        <figure class="itemside align-items-center">
-                                            <div class="aside"><img src="<%= products[i].image%>" class="img-sm"></div>
-                                            <figcaption class="info"> <a href="#" class="title text-dark"
-                                                    data-abc="true">
-                                                    <%= products[i].name %>
-                                                </a>
-                                                <p class="text-muted small">
-                                                    <%= products[i].author %><br>
-                                                </p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
-                                        <select class="form-control" style="border: none;">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap" style="text-align: center;"> <var
-                                                class="price">$10.00</var> <small class="text-muted"> $9.20 each
-                                            </small> </div>
-                                    </td>
-                                    <td class="text-right d-none d-md-block"
-                                        style="width: 4rem; display: flex; justify-content: center; margin-left: 4rem;">
-                                        <a data-original-title="Save to Wishlist" title="" href="" class="btn btn-light"
-                                            data-toggle="tooltip" data-abc="true"> </a>
-                                        <a href="" class="btn btn-light" data-abc="true"> Remove</a>
-                                    </td>
-                                </tr>
 
-                                <% } %>
+                                
+                                            <% for(i=1; i<products.length; i++ ) { %>
 
-                                <!-- <tr>
+                                                <tr>
+                                                    <td>
+                                                        <figure class="itemside align-items-center">
+                                                            <div class="aside"><img
+                                                                    src="<%= products[i].product[0].image%>"
+                                                                    class="img-sm"></div>
+                                                            <figcaption class="info"> <a href="#"
+                                                                    class="title text-dark" data-abc="true">
+                                                                    <%= products[i].product[0].name %>
+                                                                </a>
+                                                                <p class="text-muted small">
+                                                                    <%= products[i].product[0].author %><br>
+                                                                </p>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </td>
+                                                    <td
+                                                        style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
+                                                        <button class="cart-item-count mr-3" style="    height: 20px;
+                                                        margin-top: 47px; color: black;">-</button>
+                                                        <p style="    padding: 2rem 1rem 0rem 1rem;"><%= pros[i].quantity %></p>
+                                                        <button class="cart-item-count mr-3" style="    height: 20px;
+                                                        margin-top: 47px; color: black;">+</button>
+
+                                                        
+                                                    </td>
+                                                    <td>
+                                                        <div class="price-wrap" style="text-align: center;"> <var
+                                                                class="price">
+                                                                <%= products[i].product[0].price %><br>
+                                                            </var>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right d-none d-md-block"
+                                                        style="width: 4rem; display: flex; justify-content: center;">
+                                                        <a data-original-title="Save to Wishlist" title="" href=""
+                                                            class="btn btn-light" data-toggle="tooltip" data-abc="true">
+                                                        </a>
+                                                        <a href="/pro-remove/<%= products[i].product[0]._id %>" class="btn btn-light" style="width: 4rem; text-align: center;" data-abc="true"> Remove</a>
+                                                    </td>
+                                                </tr>
+
+                                                <% } %>
+
+                                                    <% } %>
+
+                                                        <!-- <tr>
                                     <td>
                                         <figure class="itemside align-items-center">
                                             <div class="aside"><img src="<%= products.image%>" class="img-sm"></div>
@@ -154,6 +170,9 @@
                     </div>
                 </div>
             </aside>
+            <% if (products.length !=0 ) { %>
+                
+                    
             <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
                 <!-- <div class="card mb-3">
                     <div class="card-body">
@@ -170,15 +189,15 @@
                     <div class="card-body">
                         <dl class="dlist-align">
                             <dt>Total price:</dt>
-                            <dd class="text-right ml-3">$69.97</dd>
+                            <dd class="text-right ml-3">₹69.97</dd>
                         </dl>
                         <dl class="dlist-align">
                             <dt>Discount:</dt>
-                            <dd class="text-right text-danger ml-3">- $10.00</dd>
+                            <dd class="text-right text-danger ml-3">- ₹10.00</dd>
                         </dl>
                         <dl class="dlist-align">
                             <dt>Total:</dt>
-                            <dd class="text-right text-dark b ml-3"><strong>$59.97</strong></dd>
+                            <dd class="text-right text-dark b ml-3"><strong>₹59.97</strong></dd>
                         </dl>
                         <hr> <a href="#" class="btn btn-out btn-primary btn-square btn-main" data-abc="true"> Make
                             Purchase </a> <a href="#" class="btn btn-out btn-success btn-square btn-main mt-2"
@@ -186,6 +205,7 @@
                     </div>
                 </div>
             </aside>
+            <% } %>
         </div>
     </div>
 

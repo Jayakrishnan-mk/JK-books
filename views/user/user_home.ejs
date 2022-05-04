@@ -82,7 +82,7 @@
                             </li>
                             </li>
 
-                            <a href="/cart"><i style="color: white;" class="fa-solid fa-cart-shopping"></i></a>
+                            <a href="/cart"><i style="color: white;" class="fa-solid fa-cart-shopping"><sup style="font-size: small;"><span id="cartCountId" class="badge badge-danger"><%= count %></span></sup></i></a>
 
                             <!-- <li><a href="/user-logout">Logout</a></li> -->
                             <button style="color: white; margin-left: 1rem;  border: none; background-color: #f53f51;"
@@ -644,15 +644,15 @@
             $.ajax({
                 url: `/add-to-cart/${proId}`,
                 method: 'get',
-                // success: (response) => {
-                //     if (response.status) {
-                //         let count = $('#cartCount').html();
-                //         count = parseInt(count) + 1;
-                //         $('#cartCount').html(count);
-                //     }
-                //     console.log("ajaxcartttttttttttt", proId);
-                //     alert("Added to cart");
-                // },
+                success: (response) => {
+                    if (response.status) {
+                        let count = $('#cartCountId').html();
+                        count = parseInt(count) + 1;
+                        $('#cartCountId').html(count);
+                    }
+                    console.log("prod added in cart", proId);
+                    // alert("Added to cart");
+                }
             });
         }
 

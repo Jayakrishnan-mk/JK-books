@@ -82,7 +82,7 @@ app.get('/', async (req, res) => {
             res.render('user/user_home', { user, products, count })
         }
         
-    }
+    } 
     else { 
         const products = await Productdb.find()
         console.log(products);

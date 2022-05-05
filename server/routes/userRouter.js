@@ -240,7 +240,6 @@ userRouter.get('/add-to-cart/:id', verifyLogin, async (req, res) => {
             userId: objectId(userId),
             products: [product]
         })
-        // await Cartdb.insertOne({ user: userId, product: product })
         cart
             .save()
         console.log('cart saved...................................');
@@ -267,7 +266,7 @@ userRouter.get('/cart', async (req, res) => {
                 id: "$products.id",
                 quantity: "$products.quantity"
             }
-            
+
         },
         {
             $lookup: {
@@ -276,31 +275,32 @@ userRouter.get('/cart', async (req, res) => {
                 foreignField: '_id',
                 as: 'product'
             }
-        } 
+        }
     ])
-    const pros = await Cartdb.find({id: objectId(userId)})
+    const pros = await Cartdb.find({ id: objectId(userId) })
     console.log("pros>>>>>>>>>>>>>>>>>>", pros[0]);
     console.log("cartItems---", cartItems[0]);
 
 
-    
-    res.render('user/cart', { products : cartItems, pros: pros[0].products })
+
+    res.render('user/cart', { products: cartItems, pros: pros[0] })
 
 })
 
-userRouter.get('/pro-remove/:id', async (req,res) => {
+//product remove in cart ......................................
+userRouter.get('/pro-remove/:id', async (req, res) => {
     const proId = req.params.id;
-    console.log("proid--------" ,proId);
+    console.log("proid--------", proId);
     const userId = req.session.user._id;
-    await Cartdb.updateOne({userId: objectId(userId)} ,
-     
-    {
+    await Cartdb.updateOne({ userId: objectId(userId) },
 
-        $pull: { products : {id: objectId(proId) } }
-    
-    })
-    res.redirect('/cart'); 
-    
+        {
+
+            $pull: { products: { id: objectId(proId) } }
+
+        })
+    res.redirect('/cart');
+
 })
 
 
@@ -324,7 +324,40 @@ userRouter.post('/add-to-cart', (req, res) => {
         })
 })
 
+//product quantity changing....................................
+userRouter.post('/change-product-quantity', async (req, res) => {
+    console.log("req.body----------", req.body);
+    const cart = req.body.cart;
+    const product = req.body.product;
+    let count = req.body.count;
+    let quantity = req.body.quantity;
+    count = parseInt(count)
+    quantity = parseInt(quantity)
+    console.log("type of count ---",typeof(count));
+    console.log("type of quantity ---",typeof(quantity));
+    // console.log("quantity----------------",req.body.quantity);
+    // console.log(count);  
 
+
+    if(quantity == 1 && count == -1) {
+
+        await Cartdb.updateOne({_id: objectId(cart)},
+        {
+            $pull : {products: {id: objectId(product)} }
+        })
+        res.json({status: true , removeProduct : true})
+    }
+    else{
+    await Cartdb.updateOne({ cartId: objectId(cart), 'products.id': objectId(product) },
+        {
+            $inc: { "products.$.quantity": count }
+        })
+        res.json({ status: true })
+
+    }
+}
+
+)
 
 
 module.exports = userRouter;

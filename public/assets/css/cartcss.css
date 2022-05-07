@@ -159,3 +159,14 @@ a {
     border-radius: 10px;
     margin-top: 1rem;
 }
+
+.emptyCart {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f53f51;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+    text-align: center;
+    padding: 5rem;
+    width: 39rem;
+}

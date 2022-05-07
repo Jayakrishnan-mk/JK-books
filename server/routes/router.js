@@ -11,7 +11,6 @@ const Productdb = require('../model/product_model');
 const Categorydb = require('../model/category_model');
 
 
-//invalid url......................
 
 
 //admin check .........................
@@ -69,34 +68,15 @@ router.use((req,res,next) => {
 
 
 //admin home get.................................. 
-router.get('/admin-home', (req, res) => {
-    console.log(req.session.isAdminlogin);
-    if(req.session.isAdminlogin){
-        Userdb.find()
-        .then(data => {
-            res.render('admin/admin_home', { users: data })
-        })
-    }
-    else{
-        res.redirect('/admin')
-    }
-})
-
-
-
+router.get('/admin-home', controller.adminHomeGet);
 
 //add user.................................
 router.get('/add-user', (req, res) => {
     res.render('admin/add_user', { user: "", error: "" })
 })
 
-//all users..................................
-router.get('/users-list', (req, res) => {
-    Userdb.find()
-        .then(data => {
-            res.render('admin/admin_home', { users: data })
-        })
-})
+//users list..................................
+router.get('/users-list', controller.allUsers);
 
 //admin logout.................................. 
 router.get('/admin-logout', (req, res) => {
@@ -107,17 +87,8 @@ router.get('/admin-logout', (req, res) => {
 
 
 
-//admin products.................................. 
-router.get('/admin-products', async (req, res) => {
-    try {
-        const products = await Productdb.find()
-        console.log(products);
-        res.render('admin/admin_products', { products })
-    }
-    catch (error) {
-        res.status(403).send({ message: error })
-    }
-})
+//admin products list.................................. 
+router.get('/admin-products', controller.adminProducts);
 
 
 //add products.................................. 
@@ -126,50 +97,22 @@ router.get('/add-product', async (req, res) => {
 })
 
 //update product.................................. 
-router.get('/update-product/:id', async (req, res) => {
-
-    console.log(req.query.id + "----------------------------query id");
-    console.log(typeof (req.query.id));
-
-    const product = await Productdb.findOne({ _id: req.query.id })
-    res.render('admin/update_product', { product })
-
-    console.log('--------------------------------------------compiler');
-
-});
+router.get('/update-product/:id', product_controller.updateProduct)
 
 //categories.................................. 
-router.get('/admin-categories', async (req,res) => {
-    const categories= await Categorydb.find()
-    res.render('admin/admin_categories',{categories})
-})
+router.get('/admin-categories', category_controller.adminCategories);
 
 //add category.................................. 
-router.get('/add-category', (req,res) => {
-    const categories = Categorydb.find()     
-    res.render('admin/add_category',{categories})
-})
+router.get('/add-category', category_controller.addCategory);
  
 //update category.................................. 
-router.get('/update-category/:id', async (req, res) => {
-
-    console.log(req.query.id + "----------------------------query id");
-    console.log(typeof (req.query.id));
-
-    const category = await Categorydb.findOne({ _id: req.query.id })
-    res.render('admin/update_category', { category })
-
-    console.log('--------------------------------------------compiler');
-
-});
- 
+router.get('/update-category/:id', category_controller.updateCategory);
 
 //delete category.................................. 
 router.delete('/delete-category/:id', category_controller.deleteCategory);
 
 //upddate category...................................
 router.put('/update-category/:id', category_controller.updateCategory);
-
 
 //category adding.................................. 
 router.post('/adding-category', category_controller.addCategory)
@@ -179,7 +122,6 @@ router.delete('/delete-product/:id', product_controller.deleteProduct);
  
 //update product.................................. 
 router.put('/update-product/:id', product_controller.updateProduct);
-
 
 //add product.................................. 
 router.post('/admin-products', product_controller.addProducts);

@@ -23,7 +23,7 @@
 
     <nav class="prod-nav">
         <h2 class="prod-head"> JK Books</h2>
-        <h3 style="width: 0px;  margin: auto; color: white; font-size: xxx-large; position: relative;"> Cart</h3>
+        <h3 style="width: 0px;  margin: auto; color: white; font-size: xx-large; position: relative;"> Cart</h3>
         <a href="/user-home">
             <h5 style="margin-right: 50px; margin-top: 22px; color: white;">Home</h5>
         </a>
@@ -35,8 +35,9 @@
             <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
                 <div class="card">
                     <div class="table-responsive">
-                        <% if (products.length==0) { %>
-                            <h1>Your Cart is Empty</h1>
+                        <% if (products.length===0) { %>
+                            <h1 class="emptyCart">Your Cart is Empty</h1>
+                            <hr>
 
                             <% } else { %>
                                 <table class="table table-borderless table-shopping-cart" style="padding: 1rem;">
@@ -51,7 +52,7 @@
                                     <tbody>
 
 
-                                        <% for(i=1; i<products.length; i++ ) { %>
+                                        <% for(i=0; i<products.length; i++ ) { %>
 
                                             <tr>
                                                 <td>
@@ -132,18 +133,18 @@
                         <div class="card-body">
                             <dl class="dlist-align">
                                 <dt>Total price:</dt>
-                                <dd class="text-right ml-3">₹69.97</dd>
+                                <dd class="text-right ml-3">₹<%= total %></dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Discount:</dt>
-                                <dd class="text-right text-danger ml-3">- ₹10.00</dd>
+                                <dd class="text-right text-danger ml-3">- ₹0.00</dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right text-dark b ml-3"><strong>₹59.97</strong></dd>
+                                <dd class="text-right text-dark b ml-3"><strong>₹<%= total %></strong></dd>
                             </dl>
                             <hr>
-                            <button class="orderBtn">Place order</button>
+                            <a href="/place-order"><button class="orderBtn">Place order</button></a>
                         </div>
                     </div>
                 </aside>

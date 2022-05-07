@@ -12,7 +12,6 @@ const swal = require('sweetalert2');
 const connectDB = require('./server/database/connection');
 const Userdb = require('./server/model/model');
 const Productdb = require('./server/model/product_model');
-const Categorydb = require('./server/model/category_model');
 const Cartdb = require('./server/model/cart_model')
 const objectId = require('mongoose').Types.ObjectId;
 
@@ -93,6 +92,7 @@ app.get('/', async (req, res) => {
 // load routers...................
 app.use('/admin', require('./server/routes/router'));
 app.use('/', require('./server/routes/userRouter'));
+
 
 
 app.use((req, res, next) => {

@@ -1,0 +1,33 @@
+
+input [type=radio] {
+    width: 20px;
+    height: 20px;
+}
+
+label.radio-inline {
+    display: flex;
+    align-items: center;
+}
+
+.checkout {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 30px;
+    margin-top: 2rem;
+}
+
+payment {
+    padding-bottom: 16px;
+}
+
+.prod-head{
+    margin: 0; 
+    padding-left: 7%; 
+    font-family: 'Pacifico', cursive; 
+    font-weight: bold; 
+    font-size: xx-large; 
+    color: white;
+    position: absolute;
+    width: 20%;
+}
+

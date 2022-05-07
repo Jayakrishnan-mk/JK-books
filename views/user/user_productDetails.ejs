@@ -8,6 +8,9 @@
     <title>JK Books</title>
     <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     <!-- //ajax..........................................// -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -54,7 +57,7 @@
         </div>
 
         <div class="product-des">
-            <h2 style="text-align: center;color: #f53f51; padding: 3rem 8rem 3rem 3rem;">
+            <h2 style="text-align: center;color: #f53f51; padding: 3rem 10rem 3rem 0rem;">
                 <%= products.name %>
             </h2>
 
@@ -69,7 +72,7 @@
                 </p>
 
             </div>
-            <div style="margin-left: 8%; display: flex; padding: 5rem;">
+            <div style="margin-left: 5%; display: flex; padding: 5rem;">
                 <button onclick="addCart('<%= products._id %>') " class="addCartBtn btn mt-4">Add to Cart</button>
                 <a href=""><button class="buyNowBtn btn  mt-4">Buy Now</button></a>
             </div>
@@ -96,7 +99,8 @@
                         $('#cartCount').html(count);
                     }
                     console.log("ajaxcartttttttttttt", proId);
-                    alert("Added to cart");
+                    Swal.fire('Product added to cart successfully');
+
                 },
             });
         }

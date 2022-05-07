@@ -82,7 +82,10 @@
                             </li>
                             </li>
 
-                            <a href="/cart"><i style="color: white;" class="fa-solid fa-cart-shopping"><sup style="font-size: small;"><span id="cartCountId" class="badge badge-danger"><%= count %></span></sup></i></a>
+                            <a href="/cart"><i style="color: white;" class="fa-solid fa-cart-shopping"><sup
+                                        style="font-size: small;"><span id="cartCountId" class="badge badge-danger">
+                                            <%= count %>
+                                        </span></sup></i></a>
 
                             <!-- <li><a href="/user-logout">Logout</a></li> -->
                             <button style="color: white; margin-left: 1rem;  border: none; background-color: #f53f51;"
@@ -324,25 +327,30 @@
                             <input type="hidden" value="<%= products[i]._id %>">
                             <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
                                     src="<%= products[i].image %>"
-                                    style="width: 270px; height: 310px; object-fit: contain;" alt="">
+                                    style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
 
                                 <div class="details">
 
 
                                     <div class="offer position-absolute" style="position:absolute; z-index:9">
-                                        <button type="button" onclick="wishlist()" class="btn btn-outline-danger"
-                                            id="wishlist-btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        <!-- <button type="button" onclick="wishlist()" class="btn btn-outline-danger"
+                                            id="wishlist-btn"> -->
+                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                                 <path
                                                     d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
                                                 </path>
-                                            </svg>
+                                            </svg> -->
+                                        <!-- </button> -->
 
-                                        </button>
+ <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+
+                                        <button style="border: none; background-color: #f9f9ff;" id="wishlist"
+                                            onclick="heartTouched('<%= products[i]._id %>')">
+                                            <i id="<%= products[i]._id %>" class="fa-solid fa-heart"></i></button>
+
                                     </div>
-                            </a>
-                            <!-- <p class="sale-btn">For Sale</p> -->
+ <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
 
 
@@ -358,39 +366,22 @@
                                                 </div>
                                             </h4>
                                             <div style="margin-left: 8%;">
-                                            <button onclick="addCart('<%= products[i]._id %>')"
-                                                        style="background-color: #ff3457; color: white;"
-                                                        class="btn mt-4">Add to Cart</button>
+                                                <button onclick="addCart('<%= products[i]._id %>')"
+                                                    style="background-color: #ff3457; color: white;"
+                                                    class="btn mt-4">Add to Cart</button>
                                                 <a href=""><button style="background-color: #ff6e3e; color: white;"
                                                         class="btn  mt-4">Buy Now</button></a>
                                             </div>
-
-                                            <!-- <p>
-                                    <%= products[i].description %>
-                                </p> -->
-
                         </div>
-
                 </div>
-
                 <% } %>
-
-
-                    <!-- <div class="single-course item">
-                              <img class="img-fluid" src="img/c3.jpg" alt="">
-                              <p class="sale-btn">For Sale</p>
-                              <div class="details">
-                                  <a href="#"><h4>Breakthrough Thinking <span class="price float-right">$25</span></h4></a>	
-                                  <p>
-                                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                  </p>
-                              </div>
-                          </div>								 -->
             </div>
         </div>
         </div>
     </section>
-    <!-- End course Area -->
+
+
+    <!-- End course Area (download our app through playstore and appstore ...)-->
 
     <!-- Start call-to-action Area -->
     <!-- <section class="call-to-action-area section-gap">
@@ -560,8 +551,9 @@
                     <div class="single-footer-widget">
                         <h6>About Us</h6>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
-                            ut labore dolore magna aliqua.
+                            JK Books is the world's largest online bookstore. We are a team of passionate people who
+                            believe in the power of books. We are committed to providing you with the best books
+                            available in the world.
                         </p>
                         <p class="footer-text">
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -633,12 +625,6 @@
     <script src="js/main.js"></script>
 
     <script>
-        async function wishlist() {
-            console.log("entered");
-            const button = await document.getElementById("wishlist-btn")
-            button.style["background-color"] = "red"
-
-        }
 
         function addCart(proId) {
             $.ajax({
@@ -651,9 +637,33 @@
                         $('#cartCountId').html(count);
                     }
                     console.log("prod added in cart", proId);
+                    Swal.fire('Product added to cart successfully');
                     // alert("Added to cart");
                 }
             });
+        }
+
+        function heartTouched(proId) {
+            $.ajax({
+                url: `/add-to-wishlist/${proId}`,
+                method: 'get',
+                success: (response) => {
+                    console.log(response);
+                    if (response.status) {
+
+
+                        // document.getElementById(proId).style.color = 'red';
+                        $(`#${proId}`).css('color', 'red');
+                        // alert("Added to wishlist");
+
+                        console.log('added to wishlist');
+
+                    }else{
+                        // document.getElementById(proId).style.color = 'black';
+                        $(`#${proId}`).css('color', 'black');
+                    }
+                }
+            })
         }
 
         function userLogout() {

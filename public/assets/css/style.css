@@ -307,7 +307,7 @@ table {
     font-weight: bold; 
     font-size: xx-large; 
     color: white;
-    position: absolute
+    position: absolute;
 }
 
 .prod-nav{
@@ -331,17 +331,19 @@ table {
 }
 
 .addCartBtn{
-     width: 10rem; 
+     width: 12rem; 
      height: 3rem; 
      background-color: #ff3457;
       color: white;
+
 }
 
 .buyNowBtn{
     height: 3rem;
-     width: 10rem; 
+     width: 11rem; 
      background-color: #ff6e3e;
       color: white;
+      margin-left: 3rem;
 
 }
 

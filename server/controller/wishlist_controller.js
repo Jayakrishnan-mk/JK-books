@@ -22,7 +22,7 @@ exports.addToWishlist =  async (req, res) => {
             }
         })
         if (proExist != -1) {
-            console.log("Removed from wishlist");
+            // console.log("Removed from wishlist");
             await Wishlistdb.updateOne({ userId: objectId(userId) },
                 {
                     $pull: { products:  objectId(proId) } //remove product from wishlist..........................
@@ -31,7 +31,7 @@ exports.addToWishlist =  async (req, res) => {
 
         }
         else {
-            console.log("Added to wishlist");
+            // console.log("Added to wishlist");
             await Wishlistdb.updateOne({ userId: objectId(userId) },
                 {
                     $push: { products: objectId(proId)  } //add product to wishlist................................
@@ -48,7 +48,7 @@ exports.addToWishlist =  async (req, res) => {
 
     wishlist
         .save()
-    console.log(" saved. in wishlist...............");
+    // console.log(" saved. in wishlist...............");
     res.json({ status: true })
 }
 }

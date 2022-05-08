@@ -7,7 +7,7 @@ const client = require("twilio")(accountSID, authToken);
 
 //otp page for user login............................................
 exports.otpPage = (req, res) => {
-    console.log(req.body.number);
+    // console.log(req.body.number);
     client.verify
         .services(serviceSID)
         .verifications.create({
@@ -15,7 +15,7 @@ exports.otpPage = (req, res) => {
             channel: "sms"
         })
         .then((resp) => {
-            console.log("response", resp);
+            // console.log("response", resp);
 
 
             res.render('user/userLoginOtpCheck', { number: req.body.number })
@@ -36,7 +36,7 @@ exports.otpChecking = (req, res) => {
             code: otp,
         })
         .then(resp => {
-            console.log("response", resp);
+            // console.log("response", resp);
             if (resp.valid) {
                 Productdb.find()
                     .then((products) => {

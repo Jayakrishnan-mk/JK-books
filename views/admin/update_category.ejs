@@ -12,11 +12,8 @@
 
                         <!-- form handling................... -->
                                               
-                <form action="/admin/update-category/<%=category._id%>?_method=PUT" method="post">
+                <form action="/admin/update-category/<%= category._id%>?_method=PUT" method="post">
 
-
-
-                    
                     <div style="margin-top: 3rem;">
                         <label for="">Name :</label>
                         <input type="hidden" name="id" value="<%=category._id%>">

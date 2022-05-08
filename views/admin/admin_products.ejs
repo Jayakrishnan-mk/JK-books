@@ -64,15 +64,13 @@
                             <td>
                                 <%= products[i].category %>
                             </td>
-                            <!-- <% console.log('llllllllllllllllllllll', products[i].image )%> -->
                             <td>
                                 <img style="width: 50px; height: 50px;" src=" <%= products[i].image %> ">
                             </td>
 
                             <td>
 
-                                <a href=" /admin/update-product/:id?id=<%= products[i]._id%> ">
-                                    <!-- <i class="fa-solid fa-pen-to-square pencil-icon"></i> -->
+                                <a href=" /admin/update-product/<%= products[i]._id%> ">
                                     <li class="list-inline-item" style="display: grid;">
                                         <button class="btn btn-success btn-sm rounded-0" type="button"
                                             data-toggle="tooltip" data-placement="top" title="Edit"><i

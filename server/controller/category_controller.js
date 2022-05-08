@@ -1,18 +1,19 @@
 const Categorydb = require('../model/category_model');
+const objectId = require('mongoose').Types.ObjectId;
 
 //add category......................................
-exports.addCategory = (req,res) => {
+exports.addCategoryPost = (req,res) => {
 
     if(!req.body) {
         res.status(400).send({message: "Content can not be empty !!"})
         return;
     }
     else{
-
         const category = new Categorydb({
             name: req.body.name
         })
-    
+        // console.log('req.body.name', req.body.name);
+
         //save category in the database 
         category
         .save(category)
@@ -22,10 +23,7 @@ exports.addCategory = (req,res) => {
         .catch(err => {
             res.render('admin/add_category', {category: "" , error: "Category already exist"})
         })
-    
     }
-
-
 }
 
 
@@ -44,7 +42,7 @@ exports.categorySearch = (req, res) => {
 
 exports.deleteCategory = (req, res) => {
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
     Categorydb.findByIdAndDelete(id)
         .then(data => {
             res.redirect('/admin/admin-categories')
@@ -52,15 +50,32 @@ exports.deleteCategory = (req, res) => {
 }
 
 
- //update category......................................
-exports.updateCategory = (req,res) => { 
+//  update category......................................
+exports.updateCategoryPut = (req,res) => { 
     const id = req.params.id;
-    console.log(id);
+    // console.log(id);
     Categorydb.findByIdAndUpdate(id, req.body, { UserFindAndModify: false })
         .then(data => {
             res.redirect('/admin/admin-categories')
 
         })
+
+}
+
+// update category...........................................
+exports.updateCategoryGet =  async (req, res) => {
+
+    const categoryId = req.params.id;
+    // cat = parseInt(categoryId);
+
+    // console.log(categoryId , "----------------------------categoryId");
+    // console.log(typeof (categoryId));
+
+
+    const category = await Categorydb.findOne({ _id: objectId(categoryId) })
+    res.render('admin/update_category', { category })
+
+    // console.log('--------------------------------------------compiler');
 
 }
 
@@ -71,20 +86,8 @@ exports.adminCategories =  async (req,res) => {
 }
 
 //add category...........................................
-exports.addCategory =  (req,res) => {
+exports.addCategoryGet =  (req,res) => {
     const categories = Categorydb.find()     
     res.render('admin/add_category',{categories})
 }
 
-//update category...........................................
-exports.updateCategory =  async (req, res) => {
-
-    console.log(req.query.id + "----------------------------query id");
-    console.log(typeof (req.query.id));
-
-    const category = await Categorydb.findOne({ _id: req.query.id })
-    res.render('admin/update_category', { category })
-
-    console.log('--------------------------------------------compiler');
-
-}

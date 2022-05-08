@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="css/cartcss.css">
     <link rel="stylesheet" href="js/cartjs.js">
 
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
     <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -72,14 +74,18 @@
                                                 <td
                                                     style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
                                                     <% console.log("cart id----------", pros._id) %>
-                                                        <% console.log("product id----------", products[i].product[0]._id) %>
+                                                        <% console.log("product id----------",
+                                                            products[i].product[0]._id) %>
                                                             <button
                                                                 onclick="changeQuantity('<%= pros._id %>', '<%= products[i].product[0]._id %>',-1)"
                                                                 class="cart-item-count mr-3 quantityChange">-</button>
                                                             <p style="padding: 2rem 1rem 0rem 1rem;">
-                                                                <span id="<%= products[i].product[0]._id %>"><%= pros.products[i].quantity %></span>
+                                                                <span id="<%= products[i].product[0]._id %>">
+                                                                    <%= pros.products[i].quantity %>
+                                                                </span>
                                                             </p>
-                                                            <% console.log("count----------", pros.products[i].quantity) %>
+                                                            <% console.log("count----------", pros.products[i].quantity)
+                                                                %>
                                                                 <button
                                                                     onclick="changeQuantity('<%= pros._id %>', '<%= products[i].product[0]._id %>',1)"
                                                                     class="cart-item-count mr-3 quantityChange">+</button>
@@ -98,9 +104,11 @@
                                                     <a data-original-title="Save to Wishlist" title="" href=""
                                                         class="btn btn-light" data-toggle="tooltip" data-abc="true">
                                                     </a>
-                                                    <a href="/pro-remove/<%= products[i].product[0]._id %>"
-                                                        class="btn btn-light" style="width: 4rem; text-align: center;"
-                                                        data-abc="true"> Remove</a>
+                                                   
+                                                    <button class="remove-btn"
+                                                        onclick="removeBtn('<%= products[i].product[0]._id %>', '<%= pros._id %>')">
+                                                        Remove
+                                                    </button>
                                                 </td>
                                             </tr>
 
@@ -133,7 +141,8 @@
                         <div class="card-body">
                             <dl class="dlist-align">
                                 <dt>Total price:</dt>
-                                <dd class="text-right ml-3">₹<%= total %></dd>
+                                <dd class="text-right ml-3">₹<%= totalAmount %>
+                                </dd>
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Discount:</dt>
@@ -141,7 +150,7 @@
                             </dl>
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
-                                <dd class="text-right text-dark b ml-3"><strong>₹<%= total %></strong></dd>
+                                <dd class="text-right text-dark b ml-3"><strong>₹<%= totalAmount %></strong></dd>
                             </dl>
                             <hr>
                             <a href="/place-order"><button class="orderBtn">Place order</button></a>
@@ -154,8 +163,8 @@
 
     <script>
         function changeQuantity(cartId, proId, count) {
-            let quantity =parseInt( document.getElementById(proId).innerHTML)
-            console.log("count----------------------------------------------------------",typeof(count));
+            let quantity = parseInt(document.getElementById(proId).innerHTML)
+            console.log("count----------------------------------------------------------", typeof (count));
             console.log("quantity-------------------------------------------------------", quantity);
             $.ajax({
                 url: ('/change-product-quantity'),
@@ -168,16 +177,66 @@
                 type: 'post',
                 success: (response) => {
                     // alert(response)
-                    if(response.status && response.removeProduct){
-                        alert("Product removed from cart");
-                        location.reload();
+                    if (response.status && response.removeProduct) {
+
+                        const Toast = Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            timerProgressBar: true,
+                            didOpen: (toast) => {
+                                toast.addEventListener('mouseenter', Swal.stopTimer)
+                                toast.addEventListener('mouseleave', Swal.resumeTimer)
+                            }
+                        })
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'Item removed successfully!'
+                        })
+
+
+                        // location.reload();
                     }
-                    else{
+                    else {
                         document.getElementById(proId).innerHTML = quantity + count;
+                        location.reload()
                     }
                 }
             })
         }
+
+        function removeBtn(proId, cartId) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to remove this item?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+
+                        url: ('/pro-remove'),
+                        data: {
+                            cart: cartId,
+                            product: proId
+                        },
+                        type: 'post',
+                        success: (response) => {
+                                location.reload()
+                        }
+                    })
+                }
+            })
+        }   
+
     </script>
 
 

@@ -63,28 +63,23 @@ app.use(session({
 }))
 
 //....Home route......................
-app.get('/', async (req, res) => {
-
-    console.log(req.session.isUserlogin);
+app.get('/', async (req, res) => {;
     if (req.session.isUserlogin) {
         const user = await Userdb.findOne({
             email: req.body.email,
             password: req.body.password
         })
         const products = await Productdb.find()
-        // let cpro = cartCount.products.length()
-        // console.log("cartCount--------------",cartCount[0].products.length );
-        const count = null;
+        let count = null;
         if(req.session.user){
             const cartCount = await Cartdb.find({ userId : objectId(req.session.user._id)})
-            const count = cartCount[0]?.products?.length;
+            count = cartCount[0]?.products?.length;
             res.render('user/user_home', { user, products, count })
         }
         
     } 
     else { 
         const products = await Productdb.find()
-        console.log(products);
         res.render('landing', { products });
     }
 })

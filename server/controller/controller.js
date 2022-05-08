@@ -7,7 +7,7 @@ const Productdb = require('../model/product_model');
 
 //admin home page..........................................
 exports.adminHomeGet =  (req, res) => {
-    console.log(req.session.isAdminlogin);
+    // console.log(req.session.isAdminlogin);
     if(req.session.isAdminlogin){
         Userdb.find()
         .then(data => {
@@ -31,8 +31,8 @@ exports.allUsers =  (req, res) => {
 exports.adminProducts = async (req, res) => {
     try {
         const products = await Productdb.find()
-        console.log(products);
-        res.render('admin/admin_products', { products })
+        // console.log(products);
+        res.render('admin/admin_products', { products : products})
     }
     catch (error) {
         res.status(403).send({ message: error })
@@ -42,13 +42,13 @@ exports.adminProducts = async (req, res) => {
 //update product page........................................
 exports.updateProduct = async (req, res) => {
 
-    console.log(req.query.id + "----------------------------query id");
-    console.log(typeof (req.query.id));
+    // console.log(req.query.id + "----------------------------query id");
+    // console.log(typeof (req.query.id));
 
     const product = await Productdb.findOne({ _id: req.query.id })
     res.render('admin/update_product', { product })
 
-    console.log('--------------------------------------------compiler');
+    // console.log('--------------------------------------------compiler');
 
 }
 
@@ -92,10 +92,10 @@ exports.create = (req, res) => {
 //admin block unblock user......................................
 exports.block = async (req, res) => {
     try {
-        console.log(req.params.id, "...................................................");
+        // console.log(req.params.id, "...................................................");
         const user = await Userdb.findOne({ _id: req.params.id })
-        console.log("user.isBlocked", user.isBlocked);
-        console.log("req.params.id", req.params.id);
+        // console.log("user.isBlocked", user.isBlocked);
+        // console.log("req.params.id", req.params.id);
         if (user.isBlocked) {
             await Userdb.updateOne({ _id: req.params.id }, { isBlocked: false })
             res.status(200).redirect('/admin/admin-home')
@@ -129,7 +129,7 @@ exports.userSearch = (req, res) => {
 
 //user signup page..................
 exports.userSignup =  (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     //validate request
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty" });

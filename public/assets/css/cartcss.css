@@ -170,3 +170,13 @@ a {
     padding: 5rem;
     width: 39rem;
 }
+
+.remove-btn{
+    background-color: #f53f51;
+    color: white;
+    padding: 4px;
+    border-radius: 3px;
+    border-color: red;
+    height: 22px;
+    font-size: smaller;
+}

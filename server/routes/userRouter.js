@@ -90,28 +90,7 @@ userRouter.get('/add-to-cart/:id', cart_controller.addToCart);
 userRouter.get('/cart', cart_controller.cart);
 
 //product remove in cart ......................................
-userRouter.get('/pro-remove/:id', product_controller.productRemove);
-
-
-// userRouter.post('/add-to-cart', (req, res) => {
-//     console.log(req.body);
-
-//     //validate request
-//     const cart = new cartdb({
-//         product_id: req.body.product_id,
-//         object_id: req.body.object_id,
-//         quantity: 1
-//     })
-//     cart
-//         .save(cart)
-//         .then(data => {
-//             res.redirect('/add-to-cart')
-//         })
-//         .catch(error => {
-//             res.send({ message: error })
-//         })
-// })
-
+userRouter.post('/pro-remove', product_controller.productRemove);
 
 //product quantity changing....................................
 userRouter.post('/change-product-quantity', product_controller.changeProductQuantity);

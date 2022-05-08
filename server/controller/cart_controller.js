@@ -10,9 +10,9 @@ const objectId = require('mongoose').Types.ObjectId;
 //add to cart.......................................................
 exports.addToCart = async (req, res) => {
     const userId = req.session.user._id;
-    console.log('userid printed...................................', userId);
+    // console.log('userid printed...................................', userId);
     const proId = req.params.id;
-    console.log("productid printed.................................", proId);
+    // console.log("productid printed.................................", proId);
 
     const product = {
         id: objectId(proId),
@@ -23,10 +23,10 @@ exports.addToCart = async (req, res) => {
 
     if (userCart) {
         let proExist = userCart.products.findIndex(product => product.id == proId)
-        console.log("proExist-------------", proExist);
+        // console.log("proExist-------------", proExist);
 
         if (proExist != -1) {
-            console.log(objectId(proId));
+            // console.log(objectId(proId));
             await Cartdb.updateOne({ userId: objectId(userId), 'products.id': objectId(proId) },
                 {
                     $inc: { "products.$.quantity": 1 }
@@ -51,7 +51,7 @@ exports.addToCart = async (req, res) => {
         })
         cart
             .save()
-        console.log('cart saved...................................');
+        // console.log('cart saved...................................');
         res.json({ status: true })
     }
 }
@@ -60,7 +60,7 @@ exports.addToCart = async (req, res) => {
 exports.cart = async (req, res) => {
 
     const userId = req.session.user?._id;
-    console.log("userId-----", userId);
+    // console.log("userId-----", userId);
     let cartItems = await Cartdb.aggregate([
         {
             $match: { userId: objectId(userId) }
@@ -83,39 +83,64 @@ exports.cart = async (req, res) => {
                 foreignField: '_id',
                 as: 'product'
             }
+        }
+
+    ])
+
+    let totalAmt = await Cartdb.aggregate([
+        {
+            $match: { userId: objectId(userId) }
+
         },
-        // {
-        //     $project: {
-        //         _id: 1,
-        //         quantity: 1,
-        //         product: { $arrayElemAt: ["$product", 0] }
+        {
+            $unwind: "$products"
+        },
+        {
+            $project: {
+                id: "$products.id",
+                quantity: "$products.quantity"
+            }
 
-        //     },
+        },
+        {
+            $lookup: {
+                from: "productdbs",
+                localField: "id",
+                foreignField: '_id',
+                as: 'product'
+            }
+        },
+        {
+            $project: {
+                _id: 1,
+                quantity: 1,
+                product: { $arrayElemAt: ["$product", 0] }
 
-        // },
-        // {
-        //     $group: {
-        //         _id: null,
-        //         total: { $sum: { $multiply: ["$quantity", "$product.price"] } }
+            },
 
-        //     }
-        // }
+        },
+        {
+            $group: {
+                _id: null,
+                total: { $sum: { $multiply: ["$quantity", "$product.price"] } }
 
+            }
+        }
     ])
 
     
     
     const pros = await Cartdb.find({ id: objectId(userId) })
-    console.log("pros>>>>>>>>>>>>>>>>>>", pros[0]);
-    console.log("cartItems>>>>>>>>>>>==============", cartItems[0]);
+    // console.log("pros>>>>>>>>>>>>>>>>>>", pros[0]);
+    // console.log("cartItems>>>>>>>>>>>==============", cartItems[0]);
     
-    // console.log("Product===========>",cartItems[0].product.price);
     
-    let total = cartItems[0].total;
-    console.log("total----------", total);
+    let totalAmount = totalAmt[0]?.total;
+    // console.log("totalamount----->----------", totalAmt);
 
 
+   
 
-    res.render('user/cart', { products: cartItems, pros: pros[0] , total })
+    res.render('user/cart', { products: cartItems, pros: pros[0], totalAmount })
 
 }

@@ -16,17 +16,17 @@ const Categorydb = require('../model/category_model');
 //admin check .........................
 router.get('/', (req, res) => {
     if (req.session.isAdminlogin) {
-        console.log('isAdminlogin');
+        // console.log('isAdminlogin');
         res.redirect('admin/admin-home')
     } else {
-        console.log('no admin login');
+        // console.log('no admin login');
         res.render('admin/admin_login');
     }
 })
 
 //admin home post.........................
 router.post('/admin-home',async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     const Admin = await admin.findOne({
         email: req.body.email,
         password: req.body.password
@@ -38,7 +38,6 @@ router.post('/admin-home',async (req, res) => {
         // console.log(req.session.isAdminlogin);
 
         res.redirect('/admin/admin-home')
-
     }
     else {
         res.render('admin/admin_login', { error: "Incorrect Entry" })
@@ -80,48 +79,51 @@ router.get('/users-list', controller.allUsers);
 
 //admin logout.................................. 
 router.get('/admin-logout', (req, res) => {
-    console.log(req.session.isAdminlogin);
+    // console.log(req.session.isAdminlogin);
     req.session.isAdminlogin = false;
     res.redirect('/')
 })
 
 
 
-//admin products list.................................. 
-router.get('/admin-products', controller.adminProducts);
 
 
 //add products.................................. 
 router.get('/add-product', async (req, res) => {
-    res.render('admin/add_product')
+    const category = await Categorydb.find({});
+    res.render('admin/add_product', {category})
 })
 
+
+//admin products list.................................. 
+router.get('/admin-products', controller.adminProducts);
+
 //update product.................................. 
-router.get('/update-product/:id', product_controller.updateProduct)
+router.get('/update-product/:id', product_controller.updateProductGet)
 
 //categories.................................. 
 router.get('/admin-categories', category_controller.adminCategories);
 
 //add category.................................. 
-router.get('/add-category', category_controller.addCategory);
+router.get('/add-category', category_controller.addCategoryGet);
  
 //update category.................................. 
-router.get('/update-category/:id', category_controller.updateCategory);
+router.get('/update-category/:id', category_controller.updateCategoryGet);
 
 //delete category.................................. 
 router.delete('/delete-category/:id', category_controller.deleteCategory);
 
 //upddate category...................................
-router.put('/update-category/:id', category_controller.updateCategory);
+router.put('/update-category/:id',  category_controller.updateCategoryPut);
 
 //category adding.................................. 
-router.post('/adding-category', category_controller.addCategory)
+router.post('/adding-category', category_controller.addCategoryPost);
 
 //delete product.................................. 
 router.delete('/delete-product/:id', product_controller.deleteProduct);
  
 //update product.................................. 
-router.put('/update-product/:id', product_controller.updateProduct);
+router.put('/update-product/:id', product_controller.updateProductPut);
 
 //add product.................................. 
 router.post('/admin-products', product_controller.addProducts);

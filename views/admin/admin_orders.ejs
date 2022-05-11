@@ -1,5 +1,7 @@
 <%-include ('../include/_header') %>
 
+
+
     <table class="table" id="table_id">
         <thead class="thead-dark">
             <tr>
@@ -49,7 +51,7 @@
                         <%= orderItems[i].status %>
                     </td>
                     <td>
-                        <button>Cancel</button>
+                        <button style="background-color: red; color: white; padding: 0px 5px 0px 5px;">Cancel</button>
                     </td>
 
 
@@ -61,4 +63,9 @@
         </tbody>
     </table>
 
+    <script>
+        $(document).ready(function () {
+          $('#table_id').DataTable();
+        });
+      </script>
 

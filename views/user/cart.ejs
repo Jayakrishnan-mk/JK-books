@@ -37,14 +37,14 @@
             <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
                 <div class="card" style="border: none;">
                     <div class="table-responsive">
-                            <!-- <h1 class="emptyCart">Your Cart is Empty</h1> -->
-                            <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
-                            <% if (products.length===0) { %>
-                                <div>
-                                    <img style="margin: 4rem 0rem 0rem 20rem;" src="img/cart2.webp" >
-                                </div>
-                
-                            
+                        <!-- <h1 class="emptyCart">Your Cart is Empty</h1> -->
+                        <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
+                        <% if (products.length===0) { %>
+                            <div>
+                                <img style="margin: 4rem 0rem 0rem 20rem;" src="img/cart2.webp">
+                            </div>
+
+
 
                             <% } else { %>
                                 <table class="table table-borderless table-shopping-cart" style="padding: 1rem;">
@@ -78,22 +78,19 @@
                                                 </td>
                                                 <td
                                                     style="display: flex;  height: 7rem; width: 7rem; justify-content: center;">
-                                                    <% console.log("cart id----------", pros._id) %>
-                                                        <% console.log("product id----------",
-                                                            products[i].product[0]._id) %>
-                                                            <button
-                                                                onclick="changeQuantity('<%= pros._id %>', '<%= products[i].product[0]._id %>',-1)"
-                                                                class="cart-item-count mr-3 quantityChange">-</button>
-                                                            <p style="padding: 2rem 1rem 0rem 1rem;">
-                                                                <span id="<%= products[i].product[0]._id %>">
-                                                                    <%= pros.products[i].quantity %>
-                                                                </span>
-                                                            </p>
-                                                            <% console.log("count----------", pros.products[i].quantity)
-                                                                %>
-                                                                <button
-                                                                    onclick="changeQuantity('<%= pros._id %>', '<%= products[i].product[0]._id %>',1)"
-                                                                    class="cart-item-count mr-3 quantityChange">+</button>
+
+                                                    <button
+                                                        onclick="changeQuantity('<%= pros._id %>', '<%= products[i].product[0]._id %>',-1)"
+                                                        class="cart-item-count mr-3 quantityChange">-</button>
+                                                    <p style="padding: 2rem 1rem 0rem 1rem;">
+                                                        <span id="<%= products[i].product[0]._id %>">
+                                                            <%= pros.products[i].quantity %>
+                                                        </span>
+                                                    </p>
+                                                    %>
+                                                    <button
+                                                        onclick="changeQuantity('<%= pros._id %>', '<%= products[i].product[0]._id %>',1)"
+                                                        class="cart-item-count mr-3 quantityChange">+</button>
 
 
                                                 </td>
@@ -128,16 +125,16 @@
                 </div>
             </aside>
 
-          
 
 
 
 
-                    <% if (products.length !=0 ) { %>
+
+            <% if (products.length !=0 ) { %>
 
 
-                        <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
-                            <!-- <div class="card mb-3">
+                <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
+                    <!-- <div class="card mb-3">
                     <div class="card-body">
                         <form>
                             <div class="form-group"> <label>Have coupon?</label>
@@ -148,36 +145,36 @@
                         </form>
                     </div>
                 </div> -->
-                            <div class="card">
-                                <div class="card-body">
-                                    <dl class="dlist-align">
-                                        <dt>Total price:</dt>
-                                        <dd class="text-right ml-3">₹<%= totalAmount %>
-                                        </dd>
-                                    </dl>
-                                    <dl class="dlist-align">
-                                        <dt>Discount:</dt>
-                                        <dd class="text-right text-danger ml-3">- ₹0.00</dd>
-                                    </dl>
-                                    <dl class="dlist-align">
-                                        <dt>Total:</dt>
-                                        <dd class="text-right text-dark b ml-3"><strong>₹<%= totalAmount %></strong>
-                                        </dd>
-                                    </dl>
-                                    <hr>
-                                    <a href="/place-order"><button class="orderBtn">Place order</button></a>
-                                </div>
-                            </div>
-                        </aside>
-                        <% } %>
+                    <div class="card">
+                        <div class="card-body">
+                            <dl class="dlist-align">
+                                <dt>Total price:</dt>
+                                <dd class="text-right ml-3">₹<%= totalAmount %>
+                                </dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt>Discount:</dt>
+                                <dd class="text-right text-danger ml-3">- ₹0.00</dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt>Total:</dt>
+                                <dd class="text-right text-dark b ml-3"><strong>₹<%= totalAmount %></strong>
+                                </dd>
+                            </dl>
+                            <hr>
+                            <a href="/place-order"><button class="orderBtn">Place order</button></a>
+                        </div>
+                    </div>
+                </aside>
+                <% } %>
         </div>
     </div>
 
     <script>
         function changeQuantity(cartId, proId, count) {
             let quantity = parseInt(document.getElementById(proId).innerHTML)
-            console.log("count----------------------------------------------------------", typeof (count));
-            console.log("quantity-------------------------------------------------------", quantity);
+            // console.log("count----------------------------------------------------------", typeof (count));
+            // console.log("quantity-------------------------------------------------------", quantity);
             $.ajax({
                 url: ('/change-product-quantity'),
                 data: {

@@ -27,6 +27,7 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
     "path": "^0.12.7",
+    "razorpay": "^2.8.1",
     "session": "^0.1.0",
     "sweetalert2": "^11.4.10",
     "twilio": "^3.76.1",

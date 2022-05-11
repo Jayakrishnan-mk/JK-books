@@ -42,7 +42,7 @@ app.use('/img', express.static(path.join(__dirname, "public/assets/img")));
 app.use('/fonts', express.static(path.join(__dirname, "public/assets/fonts")));
 app.use('/js', express.static(path.join(__dirname, "public/assets/js")));
 app.use('/public/product_images', express.static(path.join(__dirname, "public/product_images")))
-app.use('/Datatables', express.static(path.join(__dirname, "/public/Datatables")));
+app.use('/Datatables', express.static(path.join(__dirname, "public/Datatables")));
 
 app.use(fileUpload());
 

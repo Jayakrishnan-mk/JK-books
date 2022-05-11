@@ -230,7 +230,7 @@ exports.placeOrder = async (req, res) => {
 
     ])
     // console.log("cartItems----------------------------------------------------------------------", cartItems);
-    let total = cartItems[0].total; 
+    let total = cartItems[0].total;  
     // console.log("total----------", total);
 
 

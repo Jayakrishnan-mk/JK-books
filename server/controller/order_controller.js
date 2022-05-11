@@ -5,6 +5,17 @@ const Userdb = require('../model/model');
 
 const objectId = require('mongoose').Types.ObjectId;
 
+var instance = new Razorpay({ key_id: 'YOUR_KEY_ID', key_secret: 'YOUR_SECRET' })
+
+instance.orders.create({
+  amount: 50000,
+  currency: "INR",
+  receipt: "receipt#1",
+  notes: {
+    key1: "value3",
+    key2: "value2"
+  }
+})
 
 //checkout page....................................
 exports.checkout = async (req, res) => {
@@ -15,10 +26,10 @@ exports.checkout = async (req, res) => {
 
 
     })
-    console.log("cartItems-----", cartItems);
+    // console.log("cartItems-----", cartItems);
 
-    console.log("cartItems product----->>>>", cartItems.products[0].id);
-    console.log("req.body.total======", req.body.total);
+    // console.log("cartItems product----->>>>", cartItems.products[0].id);
+    // console.log("req.body.total======", req.body.total);
 
 
     // console.log('ordered items....... available');
@@ -44,6 +55,11 @@ exports.checkout = async (req, res) => {
     await Cartdb.deleteMany({ userId: objectId(userId) })
 
     if (orderItems.paymentMethod == 'COD') {
+
+        // console.log("orderItems orderId======", orderItems._id);
+
+        // res.json({status : true})
+
         res.render('user/order_success')
     }
     else {

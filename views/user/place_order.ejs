@@ -29,7 +29,7 @@
 
     <section>
         <div class="container mt-5">
-            <form action="" id="checkout-form">
+            <form action="/checkout" method="post" >
                 <div class="row">
                     <div class="col-md-6">
                         <h2>Enter Delivery Details</h2><br>
@@ -42,6 +42,7 @@
                             <input class="form-control" type="text" id="pincode" name="pincode"><br>
                             <label for="">Mobile</label>
                             <input class="form-control" type="text" id="mobile" name="mobile"><br>
+                            <input type="hidden" name="total" value="<%= total %>">
                         </div>
                     </div>
                     <div class="col-md-4" style="margin-left: 10rem">
@@ -51,13 +52,14 @@
                             <div class="payment">
                                 <p>Payment method</p>
                                 <label class=" radio-inline">
-                                    <input type="radio" name="payment-method" value="COD" checked>COD </label>
+                                    <input type="radio" name="paymentMethod" value="COD" checked>COD </label>
 
                                 <label class="radio-inline mt-2">
-                                    <input type="radio" name="payment-method" value="ONLINE">Online payment
+                                    <input type="radio" name="paymentMethod" value="ONLINE">Online payment
                                 </label>
                                 <button class="btn btn-primary float-right" style="margin-top: 2rem;"
                                     type="submit">Checkout</button>
+
                             </div>
                         </div>
                     </div>

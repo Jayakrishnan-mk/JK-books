@@ -1,0 +1,64 @@
+<%-include ('../include/_header') %>
+
+    <table class="table" id="table_id">
+        <thead class="thead-dark">
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            <% for (var i=0 ; i<orderItems.length ; i++ ) { %>
+
+                <tr>
+                    <td>
+                        <%= i + 1 %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].deliveryDetails.name %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].orderProducts[0].name %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].orderProducts[0].price %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].orderProducts[0].quantity %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].deliveryDetails.address %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].date.toDateString() %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].paymentMethod %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].status %>
+                    </td>
+                    <td>
+                        <button>Cancel</button>
+                    </td>
+
+
+                </tr>
+
+                <% } %>
+
+
+        </tbody>
+    </table>
+
+

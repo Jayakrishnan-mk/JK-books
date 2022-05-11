@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body style="background-color: white;">
 
 
     <nav class="prod-nav">
@@ -35,11 +35,16 @@
     <div class="container-fluid">
         <div class="row">
             <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
-                <div class="card">
+                <div class="card" style="border: none;">
                     <div class="table-responsive">
-                        <% if (products.length===0) { %>
-                            <h1 class="emptyCart">Your Cart is Empty</h1>
-                            <hr>
+                            <!-- <h1 class="emptyCart">Your Cart is Empty</h1> -->
+                            <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
+                            <% if (products.length===0) { %>
+                                <div>
+                                    <img style="margin: 4rem 0rem 0rem 20rem;" src="img/cart2.webp" >
+                                </div>
+                
+                            
 
                             <% } else { %>
                                 <table class="table table-borderless table-shopping-cart" style="padding: 1rem;">
@@ -104,7 +109,7 @@
                                                     <a data-original-title="Save to Wishlist" title="" href=""
                                                         class="btn btn-light" data-toggle="tooltip" data-abc="true">
                                                     </a>
-                                                   
+
                                                     <button class="remove-btn"
                                                         onclick="removeBtn('<%= products[i].product[0]._id %>', '<%= pros._id %>')">
                                                         Remove
@@ -122,11 +127,17 @@
                     </div>
                 </div>
             </aside>
-            <% if (products.length !=0 ) { %>
+
+          
 
 
-                <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
-                    <!-- <div class="card mb-3">
+
+
+                    <% if (products.length !=0 ) { %>
+
+
+                        <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
+                            <!-- <div class="card mb-3">
                     <div class="card-body">
                         <form>
                             <div class="form-group"> <label>Have coupon?</label>
@@ -137,27 +148,28 @@
                         </form>
                     </div>
                 </div> -->
-                    <div class="card">
-                        <div class="card-body">
-                            <dl class="dlist-align">
-                                <dt>Total price:</dt>
-                                <dd class="text-right ml-3">₹<%= totalAmount %>
-                                </dd>
-                            </dl>
-                            <dl class="dlist-align">
-                                <dt>Discount:</dt>
-                                <dd class="text-right text-danger ml-3">- ₹0.00</dd>
-                            </dl>
-                            <dl class="dlist-align">
-                                <dt>Total:</dt>
-                                <dd class="text-right text-dark b ml-3"><strong>₹<%= totalAmount %></strong></dd>
-                            </dl>
-                            <hr>
-                            <a href="/place-order"><button class="orderBtn">Place order</button></a>
-                        </div>
-                    </div>
-                </aside>
-                <% } %>
+                            <div class="card">
+                                <div class="card-body">
+                                    <dl class="dlist-align">
+                                        <dt>Total price:</dt>
+                                        <dd class="text-right ml-3">₹<%= totalAmount %>
+                                        </dd>
+                                    </dl>
+                                    <dl class="dlist-align">
+                                        <dt>Discount:</dt>
+                                        <dd class="text-right text-danger ml-3">- ₹0.00</dd>
+                                    </dl>
+                                    <dl class="dlist-align">
+                                        <dt>Total:</dt>
+                                        <dd class="text-right text-dark b ml-3"><strong>₹<%= totalAmount %></strong>
+                                        </dd>
+                                    </dl>
+                                    <hr>
+                                    <a href="/place-order"><button class="orderBtn">Place order</button></a>
+                                </div>
+                            </div>
+                        </aside>
+                        <% } %>
         </div>
     </div>
 
@@ -230,12 +242,12 @@
                         },
                         type: 'post',
                         success: (response) => {
-                                location.reload()
+                            location.reload()
                         }
                     })
                 }
             })
-        }   
+        }
 
     </script>
 

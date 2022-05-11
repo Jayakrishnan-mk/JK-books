@@ -29,6 +29,16 @@ userRouter.get('/user-login', (req, res) => {
     }
 })
 
+//user login error............................................
+userRouter.get('/user-login-error', (req,res) => {
+    if (req.session.isUserlogin) {
+        res.redirect('/user-home')
+    }
+    else {
+        res.render('user/user_login',  { error: "Invalid User ! Email or Password was incorrect." })
+    }
+})
+
 //user signup............................................
 userRouter.get('/user-signup', (req, res) => {
     res.render('user/user_signup')
@@ -98,10 +108,16 @@ userRouter.post('/change-product-quantity', product_controller.changeProductQuan
 //adding to wishlist..................................
 userRouter.get("/add-to-wishlist/:id", verifyLogin, wishlist_controller.addToWishlist);
 
-//place order.............................................
+//place order............................................. 
 userRouter.get('/place-order', product_controller.placeOrder);
 
-   
+//checkout page..............................................
+userRouter.post('/checkout', order_controller.checkout);   
 
+userRouter.get('/order-success', (req,res) => {
+    res.render('user/order_success')  
+})
+
+userRouter.get('/my-orders', order_controller.myOrders); 
 
 module.exports = userRouter;

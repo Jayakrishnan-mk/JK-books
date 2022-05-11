@@ -6,8 +6,6 @@ const product_controller = require('../controller/product_controller');
 const category_controller = require('../controller/category_controller');
 
 const admin = require('../model/admin_model');
-const Userdb = require('../model/model');
-const Productdb = require('../model/product_model');
 const Categorydb = require('../model/category_model');
 
 
@@ -143,5 +141,7 @@ router.patch('/status/:id', controller.block)
 //create user................................. 
 router.post('/create-user', controller.create)
 
+//orders page in admin..................................
+router.get('/admin-ordersList', controller.adminOrdersList)
 
 module.exports = router;  

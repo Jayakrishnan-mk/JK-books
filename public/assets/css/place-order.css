@@ -23,6 +23,7 @@ payment {
 .prod-head{
     margin: 0; 
     padding-left: 7%; 
+    padding-top: 7px; 
     font-family: 'Pacifico', cursive; 
     font-weight: bold; 
     font-size: xx-large; 

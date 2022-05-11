@@ -1,6 +1,8 @@
 const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
+const Orderdb = require('../model/order_model');
 
+const objectId = require('mongoose').Types.ObjectId;
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Admin   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -32,6 +34,7 @@ exports.adminProducts = async (req, res) => {
     try {
         const products = await Productdb.find()
         // console.log(products);
+        console.log(products[0].image);   
         res.render('admin/admin_products', { products : products})
     }
     catch (error) {
@@ -190,6 +193,38 @@ exports.userHomePost = async (req, res) => {
 
     }
     else {
-        res.status(403).redirect('/user-login')
+        res.redirect('/user-login-error')
     }
+}
+
+exports.adminOrdersList = async (req, res) => {
+
+    const orderItems = await Orderdb.aggregate([
+       
+        {
+            $lookup: {
+                from: "productdbs",
+                localField: "products.id",
+                foreignField: '_id',
+                as: 'orderProducts'
+            }
+
+        },
+        {
+            $lookup: {
+                from: "userdbs",
+                localField: "userId",
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        }
+          
+    ])
+
+    // const orderedProduct =  orderItems[0].orderProducts[0];
+    console.log("ord-----", orderItems);
+
+    // console.log("order-----", orderItems[0].userDetails[0]);
+
+    res.render('admin/admin_orders', {orderItems})
 }

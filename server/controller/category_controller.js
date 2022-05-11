@@ -7,7 +7,7 @@ exports.addCategoryPost = (req,res) => {
     if(!req.body) {
         res.status(400).send({message: "Content can not be empty !!"})
         return;
-    }
+    } 
     else{
         const category = new Categorydb({
             name: req.body.name
@@ -88,6 +88,6 @@ exports.adminCategories =  async (req,res) => {
 //add category...........................................
 exports.addCategoryGet =  (req,res) => {
     const categories = Categorydb.find()     
-    res.render('admin/add_category',{categories})
+    res.render('admin/add_category',{categories});
 }
 

@@ -68,7 +68,7 @@ exports.updateProductPut = async (req, res) => {
     }
     // await Productdb.findByIdAndUpdate(id, req.body, { UserFindAndModify: false })
 
-    var imgPath = './public/product_images/' + Date.now() + '.jpg';
+    var imgPath = '/public/product_images/' + Date.now() + '.jpg';
 
     const product = {
 
@@ -230,10 +230,11 @@ exports.placeOrder = async (req, res) => {
 
     ])
     // console.log("cartItems----------------------------------------------------------------------", cartItems);
-    let total = cartItems[0].total;
+    let total = cartItems[0].total; 
     // console.log("total----------", total);
 
 
 
     res.render('user/place_order', { total , user: req.session.user })
 }
+ 

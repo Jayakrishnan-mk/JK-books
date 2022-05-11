@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK Books</title>
+
+    <link rel="stylesheet" href="css/cartcss.css">
+    <link rel="stylesheet" href="js/cartjs.js">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+
+</head>
+
+<body style="background-color: white;">
+
+
+    <nav class="prod-nav">
+        <h2 class="prod-head"> JK Books</h2>
+        <h3 style="width: 0px;  margin: auto; color: white; font-size: xx-large; position: relative;"> Orders </h3>
+        <a href="/user-home">
+            <h5 style="margin-right: 50px; margin-top: 22px; color: white;">Home</h5>
+        </a>
+    </nav>
+
+
+    <table class="table" style="    width: 80rem;
+    margin: 3rem 3rem 3rem 8rem;
+    text-align: center; height: 30rem">
+        <thead class="thead-dark">
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Date</th>
+                <th>Payment</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            <% for (var i=0 ; i<orderItems.length ; i++ ) { %>
+
+
+                <tr>
+
+                    <td>
+                        <img style="width: 50px; height: 50px;" src=" <%= orderItems[i].orderProducts[0].image %> ">
+                    </td>
+                    <td>
+                        <%= orderItems[i].orderProducts[0].name %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].orderProducts[0].price %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].date.toDateString() %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].paymentMethod %>
+                    </td>
+                    <td>
+                        <%= orderItems[i].status %>
+                    </td>
+                    <td>
+                        <button style="background-color: red; color: white;">Cancel</button>
+                    </td>
+
+
+
+                    </td>
+                </tr>
+
+                <% } %>
+
+
+        </tbody>
+    </table>

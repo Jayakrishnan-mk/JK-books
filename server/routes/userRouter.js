@@ -53,6 +53,22 @@ userRouter.post('/user-signup', controller.userSignup);
 
 userRouter.get('/product-details', product_controller.productDetails);
 
+
+//user login with otp....................
+userRouter.get('/loginwithOtp', (req, res) => {
+    console.log('login with otp');
+    res.render('user/userLoginwithOtp')
+})
+
+
+
+//login with otp....................
+userRouter.post('/mobile', otp_controller.otpPage);
+
+//otp checks....................
+userRouter.post('/otp', otp_controller.otpChecking);
+
+
 //user home page............................................
 userRouter.post('/user-home', controller.userHomePost);
 
@@ -67,13 +83,11 @@ userRouter.use((req, res, next) => {
 })
 
 
+
 //user home page............................................
 userRouter.get('/user-home', controller.userHomeGet);
 
-//user login with otp....................
-userRouter.get('/loginwithOtp', (req, res) => {
-    res.render('user/userLoginwithOtp')
-})
+
 
 userRouter.get('/user-logout', async (req, res) => {
     // req.session.destroy();
@@ -87,11 +101,6 @@ userRouter.get('/user-logout', async (req, res) => {
 })
 
 
-//login with otp....................
-userRouter.post('/mobile', otp_controller.otpPage);
-
-//otp checks....................
-userRouter.post('/otp', otp_controller.otpChecking);
 
 //user cart....................
 userRouter.get('/add-to-cart/:id', cart_controller.addToCart);
@@ -114,6 +123,9 @@ userRouter.get('/place-order', product_controller.placeOrder);
 //checkout page..............................................
 userRouter.post('/checkout', order_controller.checkout);   
 
+
+//payment of razorpay..................................
+userRouter.post('/verify-payment', order_controller.verifyPayment)
 
 //order list..............................................
 userRouter.get('/order-success', (req,res) => {

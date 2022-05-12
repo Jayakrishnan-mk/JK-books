@@ -145,7 +145,5 @@ router.post('/create-user', controller.create)
 //orders page in admin..................................
 router.get('/admin-ordersList', controller.adminOrdersList)
 
-//payment of razorpay..................................
-router.post('/verify-payment', order_controller.verifyPayment)
 
 module.exports = router;  

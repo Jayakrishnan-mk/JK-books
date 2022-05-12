@@ -1,8 +1,9 @@
 const Productdb = require('../model/product_model');
+const Cartdb = require('../model/cart_model');
 
 const serviceSID = "VA75b5e7e997850aab64166f43c82d9a0e";
 const accountSID = "ACc126eca5b1a3058319ed7c5da0e1baea";
-const authToken = "59cc916f1fcf219db72e57080cc4c32b"
+const authToken = "6b853aa8233bf305281cb8b4bb330882"
 const client = require("twilio")(accountSID, authToken);
 
 //otp page for user login............................................
@@ -41,7 +42,9 @@ exports.otpChecking = (req, res) => {
                 Productdb.find()
                     .then((products) => {
                         res.status(200).render('user/user_home', { products })
-                    })
+                    })                        
+              
+
             }
             else {
                 res.render('user/userLoginOtpCheck', { error: "Invalid OTP", number: req.body.number })

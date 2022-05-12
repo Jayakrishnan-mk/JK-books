@@ -189,6 +189,8 @@ exports.changeProductQuantity = async (req, res) => {
 exports.placeOrder = async (req, res) => {
     const userId = req.session.user._id;
     // console.log("userId-----", userId);
+    // console.log("req.body>>>>>>>>>>", req.body);
+
     let cartItems = await Cartdb.aggregate([
         {
             $match: { userId: objectId(userId) }
@@ -230,7 +232,7 @@ exports.placeOrder = async (req, res) => {
 
     ])
     // console.log("cartItems----------------------------------------------------------------------", cartItems);
-    let total = cartItems[0].total;  
+    let total = cartItems[0]?.total;  
     // console.log("total----------", total);
 
 

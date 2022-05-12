@@ -114,6 +114,8 @@ userRouter.get('/place-order', product_controller.placeOrder);
 //checkout page..............................................
 userRouter.post('/checkout', order_controller.checkout);   
 
+
+//order list..............................................
 userRouter.get('/order-success', (req,res) => {
     res.render('user/order_success')  
 })

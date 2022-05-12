@@ -4,6 +4,7 @@ const router = express.Router();
 const controller = require('../controller/controller');
 const product_controller = require('../controller/product_controller');
 const category_controller = require('../controller/category_controller');
+const order_controller = require('../controller/order_controller');
 
 const admin = require('../model/admin_model');
 const Categorydb = require('../model/category_model');
@@ -143,5 +144,8 @@ router.post('/create-user', controller.create)
 
 //orders page in admin..................................
 router.get('/admin-ordersList', controller.adminOrdersList)
+
+//payment of razorpay..................................
+router.post('/verify-payment', order_controller.verifyPayment)
 
 module.exports = router;  

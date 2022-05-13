@@ -125,12 +125,24 @@ userRouter.post('/checkout', order_controller.checkout);
 
 
 //payment of razorpay..................................
-userRouter.post('/verify-payment', order_controller.verifyPayment)
+userRouter.post('/verify-payment', (req,res) => {
+    console.log(req.body);
+    // order_controller.verifyPayment)
+
+})
 
 //order list..............................................
 userRouter.get('/order-success', (req,res) => {
     res.render('user/order_success')  
 })
+
+//place order validation..............................................
+userRouter.get('/place-order-validationError/:total/:error', (req,res) => {
+    // console.log(',,,,,,,,,,,,,,,',req.params);
+    // console.log('jjjjjjjjjjjjj', req.session.user);
+    res.render('user/place_order_validation', {total: req.params.total , error: req.params.error})
+})
+
 
 userRouter.get('/my-orders', order_controller.myOrders); 
 

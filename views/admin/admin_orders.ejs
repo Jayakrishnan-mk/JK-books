@@ -27,28 +27,28 @@
                         <%= i + 1 %>
                     </td>
                     <td>
-                        <%= orderItems[i].deliveryDetails.name %>
+                        <%= orderItems[i].deliveryDetails?.name %>
                     </td>
                     <td>
-                        <%= orderItems[i].orderProducts[0].name %>
+                        <%= orderItems[i].orderProducts[0]?.name %>
                     </td>
                     <td>
-                        <%= orderItems[i].orderProducts[0].price %>
+                        <%= orderItems[i].orderProducts[0]?.price %>
                     </td>
                     <td>
-                        <%= orderItems[i].orderProducts[0].quantity %>
+                        <%= orderItems[i].orderProducts[0]?.quantity %>
                     </td>
                     <td>
-                        <%= orderItems[i].deliveryDetails.address %>
+                        <%= orderItems[i].deliveryDetails?.address %>
                     </td>
                     <td>
-                        <%= orderItems[i].date.toDateString() %>
+                        <%= orderItems[i].date?.toDateString() %>
                     </td>
                     <td>
-                        <%= orderItems[i].paymentMethod %>
+                        <%= orderItems[i]?.paymentMethod %>
                     </td>
                     <td>
-                        <%= orderItems[i].status %>
+                        <%= orderItems[i]?.status %>
                     </td>
                     <td>
                         <button style="background-color: red; color: white; padding: 0px 5px 0px 5px;">Cancel</button>

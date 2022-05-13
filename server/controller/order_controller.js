@@ -4,6 +4,7 @@ const Productdb = require('../model/product_model');
 const Userdb = require('../model/model');
 
 const Joi = require('joi');
+
 const Razorpay = require('razorpay');
 
 const objectId = require('mongoose').Types.ObjectId;
@@ -38,6 +39,10 @@ exports.checkout = async (req, res) => {
         mobile: req.body.mobile
     }
 
+    // console.log(deliveryObj);
+
+    // const error  = validate(deliveryObj)
+
     let orderItems = new Orderdb({
         userId: objectId(userId),
         deliveryDetails : deliveryObj,
@@ -48,13 +53,23 @@ exports.checkout = async (req, res) => {
         products: cartItems?.products[0]
     })
 
-    const { error } = validate(deliveryObj)
+    // console.log(orderItems.totalAmount, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+    // console.log("error",  error.error.details[0].message);
+
     // if (error) {
-    //     return res.send(error.details[0].message)
+
+        // let errorMsg = error.error?.details[0].message;
+        
+        // res.render('user/place_order', { error: errorMsg ,user: req.session.user , total: orderItems.totalAmount })
+
+        // res.json({  total: orderItems.totalAmount, error: errorMsg })
     // }
 
+    // else{}
     orderItems
         .save();    
+
+        // console.log('product quantity decreasing before.................');
 
     await Productdb.updateOne({ "_id": objectId(orderItems.products[0].id) },
         {
@@ -62,19 +77,14 @@ exports.checkout = async (req, res) => {
         }
     )
 
-
     if (orderItems.paymentMethod === 'COD') {
 
-        // console.log("orderItems ======", orderItems);
 
-        res.json({codSuccess : true})
     await Cartdb.deleteOne({ userId: objectId(userId) })
-
 
         // console.log("orderItems ======", orderItems);
 
         res.json({ codSuccess: true })
-
 
         res.render('user/order_success')
     }
@@ -82,13 +92,16 @@ exports.checkout = async (req, res) => {
 
         console.log("orderItems ======", orderItems);
         const orderId = orderItems._id;
-        
+        const amount = orderItems.totalAmount;
+
 
         var options = {
-            amount: orderItems.totalAmount,
+            amount: amount*100,
             currency: 'INR', 
             receipt: orderId.toString()
         }
+
+        // console.log(typeof(amount),"kkkkkkkkkkkkkkkkk");
 
         instance.orders.create(options, (err,order) => {
             if (err) {
@@ -102,31 +115,31 @@ exports.checkout = async (req, res) => {
 
         // console.log("orderItems ======", orderItems);
         // const orderId = orderItems._id;
-        const amount = orderItems.totalAmount;
+        
 
 
-        var options = {
-            amount: amount * 100,
-            currency: 'INR',
-            receipt: orderId.toString()
-        }
+        // var options = {
+        //     amount: amount * 100,
+        //     currency: 'INR',
+        //     receipt: orderId.toString()
+        // }
 
         // console.log("options....", options);
 
 
 
-        instance.orders.create(options, (err, order) => { 
-            if (err) {
-                console.log("err>>>>>>>>>>>>>>>>>", err);
-            }
-            else {
-                console.log("New order========", order);
-                res.json(order);
-            }
-        })
-
+//         instance.orders.create(options, (err, order) => { 
+//             if (err) {
+//                 console.log("err>>>>>>>>>>>>>>>>>", err);
+//             }
+//             else {
+//                 console.log("New order========", order);
+//                 res.json(order);
+//             }
+//         })
     }
-}
+    }
+// }
 
 //payment of razorpay..............................................
 exports.verifyPayment = async (req, res) => {
@@ -168,13 +181,12 @@ exports.verifyPayment = async (req, res) => {
 }
 
 
-
 const validate = (data) => {
     const schema = Joi.object({
-        name: Joi.string().required().label("Name"),
-        address: Joi.string().required().label("Address"),
+        name: Joi.string().min(3).max(20).required().label("Name"),
+        address: Joi.string().min(6).required().label("Address"),
         pincode: Joi.string().length(6).pattern(/^[0-9]+$/).required().label("Pincode"),
-        mobile: Joi.string().length(10).pattern(/^[0-9]+$/).required().label("Mobile number"),
+        mobile: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).required().label("Mobile number"),
     })
     return schema.validate(data)
 }

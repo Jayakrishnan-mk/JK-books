@@ -140,17 +140,17 @@ exports.userSignup =  (req, res) => {
     }
 
     //new user
-    const user = new Userdb({
+    const userObj = {
         name: req.body.name,
         email: req.body.email,
         password: req.body.password,
         number: req.body.number,
         gender: req.body.gender
-    })
-
+    }
+    const user = new Userdb(userObj)
     user
         .save(user)
-        .then(data => {
+        .then(() => {
             res.redirect('/user-login')
         })
         .catch(error => {

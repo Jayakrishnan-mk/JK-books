@@ -23,9 +23,7 @@ const schema = new mongoose.Schema({
     isBlocked: {
         type: "boolean",
         default: false
-    },
-    // wishlist: [{productId: { type: mongoose.Types.ObjectId(),ref:"productdb" }}]
-
+    }
 })
 
 const Userdb = mongoose.model('userdb', schema);

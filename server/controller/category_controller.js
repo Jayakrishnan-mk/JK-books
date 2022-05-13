@@ -21,7 +21,7 @@ exports.addCategoryPost = (req,res) => {
             res.redirect('/admin/admin-categories');
         })
         .catch(err => {
-            res.render('admin/add_category', {category: "" , error: "Category already exist"})
+            res.redirect('/admin/add-new-category');
         })
     }
 }

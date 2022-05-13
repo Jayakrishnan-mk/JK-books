@@ -24,15 +24,15 @@ router.get('/', (req, res) => {
 })
 
 //admin home post.........................
-router.post('/admin-home',async (req, res) => {
+router.post('/admin-home', async (req, res) => {
     // console.log(req.body);
     const Admin = await admin.findOne({
         email: req.body.email,
         password: req.body.password
     })
     if (Admin) {
-          
-    req.session.admin = req.body.email;
+
+        req.session.admin = req.body.email;
         req.session.isAdminlogin = true;
         // console.log(req.session.isAdminlogin);
 
@@ -45,19 +45,19 @@ router.post('/admin-home',async (req, res) => {
 })
 
 //middleware for route protect..................
-router.use((req,res,next) => {
-    if(!req.session.isAdminlogin){
+router.use((req, res, next) => {
+    if (!req.session.isAdminlogin) {
         res.redirect('/admin')
 
     }
-    else{
+    else {
         next();
     }
 })
 
 //for delete ............................
-router.use((req,res,next) => {
-    if(req.query._method == "DELETE"){
+router.use((req, res, next) => {
+    if (req.query._method == "DELETE") {
         req.method = "DELETE";
         req.url = req.path
     }
@@ -90,7 +90,12 @@ router.get('/admin-logout', (req, res) => {
 //add products.................................. 
 router.get('/add-product', async (req, res) => {
     const category = await Categorydb.find({});
-    res.render('admin/add_product', {category})
+    res.render('admin/add_product', { category })
+})
+
+//new category adding time category already exist...................................
+router.get('/add-new-category', (req, res) => {
+    res.render('admin/add_category', { category: "", error: "Category already exist" })
 })
 
 
@@ -105,7 +110,7 @@ router.get('/admin-categories', category_controller.adminCategories);
 
 //add category.................................. 
 router.get('/add-category', category_controller.addCategoryGet);
- 
+
 //update category.................................. 
 router.get('/update-category/:id', category_controller.updateCategoryGet);
 
@@ -113,14 +118,14 @@ router.get('/update-category/:id', category_controller.updateCategoryGet);
 router.delete('/delete-category/:id', category_controller.deleteCategory);
 
 //upddate category...................................
-router.put('/update-category/:id',  category_controller.updateCategoryPut);
+router.put('/update-category/:id', category_controller.updateCategoryPut);
 
 //category adding.................................. 
 router.post('/adding-category', category_controller.addCategoryPost);
 
 //delete product.................................. 
 router.delete('/delete-product/:id', product_controller.deleteProduct);
- 
+
 //update product.................................. 
 router.put('/update-product/:id', product_controller.updateProductPut);
 

@@ -1,9 +1,10 @@
 const Productdb = require('../model/product_model');
 const Cartdb = require('../model/cart_model');
+const Userdb = require('../model/model');
 
 const serviceSID = "VA75b5e7e997850aab64166f43c82d9a0e";
 const accountSID = "ACc126eca5b1a3058319ed7c5da0e1baea";
-const authToken = "6b853aa8233bf305281cb8b4bb330882"
+const authToken = "abbe56981e2ca012e5cf588b59a48256"
 const client = require("twilio")(accountSID, authToken);
 
 //otp page for user login............................................
@@ -39,10 +40,19 @@ exports.otpChecking = (req, res) => {
         .then(resp => {
             // console.log("response", resp);
             if (resp.valid) {
-                Productdb.find()
-                    .then((products) => {
-                        res.status(200).render('user/user_home', { products })
-                    })                        
+                // Productdb.find()
+                //     .then((products) => {
+                        // res.status(200).render('user/user_home', { products })
+                        Userdb.findOne({
+                            number: req.body.number
+                        })
+                        .then((user) => {
+                            req.session.user = user;
+                            req.session.isUserlogin = true;
+                            res.redirect('/user-home')
+
+                        })
+                                           
               
 
             }

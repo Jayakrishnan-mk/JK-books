@@ -187,7 +187,7 @@ exports.changeProductQuantity = async (req, res) => {
 
 //order placing....................................
 exports.placeOrder = async (req, res) => {
-    const userId = req.session.user._id;
+    const userId = req.session.user?._id;
     // console.log("userId-----", userId);
     // console.log("req.body>>>>>>>>>>", req.body);
 
@@ -237,6 +237,6 @@ exports.placeOrder = async (req, res) => {
 
 
 
-    res.render('user/place_order', { total , user: req.session.user })
+    res.render('user/place_order', { total , user: req.session.user , error: ""})
 }
  

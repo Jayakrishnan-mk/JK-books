@@ -73,9 +73,14 @@
                         <%= orderItems[i]?.status %>
                     </td>
                     <td>
-                        <button onclick="cancelButton()" style="background-color: red; color: white;">Cancel</button>
+                        <% if (orderItems[i]?.status=="cancelled") { %>
+                            <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
+                                style="background-color: white; color: black;" disabled>Cancel</button>
+                            <% } else { %>
+                                <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
+                                    style="background-color: red; color: white;">Cancel</button>
+                                <% } %>
                     </td>
-
 
 
                     </td>
@@ -88,10 +93,35 @@
     </table>
 
     <script>
-        function cancelButton() {
 
+        function cancelButton(id) {
+
+
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to cancel this? ",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, cancel order!'
+            }).then((result) => {
+                console.log(result, 'kkkkkk');
+                if (result.isConfirmed) {
+                    type = 'put',
+                        location.href = `/cancel-order/${id}?_method=PUT`
+                    Swal.fire(
+                        'Cancelled!',
+                        'Your product has been Cancelled.',
+                        'success'
+                    )
+                }
+            })
         }
+
     </script>
 
-    </body>
-    </html>
+</body>
+
+</html>

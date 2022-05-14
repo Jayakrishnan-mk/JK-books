@@ -64,26 +64,23 @@ app.use(session({
 }))
 
 //....Home route......................
-app.get('/', async (req, res) => {;
+app.get('/', async (req, res) => {
+    const products = await Productdb.find()
+    let count = 0;
+
     if (req.session.isUserlogin) {
-        const user = await Userdb.findOne({
-            email: req.body.email,
-            password: req.body.password
-        })
-        const products = await Productdb.find()
-        let count = null;
-        if(req.session.user){
-            const cartCount = await Cartdb.find({ userId : objectId(req.session.user._id)})
-            count = cartCount[0]?.products?.length;
-            res.render('user/user_home', { user, products, count })
-        }
-        
-    } 
-    else { 
+        const user = req.session.user;
+        const cartCount = await Cartdb.find({ userId: objectId(req.session.user._id) })
+        count = cartCount[0]?.products?.length;
+        res.render('user/user_home', { user, products, count })
+    }
+
+    else {
         const products = await Productdb.find()
         res.render('landing', { products });
     }
 })
+
 
 // load routers...................
 app.use('/admin', require('./server/routes/router'));

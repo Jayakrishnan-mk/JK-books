@@ -2,27 +2,29 @@ const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
 const Orderdb = require('../model/order_model');
 
+const Joi = require('joi');
+const passwordComplexity = require('joi-password-complexity');
 const objectId = require('mongoose').Types.ObjectId;
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Admin   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 
 //admin home page..........................................
-exports.adminHomeGet =  (req, res) => {
+exports.adminHomeGet = (req, res) => {
     // console.log(req.session.isAdminlogin);
-    if(req.session.isAdminlogin){
+    if (req.session.isAdminlogin) {
         Userdb.find()
-        .then(data => {
-            res.render('admin/admin_home', { users: data })
-        })
+            .then(data => {
+                res.render('admin/admin_home', { users: data })
+            })
     }
-    else{
+    else {
         res.redirect('/admin')
     }
 }
 
 //users list.................................................
-exports.allUsers =  (req, res) => {
+exports.allUsers = (req, res) => {
     Userdb.find()
         .then(data => {
             res.render('admin/admin_home', { users: data })
@@ -32,10 +34,10 @@ exports.allUsers =  (req, res) => {
 //admin products list........................................
 exports.adminProducts = async (req, res) => {
     try {
-        const products = await Productdb.find()
+        const products = await Productdb.find() 
         // console.log(products);
-        console.log(products[0].image);   
-        res.render('admin/admin_products', { products : products})
+        console.log(products[0].image);
+        res.render('admin/admin_products', { products: products })
     }
     catch (error) {
         res.status(403).send({ message: error })
@@ -65,7 +67,7 @@ exports.create = (req, res) => {
         return;
     }
     else {
-  
+
         //new user
         const user = new Userdb({
             name: req.body.name,
@@ -123,7 +125,7 @@ exports.userSearch = (req, res) => {
         .then(data => {
             res.render('admin/admin_home', { users: data })
         })
-}  
+}
 
 
 
@@ -131,13 +133,10 @@ exports.userSearch = (req, res) => {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  User   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 //user signup page..................
-exports.userSignup =  (req, res) => {
+exports.userSignup = (req, res) => {
     // console.log(req.body);
     //validate request
-    if (!req.body) {
-        res.status(400).send({ message: "Content can not be empty" });
-        return;
-    }
+
 
     //new user
     const userObj = {
@@ -148,25 +147,38 @@ exports.userSignup =  (req, res) => {
         gender: req.body.gender
     }
     const user = new Userdb(userObj)
+    const error = validate(userObj);
+    if(error){ 
+        // res.redirect('/user-signup-validation')
+        res.render('user/user_signup', { error: error.error.details[0].message })
+
+    }
+
     user
         .save(user)
         .then(() => {
             res.redirect('/user-login')
         })
         .catch(error => {
-            res.send({ message: error })
+            // res.send({ message: error }) 
+            console.log("error----", error);
         })
 }
 
 //user home page..................
 exports.userHomeGet = async (req, res) => {
 
+    if( req.session.isUserlogin){
+        res.redirect('/')
+    }else{
+    
+
     const user = await Userdb.findOne({
         email: req.body.email,
         password: req.body.password
     })
     if (user) {
-        req.session.user = req.body.email;
+        req.session.user = user;
         req.session.isUserlogin = true;
 
         const products = await Productdb.find()
@@ -178,6 +190,7 @@ exports.userHomeGet = async (req, res) => {
         res.redirect('/')
     }
 }
+}
 
 //user home page............................
 exports.userHomePost = async (req, res) => {
@@ -186,6 +199,7 @@ exports.userHomePost = async (req, res) => {
         email: req.body.email,
         password: req.body.password
     })
+    
     if (user) {
         req.session.user = user;
         req.session.isUserlogin = true;
@@ -200,7 +214,7 @@ exports.userHomePost = async (req, res) => {
 exports.adminOrdersList = async (req, res) => {
 
     const orderItems = await Orderdb.aggregate([
-       
+
         {
             $lookup: {
                 from: "productdbs",
@@ -218,7 +232,7 @@ exports.adminOrdersList = async (req, res) => {
                 as: 'userDetails'
             }
         }
-          
+
     ])
 
     // const orderedProduct =  orderItems[0].orderProducts[0];
@@ -226,5 +240,17 @@ exports.adminOrdersList = async (req, res) => {
 
     // console.log("order-----", orderItems[0].userDetails[0]);
 
-    res.render('admin/admin_orders', {orderItems})
+    res.render('admin/admin_orders', { orderItems })
+}
+
+const validate = (data) => {
+    const schema = Joi.object({
+        name: Joi.string().min(3).label("Name").required(),
+        email: Joi.string().email().label("Email").required(),
+        password: passwordComplexity().label("Password").required(),
+        number: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),
+        gender: Joi.allow()
+
+    })
+    return schema.validate(data)
 }

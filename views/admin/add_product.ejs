@@ -8,7 +8,9 @@
                
         
                 <h2 class="text-center">Add Product</h2>
-
+                <% if (errorMsg) { %>
+                <p style="color: red;"><%= errorMsg %></p>
+                <% } %>
                 <form action="/admin/admin-products" method="post" enctype="multipart/form-data">
                     <label for="">Name</label>
                     <input type="text" name="name" class="form-control">

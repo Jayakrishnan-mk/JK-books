@@ -8,8 +8,17 @@ const authToken = "abbe56981e2ca012e5cf588b59a48256"
 const client = require("twilio")(accountSID, authToken);
 
 //otp page for user login............................................
-exports.otpPage = (req, res) => {
+exports.otpPage = async (req, res) => {
     // console.log(req.body.number);
+
+    const user = await Userdb.findOne({
+        number : req.body.number
+    })
+    if(!user){
+        res.render('user/userLoginwithOtp',{error: "User not found"})
+    }
+    else{
+
     client.verify
         .services(serviceSID)
         .verifications.create({
@@ -24,6 +33,7 @@ exports.otpPage = (req, res) => {
 
             res.status(200).json({ resp })
         })
+    }
 }
 
 //otp checking for user login............................................
@@ -43,18 +53,19 @@ exports.otpChecking = (req, res) => {
                 // Productdb.find()
                 //     .then((products) => {
                         // res.status(200).render('user/user_home', { products })
+
+                        // console.log('kkkkkkkkkkkkkkkk', req.body.number);
                         Userdb.findOne({
                             number: req.body.number
                         })
                         .then((user) => {
+                            console.log('user3333333333333', user);
                             req.session.user = user;
                             req.session.isUserlogin = true;
-                            res.redirect('/user-home')
+                            res.redirect('/')
 
                         })
-                                           
-              
-
+                
             }
             else {
                 res.render('user/userLoginOtpCheck', { error: "Invalid OTP", number: req.body.number })

@@ -40,26 +40,27 @@
     <!-- add user form............................................ -->
 
     <!-- form handling................... -->
-
+    <p style="margin-left: 60rem; color: red;"><%= error %></p>
     <form action="/user-signup" id="add_user" method="post">
+
         <div class="new_user">
             <div class="form-group">
                 <label for="name" class="text-light">Name</label>
                 <input type="hidden" name="id">
-                <input type="text" name="name" placeholder="name" required>
+                <input type="text" name="name" placeholder="name" >
             </div>
             <div class="form-group">
                 <label for="Email" class="text-light">Email</label>
-                <input type="email" name="email" placeholder="hello@gmail.com" required>
+                <input type="email" name="email" placeholder="hello@gmail.com">
             </div> 
             <div class="form-group">
                 <label for="password" class="text-light">Password</label><br>
-                <input type="password" name="password" placeholder="" required>
+                <input type="password" name="password" placeholder="" >
             </div>
             
             <div class="form-group">
                 <label for="number" class="text-light">Ph no:</label><br>
-                <input type="tel" name="number" placeholder="" required>
+                <input type="tel" name="number" placeholder="" >
             </div>
             <div class="form-group">
                 <label for="Gender" class="text-light">Gender</label>

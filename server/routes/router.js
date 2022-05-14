@@ -48,14 +48,13 @@ router.post('/admin-home', async (req, res) => {
 router.use((req, res, next) => {
     if (!req.session.isAdminlogin) {
         res.redirect('/admin')
-
     }
     else {
         next();
     }
 })
 
-//for delete ............................
+// ajax query deleting not supporting time (method overriding not possible time) i sent that in query............................
 router.use((req, res, next) => {
     if (req.query._method == "DELETE") {
         req.method = "DELETE";
@@ -90,7 +89,7 @@ router.get('/admin-logout', (req, res) => {
 //add products.................................. 
 router.get('/add-product', async (req, res) => {
     const category = await Categorydb.find({});
-    res.render('admin/add_product', { category })
+    res.render('admin/add_product', { category , errorMsg: ""})
 })
 
 //new category adding time category already exist...................................

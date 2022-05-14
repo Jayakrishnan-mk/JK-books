@@ -30,20 +30,24 @@ userRouter.get('/user-login', (req, res) => {
 })
 
 //user login error............................................
-userRouter.get('/user-login-error', (req,res) => {
+userRouter.get('/user-login-error', (req, res) => {
     if (req.session.isUserlogin) {
         res.redirect('/user-home')
     }
     else {
-        res.render('user/user_login',  { error: "Invalid User ! Email or Password was incorrect." })
+        res.render('user/user_login', { error: "Invalid User ! Email or Password was incorrect." })
     }
 })
 
 //user signup............................................
 userRouter.get('/user-signup', (req, res) => {
-    res.render('user/user_signup')
+    res.render('user/user_signup', { error: "" })
 })
 
+// userRouter.get('/user-signup-validation', (req, res) => {
+//     console.log('kkkkkkkkkk', error.error.details[0].message);
+//     res.render('user/user_signup', { error: error.error.details[0].message })
+// })
 
 //user home.............................................
 userRouter.post('/user-signup', controller.userSignup);
@@ -121,29 +125,30 @@ userRouter.get("/add-to-wishlist/:id", verifyLogin, wishlist_controller.addToWis
 userRouter.get('/place-order', product_controller.placeOrder);
 
 //checkout page..............................................
-userRouter.post('/checkout', order_controller.checkout);   
+userRouter.post('/checkout', order_controller.checkout);
 
 
 //payment of razorpay..................................
 userRouter.post('/verify-payment', (req,res) => {
-    console.log(req.body);
-    // order_controller.verifyPayment)
-
+    res.send('success')
 })
+// order_controller.verifyPayment)
 
 //order list..............................................
-userRouter.get('/order-success', (req,res) => {
-    res.render('user/order_success')  
+userRouter.get('/order-success', (req, res) => {
+    res.render('user/order_success')
 })
 
 //place order validation..............................................
-userRouter.get('/place-order-validationError/:total/:error', (req,res) => {
+userRouter.get('/place-order-validationError/:total/:error', (req, res) => {
     // console.log(',,,,,,,,,,,,,,,',req.params);
     // console.log('jjjjjjjjjjjjj', req.session.user);
-    res.render('user/place_order_validation', {total: req.params.total , error: req.params.error})
+    res.render('user/place_order_validation', { total: req.params.total, error: req.params.error })
 })
 
 
-userRouter.get('/my-orders', order_controller.myOrders); 
+userRouter.get('/my-orders', order_controller.myOrders);
+
+userRouter.get('/cancel-order/:id' , order_controller.cancellingOrder)
 
 module.exports = userRouter;

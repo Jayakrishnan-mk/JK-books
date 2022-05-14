@@ -41,7 +41,7 @@ exports.checkout = async (req, res) => {
 
     // console.log(deliveryObj);
 
-    // const error  = validate(deliveryObj)
+    const error  = validate(deliveryObj)
 
     let orderItems = new Orderdb({
         userId: objectId(userId),
@@ -56,24 +56,28 @@ exports.checkout = async (req, res) => {
     // console.log(orderItems.totalAmount, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     // console.log("error",  error.error.details[0].message);
 
-    // if (error) {
+    if (error.error) {
 
-        // let errorMsg = error.error?.details[0].message;
+        // console.log('roororooror', error);
+ 
+        let errorMsg = error.error?.details[0].message;
         
         // res.render('user/place_order', { error: errorMsg ,user: req.session.user , total: orderItems.totalAmount })
 
-        // res.json({  total: orderItems.totalAmount, error: errorMsg })
-    // }
+        res.json({  total: orderItems.totalAmount, error: errorMsg })
+    }
 
-    // else{}
+    else{
+
+        // console.log('errorroorororo');
     orderItems
         .save();    
 
         // console.log('product quantity decreasing before.................');
 
-    await Productdb.updateOne({ "_id": objectId(orderItems.products[0].id) },
+    await Productdb.updateOne({ "_id": objectId(orderItems.products[0]?.id) },
         {
-            $inc: { "quantity": -cartItems.products[0].quantity }
+            $inc: { "quantity": -cartItems.products[0]?.quantity }
         }
     )
 
@@ -86,7 +90,7 @@ exports.checkout = async (req, res) => {
 
         res.json({ codSuccess: true })
 
-        res.render('user/order_success')
+        // res.render('user/order_success')
     }
     else {
 
@@ -96,7 +100,7 @@ exports.checkout = async (req, res) => {
 
 
         var options = {
-            amount: amount*100,
+            amount: amount,
             currency: 'INR', 
             receipt: orderId.toString()
         }
@@ -139,14 +143,17 @@ exports.checkout = async (req, res) => {
 //         })
     }
     }
+    }
 // }
 
 //payment of razorpay..............................................
-exports.verifyPayment = async (req, res) => {
-    res.redirect('/order-success')
-}
+// exports.verifyPayment = async (req, res) => {
+    
+//     console.log('successsssssssssssssssssss');
 
-//my orders page..............................................
+// }
+
+// my orders page..............................................
 exports.myOrders = async (req, res) => {
 
 
@@ -169,7 +176,7 @@ exports.myOrders = async (req, res) => {
     ])
 
     const orderedProduct = orderItems[0].orderProducts[0];
-    console.log("ord-----", orderedProduct);
+    // console.log("ord-----", orderedProduct);
 
     res.render('user/my_orders', { orderItems })
 }
@@ -179,6 +186,33 @@ exports.myOrders = async (req, res) => {
 exports.verifyPayment = async (req, res) => {
     console.log(req.body);
 }
+
+exports.cancellingOrder = async (req,res) => {
+    const id = req.params.id;
+
+    
+
+    await Orderdb.updateOne({
+        _id: id
+    },
+    {
+        $set : {status: 'cancelled'}
+    })
+    const order = await Orderdb.findOne({_id: objectId(id)})
+    const proId = order.products[0].id;
+
+    await Productdb.updateOne({ "_id": objectId(proId) },
+        {
+            $inc: { quantity: 1 }
+        }
+        
+    )
+
+    res.redirect('/my-orders')
+
+}
+
+
 
 
 const validate = (data) => {

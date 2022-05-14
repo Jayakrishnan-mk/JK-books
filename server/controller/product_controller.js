@@ -1,29 +1,27 @@
 const Productdb = require('../model/product_model');
 const Cartdb = require('../model/cart_model');
 const objectId = require('mongoose').Types.ObjectId;
+const Categorydb = require('../model/category_model');
 
+const Joi = require('joi');
 
 //add products..................
-exports.addProducts = (req, res) => {
+exports.addProducts = async (req, res) => {
     // console.log(req.body);
-    //validate request
-    if (!req.body) {
-        res.status(400).send({ message: "Content can not be empty !!" })
-        return;
-    }
 
-    // console.log(req.files?.image);
 
     let image = req.files?.image;
     if (image) {
         var imgPath = './public/product_images/' + Date.now() + '.jpg';
+        var imagePath = '/public/product_images/' + Date.now() + '.jpg';
         image.mv(imgPath, (err) => {
             // console.log(err);
         })
     }
 
-    //new product
-    const product = new Productdb({
+
+
+    const productObject = {
 
         name: req.body.name,
         author: req.body.author,
@@ -31,29 +29,35 @@ exports.addProducts = (req, res) => {
         price: req.body.price,
         quantity: req.body.quantity,
         description: req.body.description,
-        image: imgPath
-    })
+        image: imagePath
+    }
 
+    const error  = validate(productObject)
 
-    //save product in the database
-    product
-        .save(product)
-        .then(() => {
-            let image = req.files?.image;
-            if (image) {
-                let imgPath = './public/product_images/' + Date.now() + '.jpg';
-                image.mv(imgPath, (err) => {
-                    // console.log(err);
-                })
-            }
+    //new product
+    const product = new Productdb(productObject)
 
-            res.redirect("/admin/admin-products")
+    console.log(error,'errorlllllllllllll');
+    if (error.error) {
+        let errorMsg = error.error?.details[0].message;
+        const category = await Categorydb.find({});
+        res.render('admin/add_product', {category, errorMsg })
+    }
+    else{
 
-        })
-        .catch(err => {
-            res.status(500).send({ message: err.message || "Some error occured while adding a product operation" })
-        })
+        //save product in the database
+        product
+            .save(product)
+            .then(() => {
 
+                res.redirect("/admin/admin-products")
+
+            })
+            .catch(err => {
+                res.status(500).send({ message: err.message || "Some error occured while adding a product operation" })
+            })
+
+}
 }
 
 //update product put......................................
@@ -64,11 +68,11 @@ exports.updateProductPut = async (req, res) => {
     let image = req.files?.image;
     if (image) {
         let imgPath = './public/product_images/' + Date.now() + '.jpg';
-        image.mv(imgPath, (err) => {} )
+        var imagePath = '/public/product_images/' + Date.now() + '.jpg';
+        image.mv(imgPath, (err) => { })
     }
     // await Productdb.findByIdAndUpdate(id, req.body, { UserFindAndModify: false })
 
-    var imgPath = '/public/product_images/' + Date.now() + '.jpg';
 
     const product = {
 
@@ -78,12 +82,12 @@ exports.updateProductPut = async (req, res) => {
         price: req.body.price,
         quantity: req.body.quantity,
         description: req.body.description,
-        image: imgPath
+        image: imagePath
     }
     await Productdb.updateOne({ _id: id }, { $set: product })
 
 
-    res.redirect('/admin/admin-products' )
+    res.redirect('/admin/admin-products')
 
 }
 
@@ -232,11 +236,25 @@ exports.placeOrder = async (req, res) => {
 
     ])
     // console.log("cartItems----------------------------------------------------------------------", cartItems);
-    let total = cartItems[0]?.total;  
+    let total = cartItems[0]?.total;
     // console.log("total----------", total);
 
 
 
-    res.render('user/place_order', { total , user: req.session.user , error: ""})
+    res.render('user/place_order', { total, user: req.session.user, error: "" })
 }
- 
+
+
+const validate = (data) => {
+    const schema = Joi.object({
+        name: Joi.string().min(3).max(30).required().label("Name"),
+        author: Joi.string().min(3).max(30).required().label("Author"),
+        category: Joi.string().min(3).max(20).required().label("Category"),
+        price: Joi.number().required().label("Price"),
+        quantity: Joi.number().required().label("Quantity"),
+        description: Joi.string().min(10).max(1000).required().label("Description"),
+        image: Joi.string().required().label("Image")
+    })
+    return schema.validate(data)
+}
+

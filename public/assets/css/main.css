@@ -1880,7 +1880,7 @@ h1, h2, h3, h4, h5, h6 {
   position: fixed;
   left: 0;
   top: 0;
-  right: 0;
+  right: 0rem;
   transition: all 0.5s;
   z-index: 997;
 }
@@ -1894,6 +1894,9 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 673px) {
   #logo {
     margin-left: 20px;
+    position: absolute;
+    left: 5rem;
+    top: 8px; 
   }
 }
 
@@ -2005,7 +2008,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Nav Meu Styling */
 .nav-menu a {
-  padding: 0 8px 0px 8px;
+  padding: 0 2rem 0 0;
   text-decoration: none;
   display: inline-block;
   color: #fff;
@@ -2684,9 +2687,9 @@ body.mobile-nav-active #mobile-nav-toggle {
   font-weight: 600;
 }
 
-.testomial-area .owl-carousel .owl-item img {
-  width: auto !important;
-}
+/* .testomial-area .owl-carousel .owl-item img { */
+  /* width: auto !important; */
+/* } */
 
 .testomial-area .owl-dots {
   text-align: center;

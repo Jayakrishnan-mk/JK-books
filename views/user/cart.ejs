@@ -1,35 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../include/pro_header') -%>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JK Books</title>
-
-    <link rel="stylesheet" href="css/cartcss.css">
-    <link rel="stylesheet" href="js/cartjs.js">
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-    <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-
-
-</head>
-
-<body style="background-color: white;">
-
-
-    <nav class="prod-nav">
-        <h2 class="prod-head"> JK Books</h2>
-        <h3 style="width: 0px;  margin: auto; color: white; font-size: xx-large; position: relative;"> Cart</h3>
-        <a href="/user-home">
-            <h5 style="margin-right: 50px; margin-top: 22px; color: white;">Home</h5>
-        </a>
-    </nav>
+    <h3 style="width: 0px;  margin: auto;padding-top: 1rem; color: #fe3d3d; font-size: xx-large; position: relative;"> Cart</h3>
 
 
     <div class="container-fluid">
@@ -41,13 +12,13 @@
                         <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
                         <% if (products.length===0) { %>
                             <div>
-                                <img style="margin: 4rem 0rem 0rem 20rem;" src="img/cart2.webp">
+                                <img style="margin: 3rem 0rem 0rem 23rem;" src="img/cart2.webp">
                             </div>
 
-
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
 
                             <% } else { %>
-                                <table class="table table-borderless table-shopping-cart" style="padding: 1rem;">
+                                <table class="table table-borderless ">
                                     <thead class="text-muted">
                                         <tr class="small text-uppercase">
                                             <th scope="col">Product</th>
@@ -121,6 +92,8 @@
 
                                     </tbody>
                                 </table>
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
+
                     </div>
                 </div>
             </aside>

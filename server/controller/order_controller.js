@@ -178,7 +178,7 @@ exports.myOrders = async (req, res) => {
     const orderedProduct = orderItems[0].orderProducts[0];
     // console.log("ord-----", orderedProduct);
 
-    res.render('user/my_orders', { orderItems })
+    res.render('user/my_orders', { orders: orderItems })
 }
 
 

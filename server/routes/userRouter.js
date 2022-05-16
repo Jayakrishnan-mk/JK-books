@@ -149,6 +149,8 @@ userRouter.get('/place-order-validationError/:total/:error', (req, res) => {
 
 userRouter.get('/my-orders', order_controller.myOrders);
 
+userRouter.get('/my-wishlist', wishlist_controller.myWishlist);
+
 userRouter.get('/cancel-order/:id' , order_controller.cancellingOrder)
 
 module.exports = userRouter;

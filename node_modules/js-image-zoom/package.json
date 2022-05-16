@@ -1,0 +1,42 @@
+{
+  "name": "js-image-zoom",
+  "version": "0.7.0",
+  "main": "js-image-zoom.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/malaman/js-image-zoom.git"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "description": "",
+  "bugs": {
+    "url": "https://github.com/malaman/js-image-zoom/issues"
+  },
+  "homepage": "https://github.com/malaman/js-image-zoom/#readme",
+  "keywords": [
+    "image magnifier",
+    "image enlarger",
+    "image lens",
+    "photo zoom",
+    "photo magnifier",
+    "photo enlarger",
+    "photo lens",
+    "image zoom",
+    "image magnifier",
+    "image enlarger",
+    "photo zoom",
+    "photo magnifier",
+    "photo enlarger",
+    "zoom",
+    "magnify",
+    "enlarge"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrii Malaman <and.malaman@gmail.com>"
+}

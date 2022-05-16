@@ -1,35 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JK Books</title>
-
-    <link rel="stylesheet" href="css/cartcss.css">
-    <link rel="stylesheet" href="js/cartjs.js">
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<%- include('../include/pro_header') -%>
 
 
-    <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <h3 style="width: 0px;   margin-left: 49%; margin-top: 2rem;  color: #fe3d3d; font-size: xx-large; position: relative;"> Orders</h3>
 
-
-
-</head>
-
-<body style="background-color: white;">
-
-
-    <nav class="prod-nav">
-        <h2 class="prod-head"> JK Books</h2>
-        <h3 style="width: 0px;  margin: auto; color: white; font-size: xx-large; position: relative;"> Orders </h3>
-        <a href="/user-home">
-            <h5 style="margin-right: 50px; margin-top: 22px; color: white;">Home</h5>
-        </a>
-    </nav>
 
 
     <table class="table" style="    width: 80rem;
@@ -48,37 +21,40 @@
         </thead>
         <tbody>
 
+           <% const orderItems = orders.sort((dateA,dateB) =>  dateB.date - dateA.date ) %>
 
             <% for (var i=0 ; i<orderItems.length ; i++ ) { %>
 
 
                 <tr>
-
-                    <td>
+                    
+                    <td style="padding-top: 3rem;">
                         <img style="width: 50px; height: 50px;" src=" <%= orderItems[i].orderProducts[0]?.image %> ">
                     </td>
                     <td>
-                        <%= orderItems[i].orderProducts[0]?.name %>
+                        <p style="padding-top: 2rem ;"><%= orderItems[i].orderProducts[0]?.name %> <br></p>
+                        <p style="color: #696a6b; font-size: 11px;"><%= orderItems[i].orderProducts[0]?.author %></p>
+
                     </td>
                     <td>
-                        <%= orderItems[i].orderProducts[0]?.price %>
+                       <p style="padding-top: 2rem;"> <%= orderItems[i].orderProducts[0]?.price %></p>
                     </td>
                     <td>
-                        <%= orderItems[i].date?.toDateString() %>
+                        <p style="padding-top: 2rem;"> <%= orderItems[i].date?.toDateString() %></p>
                     </td>
                     <td>
-                        <%= orderItems[i]?.paymentMethod %>
+                        <p style="padding-top: 2rem;">  <%= orderItems[i]?.paymentMethod %></p>
                     </td>
                     <td>
-                        <%= orderItems[i]?.status %>
+                        <p style="padding-top: 2rem;"> <%= orderItems[i]?.status %></p>
                     </td>
                     <td>
                         <% if (orderItems[i]?.status=="cancelled") { %>
-                            <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
+                            <button  onclick="cancelButton('<%= orderItems[i]?._id %>')"
                                 style="background-color: white; color: black;" disabled>Cancel</button>
                             <% } else { %>
                                 <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
-                                    style="background-color: red; color: white;">Cancel</button>
+                                    style="margin-top: 2rem; background-color: red; color: white;">Cancel</button>
                                 <% } %>
                     </td>
 

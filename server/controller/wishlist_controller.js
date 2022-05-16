@@ -52,3 +52,17 @@ exports.addToWishlist =  async (req, res) => {
     res.json({ status: true })
 }
 }
+
+exports.myWishlist = async (req,res) => {
+
+
+    const userId = req.session.user._id;
+    const userWishlist = await Wishlistdb.findOne({ userId: objectId(userId) })
+
+    if(userWishlist){
+        res.render('user/my_wishlist', { wishlist: userWishlist })
+    }
+    else{
+        res.render('user/my_wishlist', { wishlist: [] })
+    }
+}

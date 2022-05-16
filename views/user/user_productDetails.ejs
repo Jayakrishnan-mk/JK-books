@@ -1,63 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JK Books</title>
-    <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-    <!-- //ajax..........................................// -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
-   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
-        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css"
-        media="screen">
-
-    <link type="text/css" rel="stylesheet" href="css/magiczoomplus.css" />
-    <script type="text/javascript" src="js/magiczoomplus.js"></script>
-
-   
+<%- include('../include/pro_header') -%>
 
     <link rel="stylesheet" href="css/style.css">
-</head>
 
-<body style="margin: 0; overflow: hidden;">
+    <!-- <link rel="stylesheet" href="css/magiczoomplus.css"> -->
 
-
-    <nav class="prod-nav">
-        <h2 class="prod-head"> JK Books</h2>
-        <!-- <a href="/cart"><i class="fa-solid fa-cart-shopping cartLogo"><sup><span id="cartCountId" style="font-size: small;" class="badge badge-info"><%= count %></span></sup></i></a> -->
-        <a href="/"><button class="homeBtn">Home</button></a>
-    </nav>
-
-    
-    
-        
+    <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
 
     <!-- //-------------------------------------------------------------------// -->
 
     <div class="row" style="display: flex;">
-        <div style="display: flex;">
+        <div style="padding: 6rem 0 0 7rem;">
+            <div style="display: flex;" id="img-container" style="width: 400px">
 
-            <!-- <img class="prod-img" src="<%= products.image %>" /> -->
+                <!-- <img class="prod-img" src="<%= products.image %>" /> -->
 
-            <a href="<%= products.image  %>" class="MagicZoom prod-img" data-options="zoomPosition: inner"><img
-                    src="<%= products.image  %>" style="max-width: 300px max-height 300px;" /></a>`
+                <!-- <a href="<%= products.image  %>" class="prod-img" > -->
+                <img src="<%= products.image  %>" id="imaage" style="max-width: 300px max-height 300px; " />
+                <!-- </a>` -->
+            </div>
         </div>
 
+
+
         <div class="product-des">
-            <h2 style="text-align: center;color: #f53f51; padding: 3rem 10rem 3rem 0rem;">
+            <h2 style="text-align: center;color: #f53f51; padding: 3rem 11rem 3rem 0rem;">
                 <%= products.name %>
             </h2>
 
@@ -74,11 +40,12 @@
             </div>
             <div style="margin-left: 5%; display: flex; padding: 5rem;">
                 <button onclick="addCart('<%= products._id %>') " class="addCartBtn btn mt-4">Add to Cart</button>
-                <a href=""><button class="buyNowBtn btn  mt-4">Buy Now</button></a>
+                <a href="/place-order"><button class="buyNowBtn btn  mt-4">Buy Now</button></a>
             </div>
         </div>
 
     </div>
+
     <!-- <td valign="top" align="left">
         <iframe style="margin-left: 8rem;"
             src="https://www.facebook.com/plugins/like.php?href=https://www.bookswagon.com/book/rich-poor-dad-t-robert/9781612680194&amp;width=62&amp;layout=button_count&amp;action=like&amp;size=small&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=1910926215834205"
@@ -106,6 +73,19 @@
         }
     </script>
 
-</body>
+<!-- image zoom................................................................ -->
+    <script>
+        var options = {
+            width: 270,
+            height: 350,
+            zoomWidth: 350,
+            offset: { vertical: 5, horizontal: 100 }
+            // zoomPosition: 'right'
+        };
+        new ImageZoom(document.getElementById("img-container"), options);
+    </script>
 
-</html>
+
+    </body>
+
+    </html>

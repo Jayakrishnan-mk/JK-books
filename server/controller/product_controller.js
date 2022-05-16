@@ -37,7 +37,7 @@ exports.addProducts = async (req, res) => {
     //new product
     const product = new Productdb(productObject)
 
-    console.log(error,'errorlllllllllllll');
+    // console.log(error,'errorlllllllllllll');
     if (error.error) {
         let errorMsg = error.error?.details[0].message;
         const category = await Categorydb.find({});

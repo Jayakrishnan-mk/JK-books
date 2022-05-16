@@ -21,6 +21,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+    <!-- <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script> -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
     </style>
@@ -49,9 +50,11 @@
 
     <header id="header" id="home">
         <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
+            <div class="row align-items-center justify-content-between d-flex" style="width: 85rem;">
                 <div id="logo">
-                    <h3 style="font-family: 'Pacifico', cursive; color: white;">JK Books</h3>
+                    <a href="/"><h3
+                        style="position: absolute; left: 6rem; bottom: 11px;font-family: 'Pacifico', cursive; color: white;">
+                        JK Books</h3></a>
                 </div>
 
 
@@ -74,10 +77,19 @@
                     <nav id="nav-menu-container">
                         <ul class="nav-menu">
 
-                            <li class="menu-has-children"><a href="">Profile</a>
+                            <!-- <li class="menu-has-children"><a href="">Profile</a> -->
+                            <li class="menu-has-children"><a href=""> <i class="fa-solid fa-user"
+                                        style="color: white;"></i>
+                                </a>
+
                                 <ul>
                                     <li><a href="/my-orders">My Orders</a></li>
-                                    <!-- <li><a href="elements.html">Wishlist</a></li> -->
+                                    <li><a href="/my-wishlist">My Wishlist</a></li>
+
+                                    <button
+                                        style="color: #262222; margin-left: 12px; border: none; background-color: white; font-size: smaller; "
+                                        onclick="userLogout()">Logout</button>
+
                                 </ul>
                             </li>
                             </li>
@@ -85,11 +97,9 @@
                             <a href="/cart"><i style="color: white;" class="fa-solid fa-cart-shopping"><sup
                                         style="font-size: small;"><span id="cartCountId" class="badge badge-danger">
                                             <%= count %>
-                                        </span></sup></i></a>
-
-                            <!-- <li><a href="/user-logout">Logout</a></li> -->
-                            <button style="color: white; margin-left: 1rem;  border: none; background-color: #f53f51;"
-                                onclick="userLogout()">Logout</button>
+                                        </span></sup></i>
+                                <h6 style="font-size: 14px; float: right; margin: 3px 0rem 0rem 10px;">Cart</h6>
+                            </a>
 
 
                         </ul>
@@ -104,25 +114,6 @@
     </header>
 
 
-
-    <!--<nav id="nav-menu-container">
-                  <ul class="nav-menu">
-                    <li class="menu-active"><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#fact">Fact</a></li>
-                    <li><a href="#price">Price</a></li>
-                    <li><a href="#course">Course</a></li>
-                    <li class="menu-has-children"><a href="">Pages</a>
-                      <ul>
-                        <li><a href="generic.html">Generic</a></li>
-                        <li><a href="elements.html">Elements</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </nav>-->
-    <!-- #nav-menu-container -->
-
-    <!-- #header -->
 
 
     <!-- start banner Area -->
@@ -190,8 +181,8 @@
                   <div class="row d-flex justify-content-center">
                       <div class="menu-content pb-40 col-lg-8">
                           <div class="title text-center">
-                              <h1 class="mb-10">Some Features that Made us Unique</h1>
-                              <p>Who are in extremely love with eco friendly system.</p>
+                              <h1 class="mb-10">Some Books that Made us Unique</h1>
+                              <p>Who are in extremely love with amazing books.</p>
                           </div>
                       </div>
                   </div>						
@@ -232,67 +223,7 @@
           </section> -->
     <!-- end counter Area -->
 
-    <!-- Start price Area -->
-    <!-- <section class="price-area section-gap" id="price">
-              <div class="container">
-                  <div class="row d-flex justify-content-center">
-                      <div class="menu-content pb-60 col-lg-8">
-                          <div class="title text-center">
-                              <h1 class="mb-10">Purchase whatever you want</h1>
-                              <p>Who are in extremely love with eco friendly system.</p>
-                          </div>
-                      </div>
-                  </div>						
-                  <div class="row">
-                      <div class="col-lg-4">
-                          <div class="single-price no-padding">
-                              <div class="price-top">
-                                  <h4>PDF</h4>
-                              </div>
-                              <p>
-                                  Who are in extremely love with <br>
-                                  eco friendly system.
-                              </p>
-                              <div class="price-bottom">
-                                  <h1><span>$</span> 79.99</h1>
-                                  <a href="#" class="primary-btn header-btn">Purchase Now</a>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-4">
-                          <div class="single-price no-padding">
-                              <div class="price-top">
-                                  <h4>E-Book</h4>
-                              </div>
-                              <p>
-                                  Who are in extremely love with <br>
-                                  eco friendly system.
-                              </p>
-                              <div class="price-bottom">
-                                  <h1><span>$</span> 99.99</h1>
-                                  <a href="#" class="primary-btn header-btn">Purchase Now</a>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="col-lg-4">
-                          <div class="single-price no-padding">
-                              <div class="price-top">
-                                  <h4>Print Copy</h4>
-                              </div>
-                              <p>
-                                  Who are in extremely love with <br>
-                                  eco friendly system.
-                              </p>
-                              <div class="price-bottom">
-                                  <h1><span>$</span> 59.99</h1>
-                                  <a href="#" class="primary-btn">Purchase Now</a>
-                              </div>
-                          </div>				
-                      </div>								
-                  </div>
-              </div>	
-          </section> -->
-    <!-- End price Area -->
+
 
     <!-- Start course Area -->
 
@@ -309,16 +240,7 @@
             </div>
             <div class="row">
                 <div class="active-course-carusel">
-                    <!-- <div class="single-course item">
-                              <img class="img-fluid" src="img/c1.jpg" alt="">
-                              <p class="sale-btn">For Sale</p>
-                              <div class="details">
-                                  <a href="#"><h4>Breakthrough Thinking <span class="price float-right">$25</span></h4></a>	
-                                  <p>
-                                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                                  </p>
-                              </div>
-                          </div> -->
+
 
                     <% for(let i=0; i<products.length; i++) { %>
 
@@ -376,6 +298,16 @@
                             </div>
                         </div>
                         <% } %>
+
+                        <!-- <div class="single-course item">
+                            <img class="img-fluid" src="img/c3.jpg" alt="">
+                            <div class="details">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                    incididunt ut labore et dolore magna
+                                </p>
+                            </div>
+                        </div> -->
                 </div>
             </div>
         </div>
@@ -383,6 +315,66 @@
 
 
     <!-- End course Area (download our app through playstore and appstore ...)-->
+
+    <!-- Start price Area -->
+    <section class="price-area section-gap" id="price">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="menu-content pb-60 col-lg-8">
+                    <div class="title text-center">
+                        <h1 class="mb-10">Purchase whatever you want</h1>
+                        <p>Who are in extremely love with amazing books.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="single-price no-padding" style=" background-color: #f53e54; color: white;">
+                        <div class="price-top">
+                            <i class="fa fa-truck fa-2x" style="color: #f53e54;"></i>
+                        </div>
+                        <p>
+                            We deliver books at cheap rates <br>
+                            to your doorstep.
+                        </p>
+                        <!-- <div class="price-bottom">
+                            <h1><span>$</span> 79.99</h1>
+                            <a href="#" class="primary-btn header-btn">Purchase Now</a>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="single-price no-padding" style="background-color: #f53e54; color: white;">
+                        <div class="price-top">
+                            <i class="fas fa-star fa-2x" style="color: #f53e54;"></i>
+                        </div>
+                        <p>
+                            Spreading the joy of reading, <br>
+                            one book at a time
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="single-price no-padding" style="background-color: #f53e54; color: white;">
+                        <div class="price-top">
+                            <i class="fas fa-phone-square fa-2x" style="color: #f53e54;"></i>
+                        </div>
+                        <p>
+                            We are all ears to support our customers. Email <br>
+                            is preferred over calls.
+                        </p>
+                        <!-- <div class="price-bottom">
+                            <h1><span>$</span> 59.99</h1>
+                            <a href="#" class="primary-btn">Purchase Now</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End price Area -->
+
 
     <!-- Start call-to-action Area -->
     <!-- <section class="call-to-action-area section-gap">
@@ -427,23 +419,24 @@
 
 
     <!-- Start testomial Area -->
-    <!-- <section class="testomial-area section-gap">
+    <section class="testomial-area section-gap" style="background-color: #f9f9ff;">
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="menu-content pb-60 col-lg-8">
                     <div class="title text-center">
                         <h1 class="mb-10">What our Reader’s Say about us</h1>
-                        <p>Who are in extremely love with eco friendly system.</p>
+                        <p>Who are in extremely love with amazing books.</p>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="active-tstimonial-carusel">
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sund.jpg" alt="musk">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sund.jpg" alt="musk">
                         <p class="desc">
                             The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            as well. The magazines were latest and very thoughtful.The recommendations are based
+                            on your listed interests.
                         </p>
                         <h4>Sundar Picchai</h4>
                         <p>
@@ -451,10 +444,12 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sgk.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sgk.jpg" alt="">
                         <p class="desc">
-                            The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            You’ve just finished a mind-blowing
+                            book and you need an another book. What do you do? Dive straight into the
+                            Internet and search JK Books site, definitely you get the correct
+                            book you want.
                         </p>
                         <h4>Santhosh George Kulangara</h4>
                         <p>
@@ -462,10 +457,12 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sg.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sg.jpg" alt="">
                         <p class="desc">
-                            The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            It’s impossible not to mention JK Books. The ultimate
+                            social media platform for bibliophiles. If you’ve somehow
+                            managed to go this long without stumbling upon this omnipresent site,
+                            you can use JK Books.
                         </p>
                         <h4>Sharique Samsudheen</h4>
                         <p>
@@ -473,10 +470,11 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sund.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sund.jpg" alt="">
                         <p class="desc">
                             The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            as well. The magazines were latest and very thoughtful.The recommendations are based
+                            on your listed interests.
                         </p>
                         <h4>Sundar Picchai</h4>
                         <p>
@@ -484,10 +482,12 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sgk.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sgk.jpg" alt="">
                         <p class="desc">
-                            The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            You’ve just finished a mind-blowing
+                            book and you need an another book. What do you do? Dive straight into the
+                            Internet and search JK Books site, definitely you get the correct
+                            book you want.
                         </p>
                         <h4>Santhosh George Kulangara</h4>
                         <p>
@@ -495,10 +495,12 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sg.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sg.jpg" alt="">
                         <p class="desc">
-                            The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            It’s impossible not to mention JK Books. The ultimate
+                            social media platform for bibliophiles. If you’ve somehow
+                            managed to go this long without stumbling upon this omnipresent site,
+                            you can use JK Books.
                         </p>
                         <h4>Sharique Samsudheen</h4>
                         <p>
@@ -506,10 +508,11 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sund.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sund.jpg" alt="">
                         <p class="desc">
                             The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            as well. The magazines were latest and very thoughtful.The recommendations are based
+                            on your listed interests.
                         </p>
                         <h4>Sundar Picchai</h4>
                         <p>
@@ -517,10 +520,12 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sgk.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sgk.jpg" alt="">
                         <p class="desc">
-                            The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            You’ve just finished a mind-blowing
+                            book and you need an another book. What do you do? Dive straight into the
+                            Internet and search JK Books site, definitely you get the correct
+                            book you want.
                         </p>
                         <h4>Santhosh George Kulangara</h4>
                         <p>
@@ -528,10 +533,12 @@
                         </p>
                     </div>
                     <div class="single-testimonial item">
-                        <img class="mx-auto" src="img/sg.jpg" alt="">
+                        <img class="mx-auto" style="width: 195px; height: 210px;" src="img/sg.jpg" alt="">
                         <p class="desc">
-                            The best things about this store is that they have decent collection of magazines and books
-                            as well. The magazines were latest and very thoughtful
+                            It’s impossible not to mention JK Books. The ultimate
+                            social media platform for bibliophiles. If you’ve somehow
+                            managed to go this long without stumbling upon this omnipresent site,
+                            you can use JK Books.
                         </p>
                         <h4>Sharique Samsudheen</h4>
                         <p>
@@ -541,8 +548,10 @@
                 </div>
             </div>
         </div>
-    </section> -->
+    </section>
     <!-- End testomial Area -->
+
+
 
     <!-- start footer Area -->
     <footer class="footer-area section-gap">
@@ -569,8 +578,19 @@
                 <div class="col-lg-5  col-md-6 col-sm-6">
                     <div class="single-footer-widget">
                         <h6>Newsletter</h6>
-                        <p>Stay update with our latest</p>
-                        <div class="" id="mc_embed_signup">
+                        <p>Stay update with our latest
+                            JK Books in Delhi, Pune, distributes both print and electronic
+                            newsletters, said store marketing director Jacko JK, but the bulk of its communications
+                            are via e-mail. An events calendar is printed and mailed to customers at the beginning of
+                            each month, and Changing Hands keeps about 1,000 copies on hand in-store.<br>
+                        </p>
+                        <p style="color: #f53f51;">
+                            Email: jkbookStore@gmail.com
+                        </p>
+                        <p style="color: #777777;">Toll free: 1800 3787 444 777</p>
+
+
+                        <!-- <div class="" id="mc_embed_signup">
                             <form target="_blank" novalidate="true" action="" method="get" class="form-inline">
                                 <input class="form-control" name="EMAIL" placeholder="Enter Email"
                                     onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
@@ -584,7 +604,7 @@
 
                                 <div class="info"></div>
                             </form>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-6 col-sm-6 social-widget">

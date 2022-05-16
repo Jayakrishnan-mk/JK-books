@@ -4399,7 +4399,7 @@ tbody.collapse.show {
 
 .badge-danger {
   color: #fff;
-  background-color: #dc3545;
+  /* background-color: #dc3545; */
 }
 
 .badge-danger[href]:hover, .badge-danger[href]:focus {

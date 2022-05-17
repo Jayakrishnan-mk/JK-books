@@ -51,10 +51,10 @@
                     <td>
                         <% if (orderItems[i]?.status=="cancelled") { %>
                             <button  onclick="cancelButton('<%= orderItems[i]?._id %>')"
-                                style="background-color: white; color: black;" disabled>Cancel</button>
+                                style="margin-top: 2rem; border-radius: 3px; background-color: white; color: black;" disabled>Cancel</button>
                             <% } else { %>
                                 <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
-                                    style="margin-top: 2rem; background-color: red; color: white;">Cancel</button>
+                                    style="margin-top: 2rem; border-radius: 3px; background-color: #f95e5e; color: white;">Cancel</button>
                                 <% } %>
                     </td>
 

@@ -84,6 +84,9 @@ exports.updateProductPut = async (req, res) => {
         description: req.body.description,
         image: imagePath
     }
+
+    
+
     await Productdb.updateOne({ _id: id }, { $set: product })
 
 
@@ -95,7 +98,8 @@ exports.updateProductPut = async (req, res) => {
 exports.updateProductGet = async (req, res) => {
     const id = req.params.id;
     const product = await Productdb.findById(id);
-    res.render('admin/update_product', { product })
+    const category = await Categorydb.find();
+    res.render('admin/update_product', { product , category })
 }
 
 //delete product......................................

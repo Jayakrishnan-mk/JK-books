@@ -179,4 +179,6 @@ a {
     border-color: red;
     height: 22px;
     font-size: smaller;
+    height: 2em;
+    margin: 0rem 0rem -5px 2rem;
 }

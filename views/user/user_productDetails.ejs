@@ -53,6 +53,18 @@
             allowtransparency="true"></iframe>
     </td> -->
 
+    <!-- image zoom................................................................ -->
+    <script>
+        var options = {
+            width: 270,
+            height: 350,
+            zoomWidth: 350,
+            offset: { vertical: 5, horizontal: 100 }
+            // zoomPosition: 'right'
+        };
+        new ImageZoom(document.getElementById("img-container"), options);
+    </script>
+
 
     <script>
         function addCart(proId) {
@@ -72,19 +84,6 @@
             });
         }
     </script>
-
-<!-- image zoom................................................................ -->
-    <script>
-        var options = {
-            width: 270,
-            height: 350,
-            zoomWidth: 350,
-            offset: { vertical: 5, horizontal: 100 }
-            // zoomPosition: 'right'
-        };
-        new ImageZoom(document.getElementById("img-container"), options);
-    </script>
-
 
     </body>
 

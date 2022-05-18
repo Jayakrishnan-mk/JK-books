@@ -106,7 +106,7 @@ table {
 
 .table {
     width: 85%;
-    margin: 4rem 0rem 0rem 7rem;
+    margin: 0rem 0rem 0rem 7rem;
 }
 
 .user-logo {
@@ -121,6 +121,7 @@ table {
     vertical-align: top;
     text-align: center;
     border-top: 1px, solid var(--border);
+    line-height: 3rem;
 }
 
 .table td>a.btn {

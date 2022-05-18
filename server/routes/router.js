@@ -128,6 +128,12 @@ router.delete('/delete-product/:id', product_controller.deleteProduct);
 //update product.................................. 
 router.put('/update-product/:id', product_controller.updateProductPut);
 
+//cancel order..................................
+router.get('/cancelling-order/:id', order_controller.cancelOrderInAdminside); 
+
+// delivery status in dropdown
+router.post('/deliveryStatus', order_controller.deliveryStatus);
+
 //add product.................................. 
 router.post('/admin-products', product_controller.addProducts);
 

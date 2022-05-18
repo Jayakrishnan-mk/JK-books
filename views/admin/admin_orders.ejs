@@ -1,9 +1,9 @@
 <%-include ('../include/_header') %>
 
 
-   
 
-    <table class="table" id="myTable">
+
+    <table class="table " id="myTable" style="margin: 4rem 0rem 0rem 7rem;">
         <thead class="thead-dark">
             <tr>
                 <th>No.</th>
@@ -21,52 +21,82 @@
         </thead>
         <tbody>
 
-            <% for (var i=0 ; i<orderItems.length ; i++ ) { %>
+            <% const orderItems=orders.sort((dateA,dateB)=> dateB.date - dateA.date ) %>
 
-                <tr>
-                    <td>
-                        <%= i + 1 %>
-                    </td>
-                    <td>
-                        <%= orderItems[i].deliveryDetails?.name %>
-                    </td>
-                    <td>
-                        <%= orderItems[i].orderProducts[0]?.name %>
-                    </td>
-                    <td>
-                        <%= orderItems[i].orderProducts[0]?.price %>
-                    </td>
-                    <td>
-                        <%= orderItems[i].orderProducts[0]?.quantity %>
-                    </td>
-                    <td>
-                        <%= orderItems[i].deliveryDetails?.address %>
-                    </td>
-                    <td>
-                        <%= orderItems[i].date?.toDateString() %>
-                    </td>
-                    <td>
-                        <%= orderItems[i]?.paymentMethod %>
-                    </td>
-                    <td>
-                        <%= orderItems[i]?.status %>
-                    </td>
-                    <td>
-                        <button style="background-color: red; color: white; padding: 0px 5px 0px 5px;">Cancel</button>
-                    </td>
+                <% for (var i=0 ; i<orderItems.length ; i++ ) { %>
+
+                    <tr>
+                        <td>
+                            <%= i + 1 %>
+                        </td>
+                        <td>
+                            <%= orderItems[i].deliveryDetails?.name %>
+                        </td>
+                        <td>
+                            <%= orderItems[i].orderProducts[0]?.name %>
+                        </td>
+                        <td>
+                            <%= orderItems[i].orderProducts[0]?.price %>
+                        </td>
+                        <td>
+                            <%= orderItems[i].orderProducts[0]?.quantity %>
+                        </td>
+                        <td>
+                            <%= orderItems[i].deliveryDetails?.address %>
+                        </td>
+                        <td>
+                            <%= orderItems[i].date?.toDateString() %>
+                        </td>
+                        <td>
+                            <%= orderItems[i]?.paymentMethod %>
+                        </td>
+                        <td>
+
+                            <div class="">
+                                <select id="status" name="status" onchange="deliveryStatus(value, '<%= orderItems[i]._id %>')" style="border-radius: 2px;">
+                                    <option value="<%= orderItems[i].status %>" selected>
+                                        <%= orderItems[i].status %>
+                                    </option>
+                                    <option value="Dispatched">Dispatched</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Shipped">Shipped</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </div>
+
+                        </td>
+                        <td>
+                            <a href="/admin/cancelling-order/<%= orderItems[i]?._id %>"><button style="line-height: 23px; font-size: initial; background-color: #f95e5e; color: white;
+                                 padding: 2px 8px 2px 8px; border-radius: 3px; border: none;">Cancel</button></a>
+                        </td>
 
 
-                </tr>
 
-                <% } %>
+                    </tr>
+
+                    <% } %>
 
 
         </tbody>
     </table>
 
 
-    <script>
+    <!-- <script>
         $(document).ready(function () {
             $('#myTable').DataTable();
         });
+    </script> -->
+
+    <script>
+        function deliveryStatus(value, orderId) {
+            $.ajax ({
+            url: '/admin/deliveryStatus',
+            type : 'post',
+            data : {
+                status: value,
+                orderId: orderId
+            }
+        })
+        }
     </script>

@@ -1,4 +1,5 @@
 const Wishlistdb = require('../model/wishlist_model');
+const Productdb = require('../model/product_model');
 const objectId = require('mongoose').Types.ObjectId;
 
 
@@ -34,7 +35,7 @@ exports.addToWishlist =  async (req, res) => {
             // console.log("Added to wishlist");
             await Wishlistdb.updateOne({ userId: objectId(userId) },
                 {
-                    $push: { products: objectId(proId)  } //add product to wishlist................................
+                    $push: { products: objectId(proId) } //add product to wishlist................................
                 })
             res.json({ status: true });
         }
@@ -43,8 +44,7 @@ exports.addToWishlist =  async (req, res) => {
         let wishlist = new Wishlistdb({
             userId: objectId(userId),
             products: [objectId(proId)]
-    }
-    )
+    })
 
     wishlist
         .save()
@@ -57,12 +57,33 @@ exports.myWishlist = async (req,res) => {
 
 
     const userId = req.session.user._id;
-    const userWishlist = await Wishlistdb.findOne({ userId: objectId(userId) })
 
-    if(userWishlist){
-        res.render('user/my_wishlist', { wishlist: userWishlist })
+    let wishlist = await Wishlistdb.aggregate([
+        {
+            $match: {  userId: objectId(userId) }
+        },
+        {
+            $unwind: "$products"
+        },
+        {
+            $lookup: {
+                from: "productdbs",
+                localField: "products",
+                foreignField: "_id",
+                as: "productItems"
+            }
+        }
+    ])
+
+    console.log('wwwwwwwwwww', wishlist);
+
+
+
+    if(wishlist){
+        // console.log('wwwwwwwwwwwww',userWishlist);
+        res.render('user/my_wishlist', { wishlist  })
     }
     else{
-        res.render('user/my_wishlist', { wishlist: [] })
+        res.render('user/my_wishlist', { wishlist: []  })
     }
 }

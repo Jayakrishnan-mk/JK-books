@@ -89,7 +89,7 @@ userRouter.use((req, res, next) => {
 
 
 //user home page............................................
-userRouter.get('/user-home', controller.userHomeGet);
+// userRouter.get('/user-home', controller.userHomeGet);
 
 
 

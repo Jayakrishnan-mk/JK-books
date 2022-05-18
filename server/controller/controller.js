@@ -1,5 +1,6 @@
 const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
+const Wishlistdb = require ('../model/wishlist_model');
 const Orderdb = require('../model/order_model');
 
 const Joi = require('joi');
@@ -166,31 +167,32 @@ exports.userSignup = (req, res) => {
 }
 
 //user home page..................
-exports.userHomeGet = async (req, res) => {
+// exports.userHomeGet = async (req, res) => {
 
-    if( req.session.isUserlogin){
-        res.redirect('/')
-    }else{
+//     if( req.session.isUserlogin){
+//         res.redirect('/')
+//     }
+//     else{
     
 
-    const user = await Userdb.findOne({
-        email: req.body.email,
-        password: req.body.password
-    })
-    if (user) {
-        req.session.user = user;
-        req.session.isUserlogin = true;
+//     const user = await Userdb.findOne({
+//         email: req.body.email,
+//         password: req.body.password
+//     })
+//     if (user) {
+//         req.session.user = user;
+//         req.session.isUserlogin = true;
 
-        const products = await Productdb.find()
-        // console.log(products);
-        res.status(200).render('user/user_home', { products })
+//         const products = await Productdb.find()
+//         // console.log('lllllllllll', wishlist);
+//         res.status(200).render('user/user_home', { products, wishlist })
 
-    }
-    else {
-        res.redirect('/')
-    }
-}
-}
+//     }
+//     else {
+//         res.redirect('/')
+//     }
+// }
+// }
 
 //user home page............................
 exports.userHomePost = async (req, res) => {
@@ -236,11 +238,11 @@ exports.adminOrdersList = async (req, res) => {
     ])
 
     // const orderedProduct =  orderItems[0].orderProducts[0];
-    console.log("ord-----", orderItems);
+    // console.log("ord-----", orderItems);
 
     // console.log("order-----", orderItems[0].userDetails[0]);
 
-    res.render('admin/admin_orders', { orderItems })
+    res.render('admin/admin_orders', { orders: orderItems })
 }
 
 const validate = (data) => {

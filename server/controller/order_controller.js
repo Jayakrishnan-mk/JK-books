@@ -11,9 +11,9 @@ const objectId = require('mongoose').Types.ObjectId;
 
 
 
-var instance = new Razorpay({ 
-    key_id: 'rzp_test_ypSBEwW22pVLiL', 
-    key_secret: 'ycRd6fwBkLO7GmZGjm2REW9a' 
+var instance = new Razorpay({
+    key_id: 'rzp_test_ypSBEwW22pVLiL',
+    key_secret: 'ycRd6fwBkLO7GmZGjm2REW9a'
 })
 
 
@@ -41,11 +41,11 @@ exports.checkout = async (req, res) => {
 
     // console.log(deliveryObj);
 
-    const error  = validate(deliveryObj)
+    const error = validate(deliveryObj)
 
     let orderItems = new Orderdb({
         userId: objectId(userId),
-        deliveryDetails : deliveryObj,
+        deliveryDetails: deliveryObj,
         paymentMethod: req.body.paymentMethod,
         date: new Date(),
         totalAmount: req.body.total,
@@ -59,96 +59,96 @@ exports.checkout = async (req, res) => {
     if (error.error) {
 
         // console.log('roororooror', error);
- 
+
         let errorMsg = error.error?.details[0].message;
-        
+
         // res.render('user/place_order', { error: errorMsg ,user: req.session.user , total: orderItems.totalAmount })
 
-        res.json({  total: orderItems.totalAmount, error: errorMsg })
+        res.json({ total: orderItems.totalAmount, error: errorMsg })
     }
 
-    else{
+    else {
 
         // console.log('errorroorororo');
-    orderItems
-        .save();    
+        orderItems
+            .save();
 
         // console.log('product quantity decreasing before.................');
 
-    await Productdb.updateOne({ "_id": objectId(orderItems.products[0]?.id) },
-        {
-            $inc: { "quantity": -cartItems.products[0]?.quantity }
-        }
-    )
-
-    if (orderItems.paymentMethod === 'COD') {
-
-
-    await Cartdb.deleteOne({ userId: objectId(userId) })
-
-        // console.log("orderItems ======", orderItems);
-
-        res.json({ codSuccess: true })
-
-        // res.render('user/order_success')
-    }
-    else {
-
-        console.log("orderItems ======", orderItems);
-        const orderId = orderItems._id;
-        const amount = orderItems.totalAmount;
-
-
-        var options = {
-            amount: amount,
-            currency: 'INR', 
-            receipt: orderId.toString()
-        }
-
-        // console.log(typeof(amount),"kkkkkkkkkkkkkkkkk");
-
-        instance.orders.create(options, (err,order) => {
-            if (err) {
-                console.log(err);
+        await Productdb.updateOne({ "_id": objectId(orderItems.products[0]?.id) },
+            {
+                $inc: { "quantity": -cartItems.products[0]?.quantity }
             }
-            else {
-            console.log("New order========", order);
-            res.json({ order })   
-            } 
-        })  
+        )
 
-        // console.log("orderItems ======", orderItems);
-        // const orderId = orderItems._id;
-        
+        if (orderItems.paymentMethod === 'COD') {
 
 
-        // var options = {
-        //     amount: amount * 100,
-        //     currency: 'INR',
-        //     receipt: orderId.toString()
-        // }
+            await Cartdb.deleteOne({ userId: objectId(userId) })
 
-        // console.log("options....", options);
+            // console.log("orderItems ======", orderItems);
+
+            res.json({ codSuccess: true })
+
+            // res.render('user/order_success')
+        }
+        else {
+
+            console.log("orderItems ======", orderItems);
+            const orderId = orderItems._id;
+            const amount = orderItems.totalAmount;
+
+
+            var options = {
+                amount: amount,
+                currency: 'INR',
+                receipt: orderId.toString()
+            }
+
+            // console.log(typeof(amount),"kkkkkkkkkkkkkkkkk");
+
+            instance.orders.create(options, (err, order) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("New order========", order);
+                    res.json({ order })
+                }
+            })
+
+            // console.log("orderItems ======", orderItems);
+            // const orderId = orderItems._id;
 
 
 
-//         instance.orders.create(options, (err, order) => { 
-//             if (err) {
-//                 console.log("err>>>>>>>>>>>>>>>>>", err);
-//             }
-//             else {
-//                 console.log("New order========", order);
-//                 res.json(order);
-//             }
-//         })
+            // var options = {
+            //     amount: amount * 100,
+            //     currency: 'INR',
+            //     receipt: orderId.toString()
+            // }
+
+            // console.log("options....", options);
+
+
+
+            //         instance.orders.create(options, (err, order) => { 
+            //             if (err) {
+            //                 console.log("err>>>>>>>>>>>>>>>>>", err);
+            //             }
+            //             else {
+            //                 console.log("New order========", order);
+            //                 res.json(order);
+            //             }
+            //         })
+        }
     }
-    }
-    }
+}
 // }
 
 //payment of razorpay..............................................
 // exports.verifyPayment = async (req, res) => {
-    
+
 //     console.log('successsssssssssssssssssss');
 
 // }
@@ -182,36 +182,69 @@ exports.myOrders = async (req, res) => {
 }
 
 
+// delivery status in dropdown..............................................
+exports.deliveryStatus = async (req, res) => {
+    // console.log(',,,,,,,,,,',req.body);
+    const status = req.body.status;
+    const orderId = req.body.orderId;
+
+    await Orderdb.updateOne({ _id: objectId(orderId) },
+    {
+        $set: {
+            status: status
+        }
+    })
+    console.log(status);
+}
+
 //payment of razorpay..............................................
 exports.verifyPayment = async (req, res) => {
     console.log(req.body);
 }
 
-exports.cancellingOrder = async (req,res) => {
+//order cancelling in userside..............................................
+exports.cancellingOrder = async (req, res) => {
     const id = req.params.id;
 
-    
-
-    await Orderdb.updateOne({
-        _id: id
-    },
-    {
-        $set : {status: 'cancelled'}
-    })
-    const order = await Orderdb.findOne({_id: objectId(id)})
+    await Orderdb.updateOne({ _id: id },
+        {
+            $set: { status: 'cancelled' }
+        })
+    const order = await Orderdb.findOne({ _id: objectId(id) })
     const proId = order.products[0].id;
 
     await Productdb.updateOne({ "_id": objectId(proId) },
         {
             $inc: { quantity: 1 }
         }
-        
+
     )
 
     res.redirect('/my-orders')
 
 }
 
+//order cancelling in adminside..............................................
+exports.cancelOrderInAdminside = async (req, res) => {
+    // console.log("cancel order in adminside..............");
+    const orderId = req.params.id;
+
+    await Orderdb.updateOne({ _id: orderId },
+        {
+            $set: { status: 'cancelled'}
+        })
+        const order = await Orderdb.findOne({ _id: objectId(orderId) })
+
+        // console.log("order)))))))))))", order);
+        const proId = order.products[0].id;
+
+        await Productdb.updateOne({" _id": objectId(proId) },
+        {
+            $inc: { quantity : 1}
+        })
+        res.redirect('/admin/admin-ordersList')
+
+}
 
 
 

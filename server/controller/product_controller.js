@@ -32,7 +32,7 @@ exports.addProducts = async (req, res) => {
         image: imagePath
     }
 
-    const error  = validate(productObject)
+    const error  = addValidate(productObject)
 
     //new product
     const product = new Productdb(productObject)
@@ -64,18 +64,17 @@ exports.addProducts = async (req, res) => {
 
 exports.updateProductPut = async (req, res) => {
     const id = req.params.id;
-    // console.log("id>>>>>>>---------->>>>----------", id);
+    // console.log("paramsid productid>>>>>>>---------->>>>----------", id);
     let image = req.files?.image;
     if (image) {
         let imgPath = './public/product_images/' + Date.now() + '.jpg';
         var imagePath = '/public/product_images/' + Date.now() + '.jpg';
         image.mv(imgPath, (err) => { })
     }
-    // await Productdb.findByIdAndUpdate(id, req.body, { UserFindAndModify: false })
+    
 
 
     const product = {
-
         name: req.body.name,
         author: req.body.author,
         category: req.body.category,
@@ -84,14 +83,27 @@ exports.updateProductPut = async (req, res) => {
         description: req.body.description,
         image: imagePath
     }
-
     
+    const error = editValidate (product);
+    
+    // console.log("product>>>>>>>>>>>>+++++>>>>>>>>>>>>>>>>", product);
+    
+    if (error.error) {
+        
+        // console.log('lllllkkk',error.error.details[0].message);
+        let errorMsg = error.error?.details[0].message;
+        const category = await Categorydb.find({});
+        // console.log('mmmmmmmmmmm,',product);
+        const pro = await Productdb.findById(id);
+        res.render('admin/update_product', {  product:pro, category, errorMsg })
+        
+        
+    }
+    else {
+        await Productdb.updateOne({ _id: id }, { $set: product })
+        res.redirect('/admin/admin-products')
 
-    await Productdb.updateOne({ _id: id }, { $set: product })
-
-
-    res.redirect('/admin/admin-products')
-
+    }
 }
 
 //update product get......................................
@@ -99,7 +111,7 @@ exports.updateProductGet = async (req, res) => {
     const id = req.params.id;
     const product = await Productdb.findById(id);
     const category = await Categorydb.find();
-    res.render('admin/update_product', { product , category })
+    res.render('admin/update_product', { product , category, errorMsg: "" })
 }
 
 //delete product......................................
@@ -248,8 +260,8 @@ exports.placeOrder = async (req, res) => {
     res.render('user/place_order', { total, user: req.session.user, error: "" })
 }
 
-
-const validate = (data) => {
+//validation for adding a new product....................................
+const addValidate = (data) => {
     const schema = Joi.object({
         name: Joi.string().min(3).max(30).required().label("Name"),
         author: Joi.string().min(3).max(30).required().label("Author"),
@@ -258,6 +270,20 @@ const validate = (data) => {
         quantity: Joi.number().required().label("Quantity"),
         description: Joi.string().min(10).max(1000).required().label("Description"),
         image: Joi.string().required().label("Image")
+    })
+    return schema.validate(data)
+}
+
+//validation for update a new product....................................
+const editValidate = (data) => {
+    const schema = Joi.object({
+        name: Joi.string().min(3).max(30).required().label("Name"),
+        author: Joi.string().min(3).max(30).required().label("Author"),
+        category: Joi.string().min(3).max(20).required().label("Category"),
+        price: Joi.number().required().label("Price"),
+        quantity: Joi.number().required().label("Quantity"),
+        description: Joi.string().min(10).max(1000).required().label("Description"),
+        image: Joi.allow()
     })
     return schema.validate(data)
 }

@@ -13,6 +13,7 @@ const connectDB = require('./server/database/connection');
 const Userdb = require('./server/model/model');
 const Productdb = require('./server/model/product_model');
 const Cartdb = require('./server/model/cart_model')
+const Wishlistdb = require('./server/model/wishlist_model')
 const objectId = require('mongoose').Types.ObjectId;
 
 const app = express();
@@ -72,7 +73,11 @@ app.get('/', async (req, res) => {
         const user = req.session.user;
         const cartCount = await Cartdb.find({ userId: objectId(req.session.user._id) })
         count = cartCount[0]?.products?.length;
-        res.render('user/user_home', { user, products, count })
+
+        const wishlist = await Wishlistdb.findOne({userId : objectId(user._id)});
+
+        console.log('kkkkkkkkkkkkk',wishlist);
+        res.render('user/user_home', { user, products , count , wishlist })  
     }
 
     else {

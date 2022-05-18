@@ -245,31 +245,37 @@
                     <% for(let i=0; i<products.length; i++) { %>
 
                         <div class="single-course item">
-
+                            
                             <input type="hidden" value="<%= products[i]._id %>">
                             <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
-                                    src="<%= products[i].image %>"
-                                    style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
-
-                            <div class="details">
-
-
-                                <div class="offer position-absolute" style="position:absolute; z-index:9">
-                                    <!-- <button type="button" onclick="wishlist()" class="btn btn-outline-danger"
+                                src="<%= products[i].image %>"
+                                style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
+                                
+                                <div class="details">
+                                    
+                                    
+                                    <div class="offer position-absolute" style="position:absolute; z-index:9">
+                                        <!-- <button type="button" onclick="wishlist()" class="btn btn-outline-danger"
                                             id="wishlist-btn"> -->
-                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
                                                 <path
                                                     d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
                                                 </path>
                                             </svg> -->
-                                    <!-- </button> -->
+                                            <!-- </button> -->
+                                            
+                                            <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
-                                    <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
-
-                                    <button style="border: none; background-color: #f9f9ff;" id="wishlist"
-                                        onclick="heartTouched('<%= products[i]._id %>')">
-                                        <i id="<%= products[i]._id %>" class="fa-solid fa-heart"></i></button>
+                                            <% if (wishlist?.products.includes(products[i]._id)) { %>
+                                                <button style="border: none; background-color: #f9f9ff;" id="wishlist"
+                                                onclick="heartTouched('<%= products[i]._id %>')">
+                                                    <i id="<%= products[i]._id %>" style="color: #f53e54;" class="fa-solid fa-heart"></i></button>
+                                                <% } else { %>
+                                                    <button style="border: none; " id="wishlist"
+                                                    onclick="heartTouched('<%= products[i]._id %>')">
+                                                    <i id="<%= products[i]._id %>" class="fa-solid fa-heart"></i></button>
+                                            <% } %>
 
                                 </div>
                                 <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
@@ -631,7 +637,7 @@
                         <p style="color: #f53f51;">
                             Email: jkbookStore@gmail.com
                         </p>
-                        <p style="color: #777777;">Toll free: 1800 3787 444 777</p>
+                        <p style="color: #777777;">Toll free: 1800 445 777</p>
 
 
                         <!-- <div class="" id="mc_embed_signup">
@@ -713,9 +719,8 @@
                 url: `/add-to-wishlist/${proId}`,
                 method: 'get',
                 success: (response) => {
-                    console.log(response);
+                    console.log(response.status);
                     if (response.status) {
-
 
                         // document.getElementById(proId).style.color = 'red';
                         $(`#${proId}`).css('color', 'red');

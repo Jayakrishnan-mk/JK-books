@@ -59,7 +59,7 @@ exports.otpChecking = (req, res) => {
                             number: req.body.number
                         })
                         .then((user) => {
-                            console.log('user3333333333333', user);
+                            // console.log('user3333333333333', user);
                             req.session.user = user;
                             req.session.isUserlogin = true;
                             res.redirect('/')

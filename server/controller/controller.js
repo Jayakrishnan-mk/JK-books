@@ -166,33 +166,6 @@ exports.userSignup = (req, res) => {
         })
 }
 
-//user home page..................
-// exports.userHomeGet = async (req, res) => {
-
-//     if( req.session.isUserlogin){
-//         res.redirect('/')
-//     }
-//     else{
-    
-
-//     const user = await Userdb.findOne({
-//         email: req.body.email,
-//         password: req.body.password
-//     })
-//     if (user) {
-//         req.session.user = user;
-//         req.session.isUserlogin = true;
-
-//         const products = await Productdb.find()
-//         // console.log('lllllllllll', wishlist);
-//         res.status(200).render('user/user_home', { products, wishlist })
-
-//     }
-//     else {
-//         res.redirect('/')
-//     }
-// }
-// }
 
 //user home page............................
 exports.userHomePost = async (req, res) => {
@@ -213,6 +186,7 @@ exports.userHomePost = async (req, res) => {
     }
 }
 
+//admin orders list........................................
 exports.adminOrdersList = async (req, res) => {
 
     const orderItems = await Orderdb.aggregate([

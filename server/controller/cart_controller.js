@@ -132,7 +132,7 @@ exports.cart = async (req, res) => {
     
     const pros = await Cartdb.find({ id: objectId(userId) })
     // console.log("pros>>>>>>>>>>>>>>>>>>", pros[0]);
-    console.log("cartItems>>>>>>>>>>>==============", cartItems[0]); 
+    // console.log("cartItems>>>>>>>>>>>==============", cartItems[0]); 
     
     
     let totalAmount = totalAmt[0]?.total;

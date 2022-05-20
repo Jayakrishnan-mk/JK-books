@@ -22,9 +22,9 @@
 
 
     <nav class="prod-nav">
-        <h2 class="prod-head" style="width: 20%"> JK Books</h2>
-        <a href="/user-home">
-            <h5 style="margin-left: 85rem; margin-top: 14px; color: white;">Home</h5>
+        <a href="/"><h2 class="prod-head" style="width: 20%"> JK Books</h2></a>
+        <a href="/">
+            <h5 style="margin-left: 85rem; margin-top: 1rem; color: white; font-size: 12px; font-weight: bold;">Home</h5>
         </a>
     </nav>
 
@@ -109,7 +109,7 @@
 
             var options = {
                 "key": "rzp_test_ypSBEwW22pVLiL", // Enter the Key ID generated from the Dashboard
-                "amount": order.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "amount": order.order.amount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": "INR",
                 "name": "JK Books",
                 "description": "Test Transaction",
@@ -119,6 +119,7 @@
                 "handler": function (response) {
                     
 
+                    // console.log('paymohjouihuhu+++++++++++++++++++++++++++++++++++++++++++++++++++++', payment, order);
 
                     verifyPayment(response, order);
 
@@ -144,7 +145,7 @@
 
 
         function verifyPayment(payment, order) {
-            // console.log('payment+++++++++++++++++++++++++++++++++++++++++++++++++++++', payment);
+            console.log('payment+++++++++++++++++++++++++++++++++++++++++++++++++++++', order);
             $.ajax({
                 url: '/verify-payment',
                 data: {
@@ -162,7 +163,7 @@
                     }
                 }
 
-            })
+            });
         }
 
 

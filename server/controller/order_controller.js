@@ -26,6 +26,8 @@ exports.checkout = async (req, res) => {
 
     const userId = req.session.user._id;
     // console.log("userId-----", userId);
+
+
     const cartItems = await Cartdb.findOne({
         userId: objectId(userId)
 
@@ -50,15 +52,15 @@ exports.checkout = async (req, res) => {
         date: new Date(),
         totalAmount: req.body.total,
         status: 'dispatched',
-        products: cartItems?.products[0]
+        products: cartItems?.products
     })
 
+    // console.log('jjjjjjjjjjjjjj',cartItems.products); 
     // console.log(orderItems.totalAmount, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
     // console.log("error",  error.error.details[0].message);
 
     if (error.error) {
 
-        // console.log('roororooror', error);
 
         let errorMsg = error.error?.details[0].message;
 
@@ -69,7 +71,6 @@ exports.checkout = async (req, res) => {
 
     else {
 
-        // console.log('errorroorororo');
         orderItems
             .save();
 
@@ -77,14 +78,14 @@ exports.checkout = async (req, res) => {
 
         await Productdb.updateOne({ "_id": objectId(orderItems.products[0]?.id) },
             {
-                $inc: { "quantity": -cartItems.products[0]?.quantity }
+                $inc: { "quantity": -cartItems?.products[0]?.quantity }
             }
         )
+        await Cartdb.deleteOne({ userId: objectId(userId) })
 
         if (orderItems.paymentMethod === 'COD') {
 
 
-            await Cartdb.deleteOne({ userId: objectId(userId) })
 
             // console.log("orderItems ======", orderItems);
 
@@ -94,18 +95,17 @@ exports.checkout = async (req, res) => {
         }
         else {
 
-            console.log("orderItems ======", orderItems);
+            console.log("orderItems ======", orderItems);   
             const orderId = orderItems._id;
             const amount = orderItems.totalAmount;
 
-
+            
             var options = {
                 amount: amount,
                 currency: 'INR',
                 receipt: orderId.toString()
             }
 
-            // console.log(typeof(amount),"kkkkkkkkkkkkkkkkk");
 
             instance.orders.create(options, (err, order) => {
                 if (err) {
@@ -120,38 +120,12 @@ exports.checkout = async (req, res) => {
             // console.log("orderItems ======", orderItems);
             // const orderId = orderItems._id;
 
-
-
-            // var options = {
-            //     amount: amount * 100,
-            //     currency: 'INR',
-            //     receipt: orderId.toString()
-            // }
-
-            // console.log("options....", options);
-
-
-
-            //         instance.orders.create(options, (err, order) => { 
-            //             if (err) {
-            //                 console.log("err>>>>>>>>>>>>>>>>>", err);
-            //             }
-            //             else {
-            //                 console.log("New order========", order);
-            //                 res.json(order);
-            //             }
-            //         })
         }
     }
 }
 // }
 
-//payment of razorpay..............................................
-// exports.verifyPayment = async (req, res) => {
-
-//     console.log('successsssssssssssssssssss');
-
-// }
+ 
 
 // my orders page..............................................
 exports.myOrders = async (req, res) => {
@@ -175,8 +149,8 @@ exports.myOrders = async (req, res) => {
 
     ])
 
-    const orderedProduct = orderItems[0].orderProducts[0];
-    // console.log("ord-----", orderedProduct);
+    const orderedProduct = orderItems[0]?.orderProducts;
+    console.log("ord-----", orderedProduct);
 
     res.render('user/my_orders', { orders: orderItems })
 }
@@ -194,12 +168,13 @@ exports.deliveryStatus = async (req, res) => {
             status: status
         }
     })
-    console.log(status);
+    // console.log(status);
 }
 
 //payment of razorpay..............................................
 exports.verifyPayment = async (req, res) => {
-    console.log(req.body);
+    console.log(req.body); 
+    res.redirect('/order-success')
 }
 
 //order cancelling in userside..............................................

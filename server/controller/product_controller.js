@@ -255,10 +255,22 @@ exports.placeOrder = async (req, res) => {
     let total = cartItems[0]?.total;
     // console.log("total----------", total);
 
-
-
     res.render('user/place_order', { total, user: req.session.user, error: "" })
 }
+
+exports.placeOrderDirect = async (req, res) => {
+    const proId = req.query.id;
+    // console.log('ghghgghgghhghhg', proId);
+
+    const product = await Productdb.findById(proId);
+    const total = product.price;
+    // console.log(';;;;;;;;;;;;;;;;;;;;;;;', product.price);
+
+    res.render('user/place_order', { total , user: req.session.user, error: "" })
+
+}
+
+
 
 //validation for adding a new product....................................
 const addValidate = (data) => {

@@ -1,85 +1,135 @@
 <%- include('../include/pro_header') -%>
 
+    <% if (wishlist.length !=0) { %>
+        <h3
+            style="width: 0px;  margin-left: 48% ;padding-top: 1rem; color: #fe3d3d; font-size: xx-large; position: relative;">
+            Wishlist </h3>
+        <% } %>
 
-    <h3 style="width: 0px;  margin-left: 48% ;padding-top: 1rem; color: #fe3d3d; font-size: xx-large; position: relative;"> Wishlist </h3>
+            <aside class="col-lg-9"
+                style="width: 85%; position: absolute; margin-left: 7rem;  display: flex; justify-content: center;">
+                <div class="card" style="border: none;">
+                    <div class="table-responsive">
+                        <!-- <h1 class="emptyCart">Your Cart is Empty</h1> -->
+                        <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
+                        <% if (wishlist.length===0) { %>
+                            <div>
+                                <img style="margin-top: 7rem;" src="img/wishempty.jpg">
+                                <!-- <video src="img/animatedWishlist"></video> -->
+                            </div>
 
-    <aside class="col-lg-9" style="width: 85%; position: absolute; margin-left: 7rem;  display: flex; justify-content: center;">
-        <div class="card" style="border: none;">
-            <div class="table-responsive">
-                <!-- <h1 class="emptyCart">Your Cart is Empty</h1> -->
-                <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
-                <% if (wishlist.length===0) { %>
-                    <div>
-                        <!-- <img style="margin: 3rem 0rem 0rem 23rem;" src="img/cart2.webp"> -->
-                        <video src="img/animatedWishlist"></video>
-                    </div>
+                            <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-                    <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
-
-                    <% } else { %>
-                        <table class="table table-borderless " style="    width: 60rem;
-                        border: 2px solid;
-                        border-color: #f53f51;">
-                            <thead class="text-muted" style="border: 1px solid;">
-                                <tr class="small text-uppercase" style="border: 1px solid;">
-                                    <th scope="col">Product</th>
-                                    <th scope="col" width="120">Price</th>   
-                                    <th scope="col" width="120">Delete</th>
-                                    <th scope="col" class="text-right d-none d-md-block" width="200"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            <% } else { %>
+                                <table class="table table-borderless "
+                                    style=" width: 60rem; border: 0px solid; border-color: #f53f51;">
+                                    <thead class="text-muted" style="border: 1px solid;">
+                                        <tr class="small text-uppercase" style="border: 1px solid;">
+                                            <th scope="col" style="border: 1px solid;">Product</th>
+                                            <th scope="col" width="120" style="border: 1px solid;">Price</th>
+                                            <th scope="col" width="120" style="border: 1px solid;">Delete</th>
+                                            <th scope="col" class="text-right d-none d-md-block" width="200"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
 
-                                <% for(i=0; i<wishlist.length; i++ ) { %>
-                                    <tr>
-                                        <td>
-                                            <figure class="itemside align-items-center">
-                                                <div class="aside"><img src="<%= wishlist[i].productItems[0]?.image%>"
-                                                        class="img-sm"></div>
-                                                <figcaption class="info"> <a href="#" class="title text-dark"
-                                                        data-abc="true">
-                                                        <%= wishlist[i].productItems[0]?.name %>
-                                                    </a>
-                                                    <p class="text-muted small">
-                                                        <%= wishlist[i].productItems[0]?.author %><br>
-                                                    </p>
-                                                </figcaption>
-                                            </figure>
-                                        </td>
-                                      
-                                        <td>
-                                            <div class="price-wrap" style="text-align: center;"> <var
-                                                    class="price">
-                                                    <%= wishlist[i].productItems[0]?.price %><br>
-                                                </var>
-                                            </div>
-                                        </td>
-                                        <td class="text-right d-none d-md-block"
-                                            style="width: 4rem; display: flex; justify-content: center;     height: 10rem;
-                                            margin-left: 9px;
-                                            margin-bottom: 8px;
+                                        <% for(i=0; i <wishlist.length; i++ ) { %>
+                                            <tr style="border: 1px solid;">
+                                                <td style="border: 1px solid;">
+                                                    <figure class="itemside align-items-center">
+                                                        <div class="aside">
+                                                            <a href="/product-details?id=<%=wishlist[i].productItems[0]._id%>">
+                                                                <img
+                                                                src="<%= wishlist[i].productItems[0]?.image%>"
+                                                                class="img-sm">
+                                                            </a></div>
+                                                        <figcaption class="info"> <a href="/product-details?id=<%=wishlist[i].productItems[0]._id%>" class="title text-dark"
+                                                                data-abc="true">
+                                                                <%= wishlist[i].productItems[0]?.name %>
+                                                            </a>
+                                                            <p class="text-muted small">
+                                                                <%= wishlist[i].productItems[0]?.author %><br>
+                                                            </p>
+                                                        </figcaption>
+                                                    </figure>
+                                                </td>
+
+                                                <td style="border: 1px solid;">
+                                                    <div class="price-wrap" style="text-align: center; "> <var
+                                                            class="price">
+                                                            <%= wishlist[i].productItems[0]?.price %><br>
+                                                        </var>
+                                                    </div>
+                                                </td>
+
+                                                <td class="text-right d-none d-md-block" style="width: 120px; display: flex; justify-content: center; border: 1px solid; height: 10rem;
                                             align-items: center;">
-                                            <a data-original-title="Save to Wishlist" title="" href=""
-                                                class="btn btn-light" data-toggle="tooltip" data-abc="true">
-                                            </a>
+                                                    <a data-original-title="Save to Wishlist" title="" href=""
+                                                        class="btn btn-light" data-toggle="tooltip" data-abc="true">
+                                                    </a>
 
-                                            <button class="remove-btn">
-                                                <i class="fa fa-trash-o"></i>
+                                                    <button onclick="removeButton('<%= wishlist[i].productItems[0]._id %>')" class="remove-btn"
+                                                        style="margin: 3em 3em 3em 3.5em;">
+                                                        <i class="fa fa-trash-o"></i>
 
-                                            </button>
-                                        </td>
-                                    </tr>
-
-                                    <% } %>
-
-                                        <% } %>
+                                                    </button>
 
 
-                            </tbody>
-                        </table>
-                        <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
+                                                </td>
 
-            </div>
-        </div>
-    </aside>
+                                            </tr>
+
+                                            <% } %>
+
+                                                <% } %>
+
+                                    </tbody>
+                                </table>
+                                <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+                                <style>
+                                    .table tr>td> {
+                                        border: 1px solid;
+                                        border-color: #f53f51;
+                                    }
+                                </style>
+
+                                <script>
+                                    function removeButton(id) {
+                                        // console.log(id)
+
+                                        Swal.fire({
+                                            title: 'Are you sure?',
+                                            text: "Do you want to remove this item ?",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Remove '
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $.ajax({
+                                                    url: '/wishlist-removed',
+                                                    type: 'put',
+                                                    data: {
+                                                        id: id
+                                                    },
+                                                    success: (response) => {
+                                                        location.reload();
+                                                    }
+
+                                                })
+                                                Swal.fire(
+                                                    'Removed!',
+                                                    'Your file has been Removed.',
+                                                    'success'
+                                                )
+                                            }
+                                        })
+                                        // alert("Removed from Wishlist");
+                                    }
+                                </script>
+                    </div>
+                </div>
+            </aside>

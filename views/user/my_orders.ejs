@@ -1,103 +1,138 @@
 <%- include('../include/pro_header') -%>
 
 
-    <h3 style="width: 0px;   margin-left: 49%; margin-top: 2rem;  color: #fe3d3d; font-size: xx-large; position: relative;"> Orders</h3>
+
+    <% if (orders.length===0) { %>
+
+        <img src="img/emptyOrders.gif" style=" margin: 7em 0em 0em 28em;
+        width: 50%;
+        height: 35em; position: absolute;" alt="">
+
+        <a href="/"><button
+                style="position: relative; left: 51em; top: 29.5rem; width: 12rem; color: white; background-color: #ff6b7a; border-radius: 1rem; border: none; height: 2rem;">Start
+                Shopping</button></a>
+
+        <% } else { %>
+
+            <h3
+                style="width: 0px;   margin-left: 49%; margin-top: 2rem;  color: #fe3d3d; font-size: xx-large; position: relative;">
+                Orders</h3>
+
+            <table class="table" style="width: 80rem; margin: 3rem 3rem 3rem 8rem; text-align: center; ">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>Payment</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
 
+                <tbody>
 
-    <table class="table" style="    width: 80rem;
-    margin: 3rem 3rem 3rem 8rem;
-    text-align: center; height: 30rem">
-        <thead class="thead-dark">
-            <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Date</th>
-                <th>Payment</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
+                    <% const orderItems=orders.sort((dateA,dateB)=> dateB.date - dateA.date ) %>
 
-           <% const orderItems = orders.sort((dateA,dateB) =>  dateB.date - dateA.date ) %>
+                        <% for (let i=0 ; i<orderItems.length ; i++ ) { %>
+                            <% for(let j=0; j<orderItems[i].orderProducts.length; j++) { %>
+                                <tr>
 
-            <% for (var i=0 ; i<orderItems.length ; i++ ) { %>
+                                    <td style="padding-top: 3rem;">
+                                        <img style="width: 50px; height: 50px;"
+                                            src=" <%= orderItems[i].orderProducts[j]?.image %> ">
+                                    </td>
+                                    <td>
+                                        <p style="padding-top: 2rem ;">
+                                            <%= orderItems[i].orderProducts[j]?.name %> <br>
+                                        </p>
+                                        <p style="color: #696a6b; font-size: 11px;">
+                                            <%= orderItems[i].orderProducts[j]?.author %>
+                                        </p>
+
+                                    </td>
+                                    <td>
+                                        <p style="padding-top: 2rem;">
+                                            <%= orderItems[i].orderProducts[j]?.price %>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="padding-top: 2rem;">
+                                            <%= orderItems[i].date?.toDateString() %>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="padding-top: 2rem;">
+                                            <%= orderItems[i]?.paymentMethod %>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p style="padding-top: 2rem;">
+                                            <%= orderItems[i]?.status %>
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <% if (orderItems[i]?.status=="cancelled" ) { %>
+                                            <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
+                                                style="margin-top: 2rem; border-radius: 3px; background-color: white; color: black;"
+                                                disabled>Cancel</button>
+                                            <% } else { %>
+                                                <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
+                                                    style="margin-top: 2rem; border-radius: 3px; background-color: #f95e5e; color: white;">Cancel</button>
+                                                <% } %>
+                                    </td>
 
 
-                <tr>
-                    
-                    <td style="padding-top: 3rem;">
-                        <img style="width: 50px; height: 50px;" src=" <%= orderItems[i].orderProducts[0]?.image %> ">
-                    </td>
-                    <td>
-                        <p style="padding-top: 2rem ;"><%= orderItems[i].orderProducts[0]?.name %> <br></p>
-                        <p style="color: #696a6b; font-size: 11px;"><%= orderItems[i].orderProducts[0]?.author %></p>
+                                    </td>
+                                </tr>
 
-                    </td>
-                    <td>
-                       <p style="padding-top: 2rem;"> <%= orderItems[i].orderProducts[0]?.price %></p>
-                    </td>
-                    <td>
-                        <p style="padding-top: 2rem;"> <%= orderItems[i].date?.toDateString() %></p>
-                    </td>
-                    <td>
-                        <p style="padding-top: 2rem;">  <%= orderItems[i]?.paymentMethod %></p>
-                    </td>
-                    <td>
-                        <p style="padding-top: 2rem;"> <%= orderItems[i]?.status %></p>
-                    </td>
-                    <td>
-                        <% if (orderItems[i]?.status=="cancelled") { %>
-                            <button  onclick="cancelButton('<%= orderItems[i]?._id %>')"
-                                style="margin-top: 2rem; border-radius: 3px; background-color: white; color: black;" disabled>Cancel</button>
-                            <% } else { %>
-                                <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
-                                    style="margin-top: 2rem; border-radius: 3px; background-color: #f95e5e; color: white;">Cancel</button>
+
                                 <% } %>
-                    </td>
-
-
-                    </td>
-                </tr>
-
-                <% } %>
-
-
-        </tbody>
-    </table>
-
-    <script>
-
-        function cancelButton(id) {
 
 
 
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to cancel this? ",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, cancel order!'
-            }).then((result) => {
-                console.log(result, 'kkkkkk');
-                if (result.isConfirmed) {
-                    type = 'put',
-                        location.href = `/cancel-order/${id}?_method=PUT`
-                    Swal.fire(
-                        'Cancelled!',
-                        'Your product has been Cancelled.',
-                        'success'
-                    )
-                }
-            })
-        }
 
-    </script>
+                                    <% } %>
 
-</body>
 
-</html>
+                </tbody>
+            </table>
+
+            <% } %>
+
+
+                <script>
+
+                    function cancelButton(id) {
+
+
+
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: "You want to cancel this? ",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, cancel order!'
+                        }).then((result) => {
+                            console.log(result, 'kkkkkk');
+                            if (result.isConfirmed) {
+                                type = 'put',
+                                    location.href = `/cancel-order/${id}?_method=PUT`
+                                Swal.fire(
+                                    'Cancelled!',
+                                    'Your product has been Cancelled.',
+                                    'success'
+                                )
+                            }
+                        })
+                    }
+
+                </script>
+
+                </body>
+
+                </html>

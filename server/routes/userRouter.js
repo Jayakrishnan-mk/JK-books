@@ -124,15 +124,15 @@ userRouter.get("/add-to-wishlist/:id", verifyLogin, wishlist_controller.addToWis
 //place order............................................. 
 userRouter.get('/place-order', product_controller.placeOrder);
 
-//checkout page..............................................
-userRouter.post('/checkout', order_controller.checkout);
+//place order route from product details and direct buy now btn route..
+userRouter.get('/place-order-direct' , product_controller.placeOrderDirect);
 
+//checkout page..............................................
+userRouter.post('/checkout', order_controller.checkout);  
+ 
 
 //payment of razorpay..................................
-userRouter.post('/verify-payment', (req,res) => {
-    res.send('success')
-})
-// order_controller.verifyPayment)
+userRouter.post('/verify-payment', order_controller.verifyPayment);
 
 //order list..............................................
 userRouter.get('/order-success', (req, res) => {
@@ -150,6 +150,8 @@ userRouter.get('/place-order-validationError/:total/:error', (req, res) => {
 userRouter.get('/my-orders', order_controller.myOrders);
 
 userRouter.get('/my-wishlist', wishlist_controller.myWishlist);
+
+userRouter.put ('/wishlist-removed', wishlist_controller.wishlistRemoved);
 
 userRouter.get('/cancel-order/:id' , order_controller.cancellingOrder)
 

@@ -1,24 +1,31 @@
 <%- include('../include/pro_header') -%>
 
-    <h3 style="width: 0px;  margin: auto;padding-top: 1rem; color: #fe3d3d; font-size: xx-large; position: relative;">
-        Cart</h3>
-
-
-    <div class="container-fluid">
-        <div class="row">
-            <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
-                <div class="card" style="border: none;">
-                    <div class="table-responsive">
-                        <!-- <h1 class="emptyCart">Your Cart is Empty</h1> -->
-                        <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
+  
+                     
                         <% if (products.length===0) { %>
+<!-- 
+                            <h1 style="    text-align: center;
+                            margin-top: 3em; color: #f53f51;     font-size: xx-large;">Your Cart is Empty</h1> -->
                             <div>
-                                <img style="margin: 3rem 0rem 0rem 23rem;" src="img/cart2.webp">
+                                <img style=" margin: 4rem 0rem 0rem 30rem;  height: 33rem;  width: 33rem;" src="img/cartEmpty.svg">
                             </div>
 
                             <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
 
                             <% } else { %>
+
+                                <h3 style="width: 0px;  margin: auto; padding-top: 1rem; color: #fe3d3d; font-size: xx-large; position: relative;">
+                                    Cart</h3>
+                            
+                            
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
+                                            <div class="card" style="border: none;">
+                                                <div class="table-responsive">
+                            
+
+
                                 <table class="table table-borderless ">
                                     <thead class="text-muted">
                                         <tr class="small text-uppercase">
@@ -36,9 +43,10 @@
                                             <tr>
                                                 <td>
                                                     <figure class="itemside align-items-center">
-                                                        <div class="aside"><img src="<%= products[i].product[0].image%>"
-                                                                class="img-sm"></div>
-                                                        <figcaption class="info"> <a href="#" class="title text-dark"
+                                                        <div class="aside">
+                                                            <a href="/product-details?id=<%=products[i].product[0]._id%>"><img src="<%= products[i].product[0].image%>"
+                                                                class="img-sm"></a></div>
+                                                        <figcaption class="info"> <a href="/product-details?id=<%=products[i].product[0]._id%>" class="title text-dark"
                                                                 data-abc="true">
                                                                 <%= products[i].product[0].name %>
                                                             </a>
@@ -108,6 +116,9 @@
 
 
                 <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
+
+<!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Coupon    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<                     -->
+
                     <!-- <div class="card mb-3">
                     <div class="card-body">
                         <form>
@@ -119,6 +130,9 @@
                         </form>
                     </div>
                 </div> -->
+
+<!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Coupon    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<                     -->
+
                     <div class="card">
                         <div class="card-body">
                             <dl class="dlist-align">
@@ -176,7 +190,7 @@
                         })
                         setTimeout(() => {
                             location.reload();
-                        }, 1500);
+                        }, 1000);
 
                         Toast.fire({
                             icon: 'success',

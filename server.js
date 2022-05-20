@@ -76,7 +76,6 @@ app.get('/', async (req, res) => {
 
         const wishlist = await Wishlistdb.findOne({userId : objectId(user._id)});
 
-        console.log('kkkkkkkkkkkkk',wishlist);
         res.render('user/user_home', { user, products , count , wishlist })  
     }
 

@@ -27,12 +27,16 @@
                         <th>Date</th>
                         <th>Payment</th>
                         <th>Status</th>
+
                         <th>Action</th>
                     </tr>
                 </thead>
 
 
                 <tbody>
+
+
+                    <% console.log(orders) %>
 
                     <% const orderItems=orders.sort((dateA,dateB)=> dateB.date - dateA.date ) %>
 
@@ -76,8 +80,8 @@
                                     <td>
                                         <% if (orderItems[i]?.status=="cancelled" ) { %>
                                             <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
-                                                style="margin-top: 2rem; border-radius: 3px; background-color: white; color: black;"
-                                                disabled>Cancel</button>
+                                                style="display: none;"
+                                                 >Cancel</button>
                                             <% } else { %>
                                                 <button onclick="cancelButton('<%= orderItems[i]?._id %>')"
                                                     style="margin-top: 2rem; border-radius: 3px; background-color: #f95e5e; color: white;">Cancel</button>

@@ -41,11 +41,14 @@ exports.checkout = async (req, res) => {
         mobile: req.body.mobile
     }
 
+    req.session.address = deliveryObj;
+
     // console.log(deliveryObj);
 
     const error = validate(deliveryObj)
 
-    let orderItems = new Orderdb({
+    
+    const orderObject = {
         userId: objectId(userId),
         deliveryDetails: deliveryObj,
         paymentMethod: req.body.paymentMethod,
@@ -53,45 +56,67 @@ exports.checkout = async (req, res) => {
         totalAmount: req.body.total,
         status: 'dispatched',
         products: cartItems?.products
-    })
+    }
 
-    // console.log('jjjjjjjjjjjjjj',cartItems.products); 
-    // console.log(orderItems.totalAmount, "kkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
-    // console.log("error",  error.error.details[0].message);
+    req.session.payment = orderObject.paymentMethod;
+    req.session.total = orderObject.totalAmount;
+
+    let orderItems = new Orderdb(orderObject)
 
     if (error.error) {
 
 
         let errorMsg = error.error?.details[0].message;
 
-        // res.render('user/place_order', { error: errorMsg ,user: req.session.user , total: orderItems.totalAmount })
-
         res.json({ total: orderItems.totalAmount, error: errorMsg })
     }
 
     else {
 
-        orderItems
-            .save();
-
+        
         // console.log('product quantity decreasing before.................');
-
+        
         await Productdb.updateOne({ "_id": objectId(orderItems.products[0]?.id) },
-            {
-                $inc: { "quantity": -cartItems?.products[0]?.quantity }
-            }
+        {
+            $inc: { "quantity": -cartItems?.products[0]?.quantity }
+        }
         )
+
+
+//for transfering the cart items products array to order success page......
+        const productIds = await Cartdb.aggregate([
+            {
+                $match: { userId: objectId(userId) }
+            },
+            {
+                $unwind: "$products"
+            },
+            {
+                $project: {
+                    _id: 0,
+                    id: "$products.id"
+                }
+            }
+        ])
+
+        const productIdsArray = [];
+        for (i of productIds){
+            productIdsArray.push(i.id);
+        }
+        // console.log('productIdsArray---------', productIdsArray);
+
+        req.session.products = productIdsArray;
+//..........................................................................
+
         await Cartdb.deleteOne({ userId: objectId(userId) })
-
+        
         if (orderItems.paymentMethod === 'COD') {
-
-
-
-            // console.log("orderItems ======", orderItems);
+            
+            
+            orderItems
+                .save();
 
             res.json({ codSuccess: true })
-
-            // res.render('user/order_success')
         }
         else {
 
@@ -101,24 +126,26 @@ exports.checkout = async (req, res) => {
 
             
             var options = {
-                amount: amount,
+                amount: amount * 100,
                 currency: 'INR',
                 receipt: orderId.toString()
             }
 
 
-            instance.orders.create(options, (err, order) => {
+            instance.orders.create(options, (err, order) => { 
                 if (err) {
                     console.log(err);
                 }
                 else {
                     console.log("New order========", order);
-                    res.json({ order })
+
+                    orderItems
+                    .save();
+
+                    // console.log('lllllllllllllkkkkkkkkkkkkk', orderObject);
+                    res.json({ order }) 
                 }
             })
-
-            // console.log("orderItems ======", orderItems);
-            // const orderId = orderItems._id;
 
         }
     }
@@ -149,13 +176,15 @@ exports.myOrders = async (req, res) => {
 
     ])
 
+    // console.log('hellooooooooooooooo', orderItems);
+
     const orderedProduct = orderItems[0]?.orderProducts;
-    console.log("ord-----", orderedProduct);
+    // console.log("ord-----", orderedProduct);
 
     res.render('user/my_orders', { orders: orderItems })
 }
 
-
+ 
 // delivery status in dropdown..............................................
 exports.deliveryStatus = async (req, res) => {
     // console.log(',,,,,,,,,,',req.body);
@@ -173,9 +202,53 @@ exports.deliveryStatus = async (req, res) => {
 
 //payment of razorpay..............................................
 exports.verifyPayment = async (req, res) => {
-    console.log(req.body); 
-    res.redirect('/order-success')
+
+    const razPaymentId= req.body.payment.razorpay_payment_id ;
+    const razOrderId= req.body.payment.razorpay_order_id ;
+    const razSign= req.body.payment.razorpay_signature ;
+
+    // console.log('jjjjjjjjjj', razOrderId );
+
+    const crypto = require('crypto');
+    let hmac = crypto.createHmac('sha256', 'ycRd6fwBkLO7GmZGjm2REW9a');
+
+    hmac.update(razOrderId + '|' + razPaymentId );
+    hmac = hmac.digest('hex');
+    if(hmac===razSign){
+        console.log('hmac verified');
+    }
+    else{
+        console.log('hmac not verified');
+    }
+
+    console.log('hmac', hmac);
+    console.log('payment successful');
+
+    res.json({ status: true })
+ 
+} 
+
+// order success page....................................................
+exports.orderSuccess = async (req, res) => {
+
+    // const userId = req.session.user._id;
+    const address = req.session.address;
+    // console.log('aaaaaaaaaaa', address);
+    const payment = req.session.payment;
+    const total = req.session.total;
+
+    const productsIds = req.session.products
+
+    // console.log('productsssssssss', productsIds);
+
+    const products = await Productdb.find({
+        _id: { $in: productsIds }
+    })
+    
+    console.log('get cart products through mongodb dollar in', products);
+    res.render('user/order_success', {address , payment, total, products})
 }
+
 
 //order cancelling in userside..............................................
 exports.cancellingOrder = async (req, res) => {

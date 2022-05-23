@@ -1,0 +1,156 @@
+<%-include ('../include/_header') %>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <!-- ////////////////////////////////////////////// -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-3" style="
+       text-align: center;
+       padding: 2rem 0rem 0rem 9rem;">
+                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-line"></i></div>
+                            <div class="text-left ml-3">
+                                <h2 class="mb-0"><span class="counter">
+                                        <%= users %>
+                                    </span></h2>
+                                <h5 class="">Users</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" style="
+       text-align: center;
+       padding: 2rem 0rem 0rem 9rem;">
+                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-book-line"></i></div>
+                            <div class="text-left ml-3">
+                                <h2 class="mb-0"><span class="counter">
+                                        <%= products %>
+                                    </span></h2>
+                                <h5 class="">Books</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3" style="
+       text-align: center;
+       padding: 2rem 0rem 0rem 9rem;">
+                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-shopping-cart-2-line"></i>
+                            </div>
+                            <div class="text-left ml-3">
+                                <h2 class="mb-0"><span class="counter">
+                                        <%= total %>
+                                    </span></h2>
+                                <h5 class="">Sale</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 " style="
+       text-align: center;
+       padding: 2rem 0rem 0rem 9rem;">
+                <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                    <div class="iq-card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle iq-card-icon bg-info"><i class="ri-radar-line"></i></div>
+                            <div class="text-left ml-3">
+                                <h2 class="mb-0"><span class="counter">
+                                        <%= orders %>
+                                    </span></h2>
+                                <h5 class="">Orders</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <h4 class="card-title mb-0">Summary</h4> -->
+            <canvas id="payment" style="width:100%;max-width:600px ;     margin: 5rem 10rem 0rem 0rem;"></canvas>
+
+
+
+
+            <!-- ......?????????????????????.....// -->
+            <!-- <canvas id="payment" style="width:100%;max-width:600px"></canvas> -->
+            <canvas id="category" style="width:100%;max-width:600px ;     margin: 5rem 10rem 0rem 0rem;"></canvas>
+
+            <script>
+
+
+
+                var xValues = ["<%= paymentMods[0]._id %>", "<%= paymentMods[1]._id %>"];
+                var yValues = ['<%= paymentMods[0].count %>', '<%= paymentMods[1].count %>'];
+                var barColors = [
+                    "#e8c3b9",
+                    "#1e7145"
+                ];
+
+                new Chart("payment", {
+                    type: "doughnut",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: "JK Books Sales"
+                        }
+                    }
+                });
+
+                //.............................
+
+                console.log('<%= categories[i] %>');
+
+                for (let i = 0; i < categories.length) {
+                    var xValues = ["<%= categories[i].name %>", "<%= categories[i].name %>", "<%= categories[i].name %>", "<%= categories[i].name %>", "<%= categories[i].name %>"];
+                    var yValues = [55, 49, 44, 24, 15];
+                    var barColors = [
+                        "#b91d47",
+                        "#00aba9",
+                        "#2b5797",
+                        "#e8c3b9",
+                        "#1e7145"
+                    ];
+                }
+
+
+                new Chart("category", {
+                    type: "doughnut",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: "JK Books Categories"
+                        }
+                    }
+                });
+
+            </script>
+
+            </body>
+
+            </html>

@@ -154,8 +154,8 @@
                 },
                 method: "post",
                 success: (response) => {
-                    // console.log('response+++++++++++++++++++++++++++++++++++++++++++++++++++++', response);
-                    if(response) {
+                    // console.log('response+++++++++++++++++++++++++++++++++++++++++++++++++++++', response); 
+                    if(response.status) {
                         location.href = '/order-success';
                     }
                     else {

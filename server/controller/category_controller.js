@@ -2,6 +2,7 @@ const Categorydb = require('../model/category_model');
 const objectId = require('mongoose').Types.ObjectId;
 
 const Joi = require('joi');
+const Productdb = require('../model/product_model');
 //add category......................................
 exports.addCategoryPost = (req, res) => {
     if (!req.body.name) {
@@ -38,13 +39,16 @@ exports.categorySearch = (req, res) => {
 
 //delete category......................................
 
-exports.deleteCategory = (req, res) => {
+exports.deleteCategory = async (req, res) => {
     const id = req.params.id;
     // console.log(id);
-    Categorydb.findByIdAndDelete(id)
-        .then(data => {
+
+    const category = await Categorydb.findById(id)
+    console.log(category.name);
+    await Productdb.deleteMany({ category: category.name })
+    await Categorydb.findByIdAndDelete(id)
+
             res.redirect('/admin/admin-categories')
-        })
 }
 
 

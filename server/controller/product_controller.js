@@ -119,6 +119,10 @@ exports.updateProductGet = async (req, res) => {
 exports.deleteProduct = (req, res) => {
     const id = req.params.id;
     // console.log(id);
+
+
+    
+
     Productdb.findByIdAndDelete(id)
         .then(data => {
             res.redirect('/admin/admin-products')

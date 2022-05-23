@@ -135,9 +135,7 @@ userRouter.post('/checkout', order_controller.checkout);
 userRouter.post('/verify-payment', order_controller.verifyPayment);
 
 //order list..............................................
-userRouter.get('/order-success', (req, res) => {
-    res.render('user/order_success')
-})
+userRouter.get('/order-success', order_controller.orderSuccess);
 
 //place order validation..............................................
 userRouter.get('/place-order-validationError/:total/:error', (req, res) => {

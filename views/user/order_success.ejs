@@ -8,19 +8,31 @@
     <title>JK Books</title>
     <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+    </style>
+    
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="css/place-order.css">
 </head>
 
 <link rel="stylesheet" href="css/cartcss.css">
 
-<body>
+<body style="overflow-x: hidden;">
 
 
     <nav class="prod-nav">
-        <a href="/"><h2 class="prod-head" style="width: 20%"> JK Books</h2></a>
+        <a href="/">
+            <h2 class="prod-head" style="width: 20%"> JK Books</h2>
+        </a>
         <a href="/">
             <h5 style="margin-left: 85rem; margin-top: 1rem; color: white;  font-size: 12px; font-weight: bold;">Home
             </h5>
@@ -30,25 +42,116 @@
     <div class="main"
         style="position: relative; background-color: #ffffff; width: 90%; height: 10rem;     margin: 2rem 3rem 0rem 4rem;">
         <img src="img/order2.jpg" style=" width: 7%; height: 44%; margin: 2em 0em 0em 4em; " alt="">
-        <h3 style="left: 14rem; top: 3rem; position: absolute; color: #f53f51;">Order Placed for ₹ <%= %> </h3>
+        <h3
+            style="left: 14rem; top: 3rem; position: absolute; color: #f53f51; font-weight: bolder; font-style: italic;">
+            Order Placed for ₹ <%= total %>
+                <%= %>
+        </h3>
 
         <a href="/my-orders"><button
-            style=" float: right;  margin: 3em 6em 0 0; background-color: cornsilk; border-radius: 11px; padding: 1rem;">Go
-            to My Orders</button></a>
+                style=" float: right;  margin: 3em 6em 0 0; background-color: cornsilk; border-radius: 11px; padding: 1rem;">Go
+                to My Orders</button></a>
+        <a href="/#trending"><button
+                style=" float: right;  margin: 3em 6em 0 0; background-color: cornsilk; border-radius: 11px; padding: 1rem;">Continue Shopping</button></a>
     </div>
 
-    <div class="main" style=" position: relative; background-color: #ffffff; width: 90%; height: 11rem;
-        margin: 1rem 0rem 0rem 4rem;">
-        <h6 style="    width: 23rem;
-        padding: 1em 1em 1em 3em;
-        font-weight: bold;
-        color: #f53f51;">Delivery Address</h6>
+   
+
+    <!-- product<<<<<<<<<<<<<<<<<<<<<<<<<<<............................................................................................................................... -->
+
+
+    <div class="row" style="margin: 0 auto;">
+        <div class="main col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+            style=" background-color: #ffffff; width: 60%; height: 14rem; padding: 3px; margin: 1rem 3rem 0rem 4rem; ">
+
+            <div style="margin: 3rem;">
+                <img style="width: 8rem; height: 8rem; position: absolute;" src="<%= products[0].image %>" alt="">
+                <div style="left: 15rem; width: 15rem; position: relative;">
+                    <div style=" width: 30rem;  left: 4rem; display: flex; justify-content: space-between;">
+                        <h3 style="color: #f53f51; font-weight: 600">
+                            <%= products[0].name %>
+                        </h3>
+                        <h3 style=" color: cornflowerblue;"> ₹<%= products[0].price %>
+                        </h3>
+                    </div>
+                    <h6>
+                        <%= products[0].author %>
+                    </h6>
+
+
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- details..................................................................................................... -->
+
+
+        <div class="main col-4 col-sm-4 col-md-4 col-lg-4 col-xl-4" style=" background-color: #ffffff; width: 26.8%; height: 14rem; 
+        margin: 1rem 0rem 0rem 0rem;">
+            <h6 style="width: 23rem; padding: 1em 1em 1em 3em; font-weight: bold; color: #f53f51;">Delivery Address</h6>
+            <div style="margin-left: 3rem;">
+                <p>
+                    <%= address.name %>
+                </p>
+                <p>
+                    <%= address.address %>
+                </p>
+                <p>
+                    Pin: <%= address.pincode %>
+                </p>
+                <p>
+                    <%= address.mobile %>
+                </p>
+            </div>
+            </p>
+
+        </div>
+
     </div>
 
 
-    <div class="main"
-        style=" position: relative; background-color: #ffffff; width: 90%; height: 14rem; margin: 1rem 3rem 0rem 4rem;">
-    </div>
+
+
+
+    <% for( i=1; i< products.length; i++ ) { %>
+
+        <div class="main col-8 col-sm-8 col-md-8 col-lg-8 col-xl-8"
+            style=" background-color: #ffffff; width: 60%; height: 14rem; padding: 3px; margin: 1rem 3rem 0rem 4rem; ">
+
+            <div style="margin: 3rem;">
+                <img style="width: 8rem; height: 8rem; position: absolute;" src="<%= products[i].image %>" alt="">
+                <div style="left: 15rem; width: 15rem; position: relative;">
+                    <div style=" width: 30rem;  left: 4rem; display: flex; justify-content: space-between;">
+                        <h3 style="color: #f53f51; font-weight: 600">
+                            <%= products[i].name %>
+                        </h3>
+                        <h3 style=" color: cornflowerblue;"> ₹<%= products[i].price %>
+                        </h3>
+                    </div>
+
+                    <h6>
+                        <%= products[i].author %>
+                    </h6>
+                </div>
+            </div>
+
+        </div>
+
+        <% } %>
+
+
+
+            <img src="img/books.jpg" style="    margin: 1em 0em 1rem 4rem;
+    width: 90%;
+    height: 12rem; position: absolute;" alt="">
+    <h3 style="position: relative;    margin: 4rem 0rem 0rem 65rem; font-family: 'Pacifico', cursive; color: #564444;">
+        JK Books</h3>
+    <h1 style="color: #772830; font-size: revert;  margin: 2rem 0rem 0rem 63rem;font-style: oblique;
+    font-size: large; position: relative;"> Expect more , Explore more.....</h1>
+
 
 
 </body>

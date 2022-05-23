@@ -1,7 +1,8 @@
 const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
-const Wishlistdb = require ('../model/wishlist_model');
+const Wishlistdb = require('../model/wishlist_model');
 const Orderdb = require('../model/order_model');
+const Categorydb = require('../model/category_model');
 
 const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
@@ -35,7 +36,7 @@ exports.allUsers = (req, res) => {
 //admin products list........................................
 exports.adminProducts = async (req, res) => {
     try {
-        const products = await Productdb.find() 
+        const products = await Productdb.find()
         // console.log(products);
         console.log(products[0].image);
         res.render('admin/admin_products', { products: products })
@@ -149,7 +150,7 @@ exports.userSignup = (req, res) => {
     }
     const user = new Userdb(userObj)
     const error = validate(userObj);
-    if(error){ 
+    if (error.error) {
         // res.redirect('/user-signup-validation')
         res.render('user/user_signup', { error: error.error.details[0].message })
 
@@ -174,7 +175,7 @@ exports.userHomePost = async (req, res) => {
         email: req.body.email,
         password: req.body.password
     })
-    
+
     if (user) {
         req.session.user = user;
         req.session.isUserlogin = true;
@@ -184,6 +185,74 @@ exports.userHomePost = async (req, res) => {
     else {
         res.redirect('/user-login-error')
     }
+}
+
+//admin dashboard........................................
+exports.adminDashboard = async (req, res) => {
+    try {
+        const user = await Userdb.find()
+        const users = user.length;
+
+        const product = await Productdb.find()
+        const products = product.length;
+
+        const order = await Orderdb.find()
+        const orders = order.length;
+
+        const total = await Orderdb.aggregate([
+            {
+                $project: {
+                    totalAmount: 1,
+                    _id: 0
+                }
+            }
+        ])
+
+        let totalAmount = 0;
+        for (i of total) {
+            totalAmount = totalAmount + i.totalAmount;
+        }
+        // console.log("total", totalAmount);
+
+        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+        const payment = await Orderdb.aggregate([
+            {
+                $project: {
+                    paymentMethod: 1,
+                    _id: 0
+                }
+            },
+            {
+                $group: {
+                    _id: "$paymentMethod",
+                    count: { $sum: 1 }
+                }
+            }
+        ])
+        // console.log('pppppppppppppppppp',payment);
+        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+        const categories = await Categorydb.find()
+        const category = await Categorydb.aggregate([
+            {
+                $project: {
+                    category: 1,
+                    _id: 0
+                }
+            },
+            {
+                $group: {
+                    _id: "$category",
+                }
+            }
+        ])
+        console.log('categoriesssssssssssssssssss', categories);
+
+        res.render('admin/dashboard', { users, products, orders, total: totalAmount , paymentMods: payment , categories })
+    }
+    catch (error) {
+        console.log(error);
+    }
+
 }
 
 //admin orders list........................................
@@ -221,7 +290,7 @@ exports.adminOrdersList = async (req, res) => {
 
 const validate = (data) => {
     const schema = Joi.object({
-        name: Joi.string().min(3).label("Name").required(),
+        name: Joi.string().pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/).min(3).label("Name").required(),
         email: Joi.string().email().label("Email").required(),
         password: passwordComplexity().label("Password").required(),
         number: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),

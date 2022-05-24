@@ -126,11 +126,13 @@ userRouter.get('/place-order', product_controller.placeOrder);
 
 //place order route from product details and direct buy now btn route..
 userRouter.get('/place-order-direct' , product_controller.placeOrderDirect);
-
+ 
 //checkout page..............................................
 userRouter.post('/checkout', order_controller.checkout);  
- 
 
+//checkout page from buynow..............................................
+userRouter.post('/checkoutFromBuynow', order_controller.checkoutFromBuynow);
+ 
 //payment of razorpay..................................
 userRouter.post('/verify-payment', order_controller.verifyPayment);
 
@@ -147,10 +149,14 @@ userRouter.get('/place-order-validationError/:total/:error', (req, res) => {
 
 userRouter.get('/my-orders', order_controller.myOrders);
 
+userRouter.get('/my-profile', controller.myProfile);
+
 userRouter.get('/my-wishlist', wishlist_controller.myWishlist);
 
 userRouter.put ('/wishlist-removed', wishlist_controller.wishlistRemoved);
 
 userRouter.get('/cancel-order/:id' , order_controller.cancellingOrder)
 
+userRouter.post('/profile-edit', controller.profileEdit);
+ 
 module.exports = userRouter;

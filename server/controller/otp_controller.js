@@ -4,8 +4,8 @@ const Userdb = require('../model/model');
 
 const serviceSID = "VA75b5e7e997850aab64166f43c82d9a0e";
 const accountSID = "ACc126eca5b1a3058319ed7c5da0e1baea";
-const authToken = "abbe56981e2ca012e5cf588b59a48256"
-const client = require("twilio")(accountSID, authToken);
+const authToken = "8622da3a0f23e05b435e73d842bb673f";
+const client = require("twilio")(accountSID, authToken); 
 
 //otp page for user login............................................
 exports.otpPage = async (req, res) => {

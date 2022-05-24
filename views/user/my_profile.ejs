@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK Books</title>
+    <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
+
+    <link rel="stylesheet" href="css/cartcss.css">
+    <link rel="stylesheet" href="js/cartjs.js">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- <script src="sweetalert2.min.js"></script>
+    <link rel="stylesheet" href="sweetalert2.min.css"> -->
+
+
+    <script src="https://kit.fontawesome.com/b6d1371885.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+
+</head>
+
+<body style="background-color: #eeeeee; overflow-x: hidden;">
+
+
+    <nav class="prod-nav">
+
+        <a href="/">
+            <h2 class="prod-head"> JK Books</h2>
+        </a>
+
+
+        <a href="/">
+            <h5 style="    margin-left: 85rem; margin-top: 1rem; color: white;">Home</h5>
+        </a>
+    </nav>
+
+    <div class="col-md-12 row" style="display: flex;">
+
+        <div style="background-color: white; width: 25%; height: 20rem; margin: 3rem 0rem 0rem 5rem;" class="col-md-3">
+            <div style="display: flex; padding: 2rem; align-items: center;">
+                <img class="_3X2gOt" height="50px" width="50px" src="img/avatar.svg">
+                <div>
+                    <p
+                        style="font-size: small; margin-left: 2rem; font-weight: 100; display: flex; flex-direction: column;">
+                        Hello,</p>
+                    <p style="padding-left: 2rem; font-size: large;">
+                        <%= user.name %>
+                    </p>
+                    <!-- <hr> -->
+                </div>
+
+            </div>
+
+            <div style="    padding-left: 3rem;">
+                <a style="    color: #f53f51;" href="/my-orders">
+                    <h3>My Orders</h3>
+                </a>
+                <a style="    color: #f53f51;" href="/my-wishlist">
+                    <h3>My Wishlist</h3>
+                </a>
+            </div>
+        </div>
+
+
+        <div class="col-md-8"
+            style="background-color: white;  width: 50rem;  height: 100%; padding: 2rem; margin: auto;  margin-top: 3rem;">
+
+            <form action="/profile-edit" method="post">
+
+                <h3 style="font-size: large; font-weight: 500;">Personal Information</h3>
+                <input type="text" value="<%= user.name %>" style="height: 50px; font-size: 14px; border: 1px solid #d7d2d2; width: 20rem; padding-left: 20px;  outline: none;
+                border-radius: 2px;" name="name">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+                <!-- <input type="text" value="" style="height: 50px; font-size: 14px; border: 1px solid #d7d2d2;     outline: none;
+                border-radius: 2px;"> -->
+                <br>
+                <h3 style=" font-size: large; font-weight: 500;">Your gender</h3>
+                <% if(user.gender=="Male" ) { %>
+                    <input type="radio" style="margin-top: 4px; " name="gender" value="Male" checked>&nbsp Male &nbsp
+                    <input type="radio" name="gender" value="Female"> &nbsp Female &nbsp <br>
+                    <% } else { %>
+                        <input type="radio" id="rad" style="margin-top: 4px; " name="gender" value="Male">&nbsp Male &nbsp
+                        <input type="radio" id="rad" value="Female" name="gender" checked> &nbsp Female &nbsp <br>
+                        <% } %>
+                            <h3 style="    font-size: large;font-weight: 500;" >Email address</h3>
+                            <input type="email" 
+                                style="height: 50px; font-size: 14px; border: 1px solid #d7d2d2; width: 20rem;    padding-left: 20px;  outline: none; border-radius: 2px;"
+                                placeholder="<%= user.email %>" name="email" value="<%= user.email %>">
+
+                            <h3 style="    font-size: large; font-weight: 500;">Mobile Number</h3>
+                            <input type="text"
+                                style="height: 50px; font-size: 14px; border: 1px solid #d7d2d2;  padding-left: 20px;  outline: none; border-radius: 2px;"
+                                placeholder="<%= user.number %>" name="number" value="<%= user.number %>">
+
+                            <button type="submit"
+                                style=" background-color: #4f27f9; color: white; margin-left: 6rem; width: 3rem; height: 2rem; border-radius: 7px; border: 1px solid;">Save</button>
+
+            </form>
+
+            <br><br><br>
+
+
+            <h3 style=" font-size: large; font-weight: 500;"> FAQs </h3>
+            <p> What happens when I update my email address (or mobile number)?</p>
+            <p> Your login email id (or mobile number) changes, likewise. You'll receive all your account related
+                communication on your updated email address (or mobile number).</p>
+
+            <p> When will my JK Books account be updated with the new email address (or mobile number)?</p>
+            <p> It happens as soon as you confirm the verification code sent to your email (or mobile) and save the
+                changes.</p>
+
+            <p> What happens to my existing JK Books account when I update my email address (or mobile number)?</p>
+            <p> Updating your email address (or mobile number) doesn't invalidate your account. Your account remains
+                fully functional. You'll continue seeing your Order history, saved information and personal details.</p>
+
+            <p> Does my Seller account get affected when I update my email address?</p>
+            <p> JK Books has a 'single sign-on' policy. Any changes will reflect in your Seller account also.</p>
+
+        </div>
+
+
+
+    </div>
+
+
+
+
+
+
+
+</body>
+
+</html>

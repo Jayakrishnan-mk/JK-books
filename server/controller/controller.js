@@ -98,6 +98,7 @@ exports.create = (req, res) => {
 
 //admin block unblock user......................................
 exports.block = async (req, res) => {
+    console.log('idddddddddddddddd');
     try {
         // console.log(req.params.id, "...................................................");
         const user = await Userdb.findOne({ _id: req.params.id })
@@ -131,6 +132,130 @@ exports.userSearch = (req, res) => {
 
 
 
+//admin dashboard........................................
+exports.adminDashboard = async (req, res) => {
+    try {
+        const user = await Userdb.find()
+        const users = user.length;
+
+        const product = await Productdb.find()
+        const products = product.length;
+
+        const order = await Orderdb.find()
+        const orders = order.length;
+
+        const total = await Orderdb.aggregate([
+            {
+                $project: {
+                    totalAmount: 1,
+                    _id: 0
+                }
+            }
+        ])
+
+        let totalAmount = 0;
+        for (i of total) {
+            totalAmount = totalAmount + i.totalAmount;
+        }
+        // console.log("total", totalAmount);
+
+        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+        const payment = await Orderdb.aggregate([
+            {
+                $project: {
+                    paymentMethod: 1,
+                    _id: 0
+                }
+            },
+            {
+                $group: {
+                    _id: "$paymentMethod",
+                    count: { $sum: 1 }
+                }
+            }
+        ])
+        // console.log('ppppppppppppppppppppp',payment);
+        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+        const categories = await Categorydb.find()
+
+        const array = [];
+
+        for(i of categories){
+            // console.log(i.name);
+            array.push(i.name)
+        }
+
+        // console.log(array);
+       //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+       const userBlocks = await Userdb.find()
+       const userBlocked = await Userdb.aggregate([
+        {
+            $project: {
+                isBlocked: 1,
+                _id: 0
+            }
+        },
+        {
+            $group: {
+                _id: "$isBlocked",
+                count: { $sum: 1 }
+            }
+        }
+
+       ])
+
+       for(i=0; i< 2; i++){
+        if(userBlocked[i]._id == true){
+            userBlocked[i]._id = "Blocked"
+        }
+        else{
+            userBlocked[i]._id = "Unblocked"
+        }
+       }
+
+
+    //    console.log('uuuuuuuuuuuuuuu',userBlocked);
+
+        res.render('admin/dashboard', { users, products, orders, total: totalAmount , paymentMods: payment ,userBl: userBlocked, array })
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+}
+
+//admin orders list........................................
+exports.adminOrdersList = async (req, res) => {
+
+    const orderItems = await Orderdb.aggregate([
+
+        {
+            $lookup: {
+                from: "productdbs",
+                localField: "products.id",
+                foreignField: '_id',
+                as: 'orderProducts'
+            }
+
+        },
+        {
+            $lookup: {
+                from: "userdbs",
+                localField: "userId",
+                foreignField: '_id',
+                as: 'userDetails'
+            }
+        }
+
+    ])
+
+    // const orderedProduct =  orderItems[0].orderProducts[0];
+    // console.log("ord-----", orderItems);
+
+    // console.log("order-----", orderItems[0].userDetails[0]);
+
+    res.render('admin/admin_orders', { orders: orderItems })
+}
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  User   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -187,106 +312,41 @@ exports.userHomePost = async (req, res) => {
     }
 }
 
-//admin dashboard........................................
-exports.adminDashboard = async (req, res) => {
-    try {
-        const user = await Userdb.find()
-        const users = user.length;
+exports.myProfile = async (req,res) => {
 
-        const product = await Productdb.find()
-        const products = product.length;
+    const userId = req.session.user._id;
+    const user = await Userdb.findByIdAndUpdate(userId, {
+        name: req.body.name,
+        email: req.body.email,
+        number: req.body.number,
+    })
+    res.render('user/my_profile', { user }); 
+}
 
-        const order = await Orderdb.find()
-        const orders = order.length;
+//user profile edit..................................
+exports.profileEdit = async (req, res) => {
 
-        const total = await Orderdb.aggregate([
-            {
-                $project: {
-                    totalAmount: 1,
-                    _id: 0
-                }
-            }
-        ])
+    // console.log('hhhhhhhh',req.body);
 
-        let totalAmount = 0;
-        for (i of total) {
-            totalAmount = totalAmount + i.totalAmount;
-        }
-        // console.log("total", totalAmount);
+    const user = req.session.user._id;
 
-        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
-        const payment = await Orderdb.aggregate([
-            {
-                $project: {
-                    paymentMethod: 1,
-                    _id: 0
-                }
-            },
-            {
-                $group: {
-                    _id: "$paymentMethod",
-                    count: { $sum: 1 }
-                }
-            }
-        ])
-        // console.log('pppppppppppppppppp',payment);
-        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
-        const categories = await Categorydb.find()
-        const category = await Categorydb.aggregate([
-            {
-                $project: {
-                    category: 1,
-                    _id: 0
-                }
-            },
-            {
-                $group: {
-                    _id: "$category",
-                }
-            }
-        ])
-        console.log('categoriesssssssssssssssssss', categories);
+    // const userDetails = await Userdb.findOne({_id: user})
 
-        res.render('admin/dashboard', { users, products, orders, total: totalAmount , paymentMods: payment , categories })
-    }
-    catch (error) {
-        console.log(error);
-    }
+    const updatedUser = await Userdb.updateOne({_id: user}, {
+        name: req.body.name,
+        email: req.body.email,
+        gender: req.body.gender,
+        number: req.body.number,
+    })
+
+    // console.log('userrrrrrrrrrrrrrr', updatedUser);
+
+    res.redirect('/my-profile')
 
 }
 
-//admin orders list........................................
-exports.adminOrdersList = async (req, res) => {
 
-    const orderItems = await Orderdb.aggregate([
-
-        {
-            $lookup: {
-                from: "productdbs",
-                localField: "products.id",
-                foreignField: '_id',
-                as: 'orderProducts'
-            }
-
-        },
-        {
-            $lookup: {
-                from: "userdbs",
-                localField: "userId",
-                foreignField: '_id',
-                as: 'userDetails'
-            }
-        }
-
-    ])
-
-    // const orderedProduct =  orderItems[0].orderProducts[0];
-    // console.log("ord-----", orderItems);
-
-    // console.log("order-----", orderItems[0].userDetails[0]);
-
-    res.render('admin/admin_orders', { orders: orderItems })
-}
+//validations...........................
 
 const validate = (data) => {
     const schema = Joi.object({

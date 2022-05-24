@@ -262,20 +262,25 @@ exports.placeOrder = async (req, res) => {
     res.render('user/place_order', { total, user: req.session.user, error: "" })
 }
 
+//place order direct from home page and product details page. buy now button.....
 exports.placeOrderDirect = async (req, res) => {
     const proId = req.query.id;
     // console.log('ghghgghgghhghhg', proId);
 
+    const userId = req.session.user?._id;
+    // console.log("userId-----", userId);
+
     const product = await Productdb.findById(proId);
     const total = product.price;
-    // console.log(';;;;;;;;;;;;;;;;;;;;;;;', product.price);
+    // console.log(';;;;;;;;;;;;;;;;;;;;;;;', product);
+    req.session.dirBuynowProduct = product;
 
-    res.render('user/place_order', { total , user: req.session.user, error: "" })
+    res.render('user/placeOrderFromHome', { total , user: req.session.user, error: "" })
+     // res.render('user/placeOrderFromHome', { total , user: req.session.user, error: "" })
 
 }
-
-
-
+ 
+ 
 //validation for adding a new product....................................
 const addValidate = (data) => {
     const schema = Joi.object({

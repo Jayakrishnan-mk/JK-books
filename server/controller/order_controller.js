@@ -58,6 +58,7 @@ exports.checkout = async (req, res) => {
         products: cartItems?.products
     }
 
+
     req.session.payment = orderObject.paymentMethod;
     req.session.total = orderObject.totalAmount;
 
@@ -154,6 +155,120 @@ exports.checkout = async (req, res) => {
 
  
 
+//checkout from buynow.........................................
+exports.checkoutFromBuynow = async (req, res) => {
+    // console.log("req.body//////////////", req.body);
+
+    const userId = req.session.user._id;
+    // console.log("userId-----", userId);
+
+    const dirBuynowProduct = req.session.dirBuynowProduct;
+    console.log("dirBuynowProduct", dirBuynowProduct);
+    
+    let deliveryObj = {
+        name: req.body.name,
+        address: req.body.address,
+        pincode: req.body.pincode,
+        mobile: req.body.mobile
+    }
+
+    req.session.address = deliveryObj;
+
+    // console.log(deliveryObj);
+
+    const error = validate(deliveryObj)
+
+
+    const orderObject = {
+        userId: userId,
+        deliveryDetails: deliveryObj,
+        paymentMethod: req.body.paymentMethod,
+        date: new Date(),
+        totalAmount: req.body.total,
+        status: 'dispatched',
+        products: [{id: objectId(dirBuynowProduct._id), quantity: 1}]
+    }
+
+    // console.log('cccccccccccccccccccccccc', orderObject.products);
+
+
+    req.session.payment = orderObject.paymentMethod;
+    req.session.total = orderObject.totalAmount;
+
+    let orderItems = new Orderdb(orderObject)
+    // console.log('cccccccccccccccccccccccc', orderItems);
+
+    if (error.error) {
+
+
+        let errorMsg = error.error?.details[0].message;
+
+        res.json({ total: orderItems.totalAmount, error: errorMsg })
+    }
+
+    else {
+
+        
+        // console.log('product quantity decreasing before.................');
+        
+        await Productdb.updateOne({ "_id": objectId(orderItems.products[0]?.id) },
+        {
+            $inc: { "quantity": -1 }
+        }
+        )
+
+
+//for transfering the item array to order success page......
+        const productIdsArray =  dirBuynowProduct._id;
+        // console.log('productIdsArray---------', productIds);
+
+        req.session.products = productIdsArray;
+//..........................................................................
+        
+        if (orderItems.paymentMethod === 'COD') {
+            
+            orderItems
+                .save();
+
+            res.json({ codSuccess: true })
+        }
+        else {
+
+            console.log("orderItems ======", orderItems);   
+            const orderId = orderItems._id;
+            const amount = orderItems.totalAmount;
+
+            
+            var options = {
+                amount: amount * 100,
+                currency: 'INR',
+                receipt: orderId.toString()
+            }
+
+
+            instance.orders.create(options, (err, order) => { 
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    console.log("New order========", order);
+
+                    orderItems
+                    .save();
+
+                    // console.log('lllllllllllllkkkkkkkkkkkkk', orderObject);
+                    res.json({ order }) 
+                }
+            })
+  
+        }
+    }
+}
+
+
+
+
+
 // my orders page..............................................
 exports.myOrders = async (req, res) => {
 
@@ -172,8 +287,6 @@ exports.myOrders = async (req, res) => {
                 as: 'orderProducts'
             }
         }
-
-
     ])
 
     // console.log('hellooooooooooooooo', orderItems);
@@ -184,7 +297,7 @@ exports.myOrders = async (req, res) => {
     res.render('user/my_orders', { orders: orderItems })
 }
 
- 
+
 // delivery status in dropdown..............................................
 exports.deliveryStatus = async (req, res) => {
     // console.log(',,,,,,,,,,',req.body);
@@ -239,13 +352,15 @@ exports.orderSuccess = async (req, res) => {
 
     const productsIds = req.session.products
 
+    // req.session.products = null;
+
     // console.log('productsssssssss', productsIds);
 
     const products = await Productdb.find({
         _id: { $in: productsIds }
     })
     
-    console.log('get cart products through mongodb dollar in', products);
+    // console.log('get cart products through mongodb dollar in', products);
     res.render('user/order_success', {address , payment, total, products})
 }
 

@@ -16,12 +16,12 @@ const Categorydb = require('../model/category_model');
 router.get('/', (req, res) => {
     if (req.session.isAdminlogin) {
         // console.log('isAdminlogin');
-        res.redirect('/admin-dashboard');
+        res.redirect('/admin/admin-dashboard');
     } else {
         // console.log('no admin login');
         res.render('admin/admin_login');
     }
-})
+})    
 
 //admin home post.........................
 router.post('/admin-home', async (req, res) => {

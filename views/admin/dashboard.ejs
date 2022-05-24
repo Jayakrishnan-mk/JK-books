@@ -6,9 +6,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 col-lg-3" style="
-       text-align: center;
-       padding: 2rem 0rem 0rem 9rem;">
+            <div class="col-md-6 col-lg-3" style=" margin-top: 2rem; text-align: center; padding: 2rem 0rem 0rem 9rem;">
                 <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                     <div class="iq-card-body">
                         <div class="d-flex align-items-center">
@@ -23,9 +21,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3" style="
-       text-align: center;
-       padding: 2rem 0rem 0rem 9rem;">
+            <div class="col-md-5 col-lg-3" style=" margin-top: 2rem;  text-align: center; padding: 2rem 0rem 0rem 9rem;">
                 <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                     <div class="iq-card-body">
                         <div class="d-flex align-items-center">
@@ -40,9 +36,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3" style="
-       text-align: center;
-       padding: 2rem 0rem 0rem 9rem;">
+            <div class="col-md-5 col-lg-3" style=" margin-top: 2rem;  text-align: center; padding: 2rem 0rem 0rem 9rem;">
                 <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                     <div class="iq-card-body">
                         <div class="d-flex align-items-center">
@@ -50,7 +44,7 @@
                             </div>
                             <div class="text-left ml-3">
                                 <h2 class="mb-0"><span class="counter">
-                                        <%= total %>
+                                        ₹<%= total %>
                                     </span></h2>
                                 <h5 class="">Sale</h5>
                             </div>
@@ -58,9 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6 col-lg-3 " style="
-       text-align: center;
-       padding: 2rem 0rem 0rem 9rem;">
+            <div class="col-md-5 col-lg-3 " style="  margin-top: 2rem; text-align: center; padding: 2rem 0rem 0rem 9rem;">
                 <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                     <div class="iq-card-body">
                         <div class="d-flex align-items-center">
@@ -76,20 +68,17 @@
                 </div>
             </div>
 
+            <!--------------COD ONLINE---------------------------------------->
+            <canvas id="payment" style="width:100%;max-width:600px ; padding: 1rem; background-color: aliceblue;    margin: 5rem 10rem 0rem 4rem;"></canvas>
 
-            <!-- <h4 class="card-title mb-0">Summary</h4> -->
-            <canvas id="payment" style="width:100%;max-width:600px ;     margin: 5rem 10rem 0rem 0rem;"></canvas>
+            <!--------------CATEGORY---------------------------------------->
+            <!-- <canvas id="category" style="width:100%;max-width:600px ;     margin: 5rem 9rem 0rem 0rem;"></canvas> -->
 
-
-
-
-            <!-- ......?????????????????????.....// -->
-            <!-- <canvas id="payment" style="width:100%;max-width:600px"></canvas> -->
-            <canvas id="category" style="width:100%;max-width:600px ;     margin: 5rem 10rem 0rem 0rem;"></canvas>
+            <!--------------USER BLOCK AND UNBLOCK---------------------------------------->
+            <canvas id="userBlock" style="width:100%;max-width:600px ; padding: 1rem; background-color: aliceblue;   margin: 5rem 5rem 0rem 0rem;"></canvas>
 
             <script>
-
-
+                //........payment.............................................................
 
                 var xValues = ["<%= paymentMods[0]._id %>", "<%= paymentMods[1]._id %>"];
                 var yValues = ['<%= paymentMods[0].count %>', '<%= paymentMods[1].count %>'];
@@ -115,12 +104,41 @@
                     }
                 });
 
-                //.............................
+              
 
-                console.log('<%= categories[i] %>');
+                //........block...........................................................
+                var xValues = ['<%= userBl[0]._id %>', '<%= userBl[1]._id %>'];
+                var yValues = ['<%= userBl[0].count %>', '<%= userBl[1].count %>'];
+                var barColors = [
+                "#1e7145",
+                    "#00aba9",
+                    // "#2b5797",
+                    // "#1e7145"
+                ];
 
-                for (let i = 0; i < categories.length) {
-                    var xValues = ["<%= categories[i].name %>", "<%= categories[i].name %>", "<%= categories[i].name %>", "<%= categories[i].name %>", "<%= categories[i].name %>"];
+                new Chart("userBlock", {
+                    type: "doughnut",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                            backgroundColor: barColors,
+                            data: yValues
+                        }]
+                    },
+                    options: {
+                        title: {
+                            display: true,
+                            text: "JK Books Users status"
+                        }
+                    }
+                });
+
+                  //.......category...........................................................
+
+                  for (let i = 0; i < array.length; i++) {
+                    console.log(array.length);
+
+                    var xValues = ["<%= array[i] %>"];
                     var yValues = [55, 49, 44, 24, 15];
                     var barColors = [
                         "#b91d47",
@@ -130,7 +148,6 @@
                         "#1e7145"
                     ];
                 }
-
 
                 new Chart("category", {
                     type: "doughnut",
@@ -148,6 +165,9 @@
                         }
                     }
                 });
+
+                console.log('llllllllllllll',userBl[0]._id);
+
 
             </script>
 

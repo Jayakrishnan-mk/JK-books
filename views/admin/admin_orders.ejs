@@ -87,6 +87,19 @@
             $('#myTable').DataTable();
         });
     </script> -->
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>
+
+
+
 
     <script>
         function deliveryStatus(value, orderId) {

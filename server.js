@@ -43,7 +43,7 @@ app.use('/img', express.static(path.join(__dirname, "public/assets/img")));
 app.use('/fonts', express.static(path.join(__dirname, "public/assets/fonts")));
 app.use('/js', express.static(path.join(__dirname, "public/assets/js")));
 app.use('/public/product_images', express.static(path.join(__dirname, "public/product_images")))
-app.use('/Datatables', express.static(path.join(__dirname, "public/Datatables")));
+// app.use('/Datatables', express.static(path.join(__dirname, "public/Datatables")));
 
 app.use(fileUpload());
 
@@ -71,12 +71,13 @@ app.get('/', async (req, res) => {
 
     if (req.session.isUserlogin) {
         const user = req.session.user;
+        const userHome = await Userdb.findOne({ _id: user._id })
         const cartCount = await Cartdb.find({ userId: objectId(req.session.user._id) })
         count = cartCount[0]?.products?.length;
 
         const wishlist = await Wishlistdb.findOne({userId : objectId(user._id)});
 
-        res.render('user/user_home', { user, products , count , wishlist })  
+        res.render('user/user_home', { user, userHome , products , count , wishlist })  
     }
 
     else {

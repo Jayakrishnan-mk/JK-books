@@ -18,13 +18,16 @@
 
 <link rel="stylesheet" href="css/cartcss.css">
 
-<body>
+<body style="overflow-x: hidden;">
 
 
     <nav class="prod-nav">
-        <a href="/"><h2 class="prod-head" style="width: 20%"> JK Books</h2></a>
         <a href="/">
-            <h5 style="margin-left: 85rem; margin-top: 1rem; color: white; font-size: 12px; font-weight: bold;">Home</h5>
+            <h2 class="prod-head" style="width: 20%"> JK Books</h2>
+        </a>
+        <a href="/">
+            <h5 style="margin-left: 85rem; margin-top: 1rem; color: white; font-size: 12px; font-weight: bold;">Home
+            </h5>
         </a>
     </nav>
 
@@ -41,14 +44,27 @@
 
                         <div>
                             <label for="">Name</label>
-                            <input class="form-control" type="text" id="name" name="name"><br>
+                            <input class="form-control" onclick="nameValid()" type="text" id="name" name="name"><br>
+                            <p id="pname"></p>
                             <label for="">Address</label>
-                            <input class="form-control" type="text" id="address" name="address"><br>
+                            <input class="form-control" type="text" onclick="addressValid()" id="address"
+                                name="address"><br>
+                            <p id="paddress"></p>
                             <label for="">Pincode</label>
-                            <input class="form-control" type="text" id="pincode" name="pincode"><br>
+                            <input class="form-control" type="text" onclick="pincodeValid()" id="pincode"
+                                name="pincode"><br>
+                            <p id="ppincode"></p>
                             <label for="">Mobile</label>
-                            <input class="form-control" type="text" id="mobile" name="mobile"><br>
+                            <input class="form-control" type="text" onclick="mobileValid()" id="mobile"
+                                name="mobile"><br>
+                            <p id="pmobile"></p>
                             <input type="hidden" name="total" value="<%= total %>">
+
+                            <button type="button" onclick="saveAddress(document.getElementById('name').value, document.getElementById('address').value, 
+                             document.getElementById('pincode').value, document.getElementById('mobile').value)"
+                                style="background-color: #0d6efd; border-radius: 7px; color: white;">
+                                Save Address
+                            </button>
                         </div>
                     </div>
                     <div class="col-md-4" style="margin-left: 10rem">
@@ -92,11 +108,11 @@
                     // alert("data  alert coming");
                     if (data.error) {
                         location.href = `/place-order-validationError/${data.total}/${data.error}`;
-                    } 
+                    }
                     else if (data.codSuccess) {
                         // console.log('lllllllllll');
                         location.href = '/order-success';
-                    } 
+                    }
                     else {
                         // console.log('kkkkkkkkkkkkkkkkkkkk');
                         razorpayPayment(data);
@@ -110,7 +126,7 @@
 
             var options = {
                 "key": "rzp_test_ypSBEwW22pVLiL", // Enter the Key ID generated from the Dashboard
-                "amount": order.order.amount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "amount": order.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": "INR",
                 "name": "JK Books",
                 "description": "Test Transaction",
@@ -118,7 +134,7 @@
                 "order_id": order.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 
                 "handler": function (response) {
-                    
+
 
                     // console.log('paymohjouihuhu+++++++++++++++++++++++++++++++++++++++++++++++++++++', payment, order);
 
@@ -156,7 +172,7 @@
                 method: "post",
                 success: (response) => {
                     // console.log('response+++++++++++++++++++++++++++++++++++++++++++++++++++++', response); 
-                    if(response.status) {
+                    if (response.status) {
                         location.href = '/order-success';
                     }
                     else {
@@ -166,8 +182,32 @@
 
             });
         }
+        //----------------------------------------------------------------------------
+
+        function nameValid() {
+            var name = document.getElementById('name').value;
+            if (name == "") {
+                document.getElementById('pname').innerHTML = "Please enter your name";
+            }else if else {
+                document.getElementById('pname').innerHTML = "";
+            }
+        }
 
 
+
+        //----------------------------------------------------------------------------
+        function saveAddress(name, address, pincode, mobile) {
+            $.ajax({
+                url: '/save-address',
+                method: 'post',
+                data: {
+                    name,
+                    address,
+                    pincode,
+                    mobile
+                },
+            })
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

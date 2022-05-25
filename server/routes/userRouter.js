@@ -6,7 +6,7 @@ const cart_controller = require('../controller/cart_controller');
 const order_controller = require('../controller/order_controller');
 const otp_controller = require('../controller/otp_controller');
 const product_controller = require('../controller/product_controller');
-
+const saveAddress_controller = require('../controller/saveAddress_controller');
 
 
 const verifyLogin = (req, res, next) => {
@@ -158,5 +158,7 @@ userRouter.put ('/wishlist-removed', wishlist_controller.wishlistRemoved);
 userRouter.get('/cancel-order/:id' , order_controller.cancellingOrder)
 
 userRouter.post('/profile-edit', controller.profileEdit);
+
+userRouter.post('/save-address', saveAddress_controller.saveAddress);
  
 module.exports = userRouter;

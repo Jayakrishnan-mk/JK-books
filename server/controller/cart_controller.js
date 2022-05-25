@@ -10,10 +10,10 @@ const objectId = require('mongoose').Types.ObjectId;
 //add to cart.......................................................
 exports.addToCart = async (req, res) => {
     const userId = req.session.user._id;
-    // console.log('userid printed...................................', userId);
+    console.log('userid printed...................................', userId);
     const proId = req.params.id;
-    // console.log("productid printed.................................", proId);
-
+    console.log("productid printed.................................", proId);
+    console.log(req.body);
     const product = {
         id: objectId(proId),
         quantity: 1
@@ -24,14 +24,13 @@ exports.addToCart = async (req, res) => {
     if (userCart) {
         let proExist = userCart.products.findIndex(product => product.id == proId)
         // console.log("proExist-------------", proExist);
-
         if (proExist != -1) {
             // console.log(objectId(proId));
             await Cartdb.updateOne({ userId: objectId(userId), 'products.id': objectId(proId) },
                 {
                     $inc: { "products.$.quantity": 1 }
                 })
-            res.json({ status: true })
+            res.json({ status: true }) 
         }
 
         else {
@@ -45,12 +44,12 @@ exports.addToCart = async (req, res) => {
     }
 
     else {
+        // console.log("else part");
         const cart = new Cartdb({
             userId: objectId(userId),
             products: [product]
         })
-        cart
-            .save()
+        await cart.save()
         // console.log('cart saved...................................');
         res.json({ status: true })
     }

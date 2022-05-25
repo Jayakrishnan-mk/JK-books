@@ -163,7 +163,7 @@ exports.checkoutFromBuynow = async (req, res) => {
     // console.log("userId-----", userId);
 
     const dirBuynowProduct = req.session.dirBuynowProduct;
-    console.log("dirBuynowProduct", dirBuynowProduct);
+    // console.log("dirBuynowProduct", dirBuynowProduct);
     
     let deliveryObj = {
         name: req.body.name,

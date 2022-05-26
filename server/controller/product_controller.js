@@ -2,6 +2,7 @@ const Productdb = require('../model/product_model');
 const Cartdb = require('../model/cart_model');
 const objectId = require('mongoose').Types.ObjectId;
 const Categorydb = require('../model/category_model');
+const SavedAddressdb = require('../model/savedAddress_model');
 
 const Joi = require('joi');
 
@@ -145,17 +146,19 @@ exports.productDetails = async (req, res) => {
     // console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
     const products = await Productdb.findById(req.query.id)
     // console.log("products>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", products);
-
     // const count = cartCount[0].products.length;
+
+
 
     const count = null;
     if (req.session.user) {
         const cartCount = await Cartdb.find({ userId: objectId(req.session.user._id) })
         const count = cartCount[0]?.products?.length;
-        res.render('user/user_productDetails', { products, count })
+
+        res.render('user/user_productDetails', { products, count , isUserlogin: req.session.isUserlogin })
     }
 
-    res.render('user/user_productDetails', { products, count })
+    res.render('user/user_productDetails', { products, count, isUserlogin: req.session.isUserlogin })
 }
 
 
@@ -259,7 +262,9 @@ exports.placeOrder = async (req, res) => {
     let total = cartItems[0]?.total;
     // console.log("total----------", total);
 
-    res.render('user/place_order', { total, user: req.session.user, error: "" })
+    const saved = await SavedAddressdb.find({ userId: objectId(userId) }).sort({date: -1}).limit(3);
+
+    res.render('user/place_order', { total,saved, user: req.session.user, error: "" })
 }
 
 //place order direct from home page and product details page. buy now button.....
@@ -275,7 +280,10 @@ exports.placeOrderDirect = async (req, res) => {
     // console.log(';;;;;;;;;;;;;;;;;;;;;;;', product);
     req.session.dirBuynowProduct = product;
 
-    res.render('user/placeOrderFromHome', { total , user: req.session.user, error: "" })
+    const saved = await SavedAddressdb.find({userId: objectId(userId)}).sort({date: -1}).limit(3);
+
+
+    res.render('user/placeOrderFromHome', {saved, total , user: req.session.user, error: "" })
      // res.render('user/placeOrderFromHome', { total , user: req.session.user, error: "" })
 
 }

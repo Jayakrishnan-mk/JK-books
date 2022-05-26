@@ -304,75 +304,86 @@
                           </div> -->
 
                     <% for(let i=0; i<products.length; i++) { %>
+                        <% if(products[i].quantity ) { %>
+                            <div class="single-course item">
 
-                        <div class="single-course item">
+                                <input type="hidden" value="<%= products[i]._id %>">
+                                <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
+                                        src="<%= products[i].image %>"
+                                        style="width: 270px; height: 310px; object-fit: contain;" alt="">
 
-                            <input type="hidden" value="<%= products[i]._id %>">
-                            <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
-                                    src="<%= products[i].image %>"
-                                    style="width: 270px; height: 310px; object-fit: contain;" alt="">
+                                    <div class="details">
 
-                                <div class="details">
+                                </a>
+                                <!-- <p class="sale-btn">For Sale</p> -->
 
-
-                                    <!-- <div class="offer position-absolute" style="position:absolute; z-index:9">
-                                        <button type="button" onclick="wishlist()" class="btn btn-outline-danger"
-                                            id="wishlist-btn">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                                </path>
-                                            </svg>
-
-                                        </button>
-                                    </div> -->
-                            </a>
-                            <!-- <p class="sale-btn">For Sale</p> -->
-
-
-
-
-
-                            <h4 style="text-align: center; font-weight: bold;">
-                                <%= products[i].name %>
-                                    <h4 style="text-align: center; font-weight: bolder;">
-                                        <%= products[i].author %>
-                                            <h4 style="text-align: center;">
-                                                <div class="price">
-                                                    <span>₹<%= products[i].price %></span>
+                                <h4 style="text-align: center; font-weight: bold;">
+                                    <%= products[i].name %>
+                                        <h4 style="text-align: center; font-weight: bolder;">
+                                            <%= products[i].author %>
+                                                <h4 style="text-align: center;">
+                                                    <div class="price">
+                                                        <span>₹<%= products[i].price %></span>
+                                                    </div>
+                                                </h4>
+                                                <div style="margin-left: 8%;">
+                                                    <button onclick="landingCartBtn()"
+                                                        style="background-color: #ff3457; color: white;"
+                                                        class="btn mt-4">Add to Cart</button>
+                                                    <button onclick="landingCartBtn()"
+                                                        style="background-color: #ff6e3e; color: white;"
+                                                        class="btn  mt-4">Buy Now</button>
                                                 </div>
-                                            </h4>
-                                            <div style="margin-left: 8%;">
-                                                <button onclick="landingCartBtn()"
-                                                    style="background-color: #ff3457; color: white;"
-                                                    class="btn mt-4">Add to Cart</button>
-                                                <button onclick="landingCartBtn()"
-                                                    style="background-color: #ff6e3e; color: white;"
-                                                    class="btn  mt-4">Buy Now</button>
-                                            </div>
-
-                                            <!-- <p>
-                                    <%= products[i].description %>
-                                </p> -->
-
-                        </div>
+                            </div>
 
                 </div>
 
+                <% } else { %>
+                    <div class="single-course item">
+
+                        <input type="hidden" value="<%= products[i]._id %>">
+                        <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
+                                src="<%= products[i].image %>" style="width: 270px; height: 310px; object-fit: contain;"
+                                alt="">
+
+                            <div class="details">
+
+                        </a>
+                        <!-- <p class="sale-btn">For Sale</p> -->
+
+
+
+
+
+                        <h4 style="text-align: center; font-weight: bold;">
+                            <%= products[i].name %>
+                                <h4 style="text-align: center; font-weight: bolder;">
+                                    <%= products[i].author %>
+                                        <h4 style="text-align: center;">
+                                            <div class="price">
+                                                <span>₹<%= products[i].price %></span>
+                                            </div>
+                                        </h4>
+                                        <div style="margin-left: 8%;">
+                                            <button 
+                                                style="background-color: #ff3457; color: white; width: 7rem; text-align: right;" class="btn mt-4" disabled>Out of</button>
+                                            <button
+                                                style="background-color: #ff6e3e; color: white; width: 7rem; text-align: left;" class="btn  mt-4" disabled>Stock</button>
+                                        </div>
+
+                                        <!-- <p>
+                                        <%= products[i].description %>
+                                    </p> -->
+
+                    </div>
+
+            </div>
+
+            <% } %>
+
                 <% } %>
 
-                    <!-- 
-                    <div class="single-course item">
-                        <img class="img-fluid" src="img/c3.jpg" alt="">
-                        <div class="details">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna
-                            </p>
-                        </div>
-                    </div> -->
-            </div>
+        </div>
         </div>
         </div>
     </section>

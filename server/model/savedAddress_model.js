@@ -20,7 +20,11 @@ const savedSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true
-    }
+    },
+    date: {
+        type: Date,
+        required: true
+    } 
 });
 
 const savedAddressModel = mongoose.model('savedAddressDb', savedSchema);

@@ -18,13 +18,16 @@
 
 <link rel="stylesheet" href="css/cartcss.css">
 
-<body>
+<body style="overflow-x: hidden;">
 
 
     <nav class="prod-nav">
-        <a href="/"><h2 class="prod-head" style="width: 20%"> JK Books</h2></a>
         <a href="/">
-            <h5 style="margin-left: 85rem; margin-top: 1rem; color: white; font-size: 12px; font-weight: bold;">Home</h5>
+            <h2 class="prod-head" style="width: 20%"> JK Books</h2>
+        </a>
+        <a href="/">
+            <h5 style="margin-left: 85rem; margin-top: 1rem; color: white; font-size: 12px; font-weight: bold;">Home
+            </h5>
         </a>
     </nav>
 
@@ -40,18 +43,62 @@
                         </p>
                         <div>
                             <label for="">Name</label>
-                            <input class="form-control" type="text" id="name" name="name"><br>
+                            <input class="form-control" oninput="nameValid()" type="text" id="name" name="name"><br>
+                            <p style="color: red;" id="pname"></p>
                             <label for="">Address</label>
-                            <input class="form-control" type="text" id="address" name="address"><br>
+                            <input class="form-control" type="text" oninput="addressValid()" id="address"
+                                name="address"><br>
+                            <p style="color: red;" id="paddress"></p>
                             <label for="">Pincode</label>
-                            <input class="form-control" type="text" id="pincode" name="pincode"><br>
+                            <input class="form-control" type="text" oninput="pincodeValid()" id="pincode"
+                                name="pincode"><br>
+                            <p style="color: red;" id="ppincode"></p>
                             <label for="">Mobile</label>
-                            <input class="form-control" type="text" id="mobile" name="mobile"><br>
-                            <input type="hidden" name="total" value="<%= total %>">
+                            <div style="display: flex;">
+                                <input class="form-control" type="text" oninput="mobileValid()" id="mobile"
+                                    name="mobile">
+                                <input type="hidden" name="total" value="<%= total %>">
+
+                                <button type="button" onclick="nameValid();addressValid();pincodeValid();mobileValid(); savingAddress(document.getElementById('name').value,document.getElementById('address').value,document.getElementById('pincode').value,document.getElementById('mobile').value)"
+                                    style="background-color: #3f4b5c;     width: 8rem; border: none; border-radius: 7px; color: white;">
+                                    Save Address
+                                </button>
+                            </div>
+                            <p style="color: red;" id="pmobile"></p>
+
+                            <br><br>
+
+
+
+                            <% for ( i=0; i< saved.length; i++ ) { %>
+                                <div style="display: flex;">
+                                    <input type="radio"
+                                        onclick="autofill( '<%= saved[i].name %>',  
+                                     '<%= saved[i].address %> ', ' <%= saved[i].pincode %> ','<%= saved[i].mobile %> ')"
+                                        name="saveAddress">
+                                    <div style="margin-left: 1.5rem;">
+                                        <p>
+                                            <%= saved[i].name %>
+                                        </p>
+                                        <p>
+                                            <%= saved[i].address %>
+                                        </p>
+                                        <p>
+                                            <%= saved[i].pincode %>
+                                        </p>
+                                        <p>
+                                            <%= saved[i].mobile %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <% } %>
                         </div>
                     </div>
-                    <div class="col-md-4" style="margin-left: 10rem">
-                        <div class="container mt-5 ml-5 checkout">
+
+
+
+                    <div class="col-md-4" style="margin-left: 10rem; margin-top: 3rem;">
+                        <div class="container mt-5 ml-5 checkout" style="background-color: white;">
                             <h5>Total Amount:Rs.<%= total %>
                             </h5>
                             <hr>
@@ -79,6 +126,124 @@
 
 
     <script>
+
+
+        function autofill(name, address, pincode, mobile) {
+            $('#name').val(name);
+            $('#address').val(address);
+            $('#pincode').val(pincode);
+            $('#mobile').val(mobile);
+        }
+
+
+        //----------------------------------------------------------------------------
+        function savingAddress(name, address, pincode, mobile) {
+            // console.log('EEELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+            if (value1 == true && value2 == true && value3 == true && value4 == true) {
+
+                $.ajax({
+                    url: '/save-address',
+                    method: 'post',
+                    data: {
+                        name,
+                        address,
+                        pincode,
+                        mobile
+                    },
+                    success: (response) => {
+                        if (response.status) {
+                            document.getElementById('pmobile').style.display = 'block';
+                            document.getElementById('pmobile').innerText = 'Address already exist';
+                        }
+                        else {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                }
+                            })
+
+                            Toast.fire({
+                                icon: 'success',
+                                title: 'Address saved successfully'
+                            })
+                        }
+                    }
+                })
+            }
+        }
+
+        //--validation-------------------------------------------------------------------------
+
+
+        function nameValid() {
+            value1 = false;
+            if ($("#name").val().match(/^[A-Za-z][A-Za-z ]*$/)) {
+                value1 = true;
+                document.getElementById("pname").style.display = "none";
+            }
+            else {
+                document.getElementById("pname").style.display = "block";
+                document.getElementById("pname").innerText = "Enter a valid Name";
+                value1 = false;
+            }
+            if ($("#name").val().length < 4) {
+
+                value2 = false;
+                document.getElementById("pname").style.display = "block";
+                document.getElementById("pname").innerText = "Minimum Length of this field is 4";
+
+            }
+            else {
+                value2 = true;
+            }
+        }
+
+        function mobileValid() {
+            value3 = false;
+            if ($("#mobile").val().match(/^([+]?\d{1,2}[-\s]?|)\d{3}[-\s]?\d{3}[-\s]?\d{4}$/)) {
+                value3 = true;
+                document.getElementById("pmobile").style.display = "none";
+            } else {
+                document.getElementById("pmobile").style.display = "block";
+                document.getElementById("pmobile").innerHTML = "Enter a valid number";
+                value3 = false;
+            }
+        }
+
+        function pincodeValid() {
+            value4 = false;
+            if ($("#pincode").val().match(/\b\d{1,6}\b/)) {
+                value4 = true;
+                document.getElementById("ppincode").style.display = "none";
+            } else {
+                document.getElementById("ppincode").style.display = "block";
+                document.getElementById("ppincode").innerText = "Enter a valid Pincode";
+                value4 = false;
+            }
+        }
+
+        function addressValid() {
+            value5 = false;
+            if ($("#address").val().length > 6) {
+                value5 = true;
+                document.getElementById("paddress").style.display = "none";
+            } else {
+                document.getElementById("paddress").style.display = "block";
+                document.getElementById("paddress").innerText = "Enter a valid Address";
+                value5 = false;
+            }
+        }
+
+        //----------------------------------------------------------------------------
+
+
+
         $('#checkout-form').submit(function (e) {
             e.preventDefault();
             // console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
@@ -91,11 +256,11 @@
                     // alert("data  alert coming");
                     if (data.error) {
                         location.href = `/place-order-validationError/${data.total}/${data.error}`;
-                    } 
+                    }
                     else if (data.codSuccess) {
                         // console.log('lllllllllll');
                         location.href = '/order-success';
-                    } 
+                    }
                     else {
                         // console.log('kkkkkkkkkkkkkkkkkkkk');
                         razorpayPayment(data);
@@ -109,7 +274,7 @@
 
             var options = {
                 "key": "rzp_test_ypSBEwW22pVLiL", // Enter the Key ID generated from the Dashboard
-                "amount": order.order.amount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "amount": order.order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": "INR",
                 "name": "JK Books",
                 "description": "Test Transaction",
@@ -117,7 +282,7 @@
                 "order_id": order.order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 
                 "handler": function (response) {
-                    
+
 
                     // console.log('paymohjouihuhu+++++++++++++++++++++++++++++++++++++++++++++++++++++', payment, order);
 
@@ -155,7 +320,7 @@
                 method: "post",
                 success: (response) => {
                     // console.log('response+++++++++++++++++++++++++++++++++++++++++++++++++++++', response); 
-                    if(response.status) {
+                    if (response.status) {
                         location.href = '/order-success';
                     }
                     else {

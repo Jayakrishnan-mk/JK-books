@@ -38,7 +38,7 @@ exports.adminProducts = async (req, res) => {
     try {
         const products = await Productdb.find()
         // console.log(products);
-        console.log(products[0].image);
+        // console.log(products[0].image);
         res.render('admin/admin_products', { products: products })
     }
     catch (error) {
@@ -98,7 +98,7 @@ exports.create = (req, res) => {
 
 //admin block unblock user......................................
 exports.block = async (req, res) => {
-    console.log('idddddddddddddddd');
+    // console.log('idddddddddddddddd');
     try {
         // console.log(req.params.id, "...................................................");
         const user = await Userdb.findOne({ _id: req.params.id })
@@ -106,11 +106,16 @@ exports.block = async (req, res) => {
         // console.log("req.params.id", req.params.id);
         if (user.isBlocked) {
             await Userdb.updateOne({ _id: req.params.id }, { isBlocked: false })
-            res.status(200).redirect('/admin/admin-home')
+            setTimeout(() => {
+                res.status(200).redirect('/admin/admin-home')
+
+            }, 1000);
         }
         else {
             await Userdb.updateOne({ _id: req.params.id }, { isBlocked: true })
-            res.status(200).redirect('/admin/admin-home')
+            setTimeout(() => {
+                res.status(200).redirect('/admin/admin-home')
+            }, 1000);
         }
     }
     catch (error) {

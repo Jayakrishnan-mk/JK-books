@@ -5,6 +5,7 @@ const controller = require('../controller/controller');
 const product_controller = require('../controller/product_controller');
 const category_controller = require('../controller/category_controller');
 const order_controller = require('../controller/order_controller');
+const coupon_controller = require('../controller/coupon_controller');
 
 const admin = require('../model/admin_model');
 const Categorydb = require('../model/category_model');
@@ -136,6 +137,9 @@ router.post('/deliveryStatus', order_controller.deliveryStatus);
 
 //add product.................................. 
 router.post('/admin-products', product_controller.addProducts);
+
+//add product.................................. 
+router.get('/admin-coupons', coupon_controller.couponDetails);
 
 //search user.................................. 
 router.get('/user-search', controller.userSearch)

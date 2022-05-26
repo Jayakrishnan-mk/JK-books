@@ -10,9 +10,9 @@ const objectId = require('mongoose').Types.ObjectId;
 //add to cart.......................................................
 exports.addToCart = async (req, res) => {
     const userId = req.session.user._id;
-    console.log('userid printed...................................', userId);
+    // console.log('userid printed...................................', userId);
     const proId = req.params.id;
-    console.log("productid printed.................................", proId);
+    // console.log("productid printed.................................", proId);
     console.log(req.body);
     const product = {
         id: objectId(proId),

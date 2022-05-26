@@ -45,7 +45,6 @@ exports.checkout = async (req, res) => {
 
     // console.log(deliveryObj);
 
-    const error = validate(deliveryObj)
 
     
     const orderObject = {
@@ -63,16 +62,6 @@ exports.checkout = async (req, res) => {
     req.session.total = orderObject.totalAmount;
 
     let orderItems = new Orderdb(orderObject)
-
-    if (error.error) {
-
-
-        let errorMsg = error.error?.details[0].message;
-
-        res.json({ total: orderItems.totalAmount, error: errorMsg })
-    }
-
-    else {
 
         
         // console.log('product quantity decreasing before.................');
@@ -149,7 +138,7 @@ exports.checkout = async (req, res) => {
             })
 
         }
-    }
+    
 }
 // }
 
@@ -176,7 +165,6 @@ exports.checkoutFromBuynow = async (req, res) => {
 
     // console.log(deliveryObj);
 
-    const error = validate(deliveryObj)
 
 
     const orderObject = {
@@ -198,15 +186,6 @@ exports.checkoutFromBuynow = async (req, res) => {
     let orderItems = new Orderdb(orderObject)
     // console.log('cccccccccccccccccccccccc', orderItems);
 
-    if (error.error) {
-
-
-        let errorMsg = error.error?.details[0].message;
-
-        res.json({ total: orderItems.totalAmount, error: errorMsg })
-    }
-
-    else {
 
         
         // console.log('product quantity decreasing before.................');
@@ -262,7 +241,7 @@ exports.checkoutFromBuynow = async (req, res) => {
             })
   
         }
-    }
+    
 }
 
 
@@ -407,17 +386,5 @@ exports.cancelOrderInAdminside = async (req, res) => {
         })
         res.redirect('/admin/admin-ordersList')
 
-}
-
-
-
-const validate = (data) => {
-    const schema = Joi.object({
-        name: Joi.string().min(3).max(20).required().label("Name"),
-        address: Joi.string().min(6).required().label("Address"),
-        pincode: Joi.string().length(6).pattern(/^[0-9]+$/).required().label("Pincode"),
-        mobile: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).required().label("Mobile number"),
-    })
-    return schema.validate(data)
 }
 

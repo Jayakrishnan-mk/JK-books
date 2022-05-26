@@ -39,8 +39,51 @@
 
             </div>
             <div style="margin-left: 5%; display: flex; padding: 5rem;">
-                <button onclick="addCart('<%= products._id %>') " class="addCartBtn btn mt-4">Add to Cart</button>
-                <a href="/place-order-direct?id=<%= products._id%>"><button class="buyNowBtn btn  mt-4">Buy Now</button></a>
+
+                <% if ( isUserlogin ) { %>
+                    <% if (products.quantity) { %>
+                        <button onclick="addCart('<%= products._id %>') " class="addCartBtn btn mt-4">Add to
+                            Cart</button>
+                        <a href="/place-order-direct?id=<%= products._id%>"><button class="buyNowBtn btn  mt-4">Buy
+                                Now</button></a>
+                        <div>
+                            <a href="/cart"><button style="width: 12rem;   height: 3rem;      background-color: #5391ae;
+                                color: white;
+                                margin-left: 3rem; ">Go
+                                    to Cart</button></a>
+                        </div>
+                        <% } else { %> 
+                            <button onclick="stockBtn()" style="width: 12rem;   height: 3rem;      background-color: #f53f51; font-size: large;
+                        color: white;">Out of Stock</button>
+                            <a href="/cart"><button style="width: 12rem;   height: 3rem;      background-color: #5391ae;
+                        color: white;
+                        margin-left: 3rem; "> Go to Cart</button></a>
+                            <% } %>
+
+
+
+
+                                <% } else { %>
+                                    <% if (products.quantity) { %>
+
+                                        <button onclick="loginRqstBtn()" style=" width: 12rem; 
+                        height: 3rem; font-size: large;
+                        background-color: #f53f51;; border: none;
+                         color: white;" class="btn mt-4" >Add to Cart</button>
+                                        <button onclick="loginRqstBtn()" style="    background-color: #fb854d;    border: none;
+                         width: 12rem; 
+                        height: 3rem; font-size: large;
+                         color: white;  border: none; margin-left: 3rem;
+    padding: 5px;" class="btn  mt-4" >Buy Now</button>
+                                        <% } else { %>
+                                            <button onclick="stockBtn()" style="width: 12rem;   height: 3rem;      background-color: #f53f51;
+                            color: white; border: none; font-size: x-large;
+                             ">Out of Stock</button>
+                                            <button onclick="loginRqstBtn()" style="width: 12rem;   height: 3rem;      background-color: #5391ae;
+                            color: white; border: none; font-size: large; 
+                            margin-left: 3rem; ">Go to Cart</button>
+                                            <% } %>
+                                                <% } %>
             </div>
         </div>
 
@@ -82,6 +125,22 @@
 
                 },
             });
+        }
+
+        //....................................................................
+        function loginRqstBtn() {
+            Swal.fire(
+                'Please Login!',
+                'User not found',
+                'question'
+            )
+        }
+        function stockBtn() {
+            Swal.fire(
+                'Out of Stock!',
+                'Product is Untouchable',
+                'question'
+            )
         }
     </script>
 

@@ -139,14 +139,6 @@ userRouter.post('/verify-payment', order_controller.verifyPayment);
 //order list..............................................
 userRouter.get('/order-success', order_controller.orderSuccess);
 
-//place order validation..............................................
-userRouter.get('/place-order-validationError/:total/:error', (req, res) => {
-    // console.log(',,,,,,,,,,,,,,,',req.params);
-    // console.log('jjjjjjjjjjjjj', req.session.user);
-    res.render('user/place_order_validation', { total: req.params.total, error: req.params.error })
-})
-
-
 userRouter.get('/my-orders', order_controller.myOrders);
 
 userRouter.get('/my-profile', controller.myProfile);

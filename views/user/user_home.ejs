@@ -80,11 +80,13 @@
                         <ul class="nav-menu">
 
                             <!-- <li class="menu-has-children"><a href="">Profile</a> -->
-                                <li><a href="/my-profile"><%= userHome.name %></a></li>
+                            <li><a href="/my-profile">
+                                    <%= userHome.name %>
+                                </a></li>
                             <li class="menu-has-children"><a href=""> <i class="fa-solid fa-user"
                                         style="color: white;"></i>
                                 </a>
-                                
+
                                 <ul>
                                     <li><a href="/my-profile">My Profile</a></li>
                                     <li><a href="/my-orders">My Orders</a></li>
@@ -247,70 +249,108 @@
 
 
                     <% for(let i=0; i<products.length; i++) { %>
+                        <% if(products[i].quantity ) { %>
 
-                        <div class="single-course item">
+                            <div class="single-course item">
 
-                            <input type="hidden" value="<%= products[i]._id %>">
-                            <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
-                                    src="<%= products[i].image %>"
-                                    style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
+                                <input type="hidden" value="<%= products[i]._id %>">
+                                <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
+                                        src="<%= products[i].image %>"
+                                        style="width: 270px; height: 310px; object-fit: contain;" alt=""></a>
 
-                            <div class="details">
+                                <div class="details">
 
 
-                                <div class="offer position-absolute" style="position:absolute; z-index:9">
-                                    <!-- <button type="button" onclick="wishlist()" class="btn btn-outline-danger"
-                                            id="wishlist-btn"> -->
-                                    <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                                                <path
-                                                    d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z">
-                                                </path>
-                                            </svg> -->
-                                    <!-- </button> -->
+                                    <div class="offer position-absolute" style="position:absolute; z-index:9">
 
-                                    <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
-                                    <% if (wishlist?.products.includes(products[i]._id)) { %>
-                                        <button style="border: none; background-color: #f9f9ff;" id="wishlist"
-                                            onclick="heartTouched('<%= products[i]._id %>')">
-                                            <i id="<%= products[i]._id %>" style="color: #f53e54;"
-                                                class="fa-solid fa-heart"></i></button>
-                                        <% } else { %>
+                                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+
+                                        <% if (wishlist?.products.includes(products[i]._id)) { %>
                                             <button style="border: none; background-color: #f9f9ff;" id="wishlist"
                                                 onclick="heartTouched('<%= products[i]._id %>')">
-                                                <i id="<%= products[i]._id %>" class="fa-solid fa-heart"></i></button>
-                                            <% } %>
+                                                <i id="<%= products[i]._id %>" style="color: #f53e54;"
+                                                    class="fa-solid fa-heart"></i></button>
+                                            <% } else { %>
+                                                <button style="border: none; background-color: #f9f9ff;" id="wishlist"
+                                                    onclick="heartTouched('<%= products[i]._id %>')">
+                                                    <i id="<%= products[i]._id %>"
+                                                        class="fa-solid fa-heart"></i></button>
+                                                <% } %>
+
+                                    </div>
+                                    <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
+
+
+
+
+
+                                    <h4 style="text-align: center; font-weight: bold;">
+                                        <%= products[i].name %>
+                                            <h4 style="text-align: center; font-weight: bolder;">
+                                                <%= products[i].author %>
+                                                    <h4 style="text-align: center;">
+                                                        <div class="price">
+                                                            <span>₹<%= products[i].price %></span>
+                                                        </div>
+                                                    </h4>
+                                                    <div style="margin-left: 8%;">
+                                                        <button onclick="addCart('<%= products[i]._id %>')"
+                                                            style="background-color: #ff3457; color: white;"
+                                                            class="btn mt-4">Add to Cart</button>
+                                                        <a href="/place-order-direct?id=<%= products[i]._id%>"><button
+                                                                style="background-color: #ff6e3e; color: white;"
+                                                                class="btn  mt-4">Buy Now</button></a>
+                                                    </div>
+                                </div>
+                            </div>
+                            <% } else { %>
+                                <div class="single-course item">
+
+                                    <input type="hidden" value="<%= products[i]._id %>">
+                                    <a href="/product-details?id=<%=products[i]._id%>"><img class="img-fluid"
+                                            src="<%= products[i].image %>"
+                                            style="width: 270px; height: 310px; object-fit: contain;" alt="">
+
+                                        <div class="details">
+
+                                    </a>
+                                    <!-- <p class="sale-btn">For Sale</p> -->
+
+
+
+
+
+                                    <h4 style="text-align: center; font-weight: bold;">
+                                        <%= products[i].name %>
+                                            <h4 style="text-align: center; font-weight: bolder;">
+                                                <%= products[i].author %>
+                                                    <h4 style="text-align: center;">
+                                                        <div class="price">
+                                                            <span>₹<%= products[i].price %></span>
+                                                        </div>
+                                                    </h4>
+                                                    <div style="margin-left: 8%;">
+                                                        <button
+                                                            style="background-color: #ff3457; color: white; text-align: right; width: 7rem;"
+                                                            class="btn mt-4" disabled>Out of</button>
+                                                        <button
+                                                            style="background-color: #ff6e3e;text-align: left; color: white; width: 7rem;"
+                                                            class="btn  mt-4" disabled>Stock</button>
+                                                    </div>
+
+                                                    <!-- <p>
+                                                <%= products[i].description %>
+                                            </p> -->
 
                                 </div>
-                                <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      wishlist     <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< -->
 
+                </div>
 
+                <% } %>
 
-
-
-                                <h4 style="text-align: center; font-weight: bold;">
-                                    <%= products[i].name %>
-                                        <h4 style="text-align: center; font-weight: bolder;">
-                                            <%= products[i].author %>
-                                                <h4 style="text-align: center;">
-                                                    <div class="price">
-                                                        <span>₹<%= products[i].price %></span>
-                                                    </div>
-                                                </h4>
-                                                <div style="margin-left: 8%;">
-                                                    <button onclick="addCart('<%= products[i]._id %>')"
-                                                        style="background-color: #ff3457; color: white;"
-                                                        class="btn mt-4">Add to Cart</button>
-                                                    <a href="/place-order-direct?id=<%= products[i]._id%>"><button
-                                                            style="background-color: #ff6e3e; color: white;"
-                                                            class="btn  mt-4">Buy Now</button></a>
-                                                </div>
-                            </div>
-                        </div>
-                        <% } %>
-
-                            <!-- <div class="single-course item">
+                    <% } %>
+                        <!-- <div class="single-course item">
                             <img class="img-fluid" src="img/c3.jpg" alt="">
                             <div class="details">
                                 <p>
@@ -319,8 +359,8 @@
                                 </p>
                             </div>
                         </div> -->
-                </div>
             </div>
+        </div>
         </div>
     </section>
 
@@ -625,17 +665,17 @@
                             believe in the power of books. We are committed to providing you with the best books
                             available in the world.
                         </p>
-                        <p>JK Books. &nbsp  &nbsp    Expect more , Explore more.....</p>
+                        <p>JK Books. &nbsp &nbsp Expect more , Explore more.....</p>
                         <p class="footer-text">
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright &copy;
                             <script>document.write(new Date().getFullYear());</script> All rights reserved | This
                             website is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="/"
-                                target="_blank">JK Books</a> 
+                                target="_blank">JK Books</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </p>
 
-                      
+
 
                     </div>
                 </div>
@@ -722,7 +762,7 @@
                         $('#cartCountId').html(count);
                     }
                     // console.log("prod added in cart", proId);
-                    Swal.fire('Product added to cart successfully');
+                    Swal.fire('Item added to cart successfully');
                     // alert("Added to cart");
                 }
             });

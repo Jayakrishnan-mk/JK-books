@@ -22,13 +22,13 @@
             <% if(users[i].isBlocked) { %>
                 <form action="/admin/status/<%= users[i]._id%>?_method=patch" method="post">
                     <td>
-                        <button type="submit" class="btn btn-danger">Unblock</button>
+                        <button onclick="Unblock()" type="submit" class="btn btn-danger">Unblock</button>
                     </td>
                 </form>
                 <% } else { %>
                     <form action="/admin/status/<%= users[i]._id%>?_method=patch" method="post">
                         <td>
-                            <button type="submit" class="btn btn-success">Block</button>
+                            <button onclick="block()" type="submit" class="btn btn-success">Block</button>
                         </td>
                     </form>
                     <% } %>
@@ -37,3 +37,25 @@
         </tr>
 
         <% } %>
+
+            <script>
+                function block() {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'User Blocked Successfully',
+                        showConfirmButton: false,
+                        
+                    })
+                }
+                function Unblock() {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'User Unblocked Successfully',
+                        showConfirmButton: false,
+                        
+                    })
+                 
+                }
+            </script>

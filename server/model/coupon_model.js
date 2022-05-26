@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const couponSchema = new mongoose.Schema({
-    code: {
+    coupon: {
         type: 'string',
         required: true
     },

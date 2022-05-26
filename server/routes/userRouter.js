@@ -7,6 +7,7 @@ const order_controller = require('../controller/order_controller');
 const otp_controller = require('../controller/otp_controller');
 const product_controller = require('../controller/product_controller');
 const saveAddress_controller = require('../controller/saveAddress_controller');
+const coupon_controller = require('../controller/coupon_controller');
 
 
 const verifyLogin = (req, res, next) => {
@@ -132,7 +133,10 @@ userRouter.post('/checkout', order_controller.checkout);
 
 //checkout page from buynow..............................................
 userRouter.post('/checkoutFromBuynow', order_controller.checkoutFromBuynow);
- 
+
+//coupon applying..............................................
+userRouter.post('/coupon-apply', coupon_controller.couponApply);
+
 //payment of razorpay..................................
 userRouter.post('/verify-payment', order_controller.verifyPayment);
 
@@ -152,5 +156,7 @@ userRouter.get('/cancel-order/:id' , order_controller.cancellingOrder)
 userRouter.post('/profile-edit', controller.profileEdit);
 
 userRouter.post('/save-address', saveAddress_controller.saveAddress);
+
+
  
 module.exports = userRouter;

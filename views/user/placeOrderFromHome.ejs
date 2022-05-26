@@ -72,7 +72,11 @@
 
                             <br><br>
 
+                            <h4>Saved Addresses</h4><br>
+                            <div style="border: 1px solid; padding: 2rem 0 0 4rem; background-color: white;">
                             <% for ( i=0; i< saved.length; i++ ) { %>
+
+
                                 <div style="display: flex;">
                                     <input type="radio"
                                         onclick="autofill( '<%= saved[i].name %>',  
@@ -91,9 +95,11 @@
                                         <p>
                                             <%= saved[i].mobile %>
                                         </p>
+                                        <hr style="color: red;">
                                     </div>
                                 </div>
                                 <% } %>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4" style="margin-left: 10rem; margin-top: 3rem;">

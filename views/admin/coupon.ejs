@@ -1,0 +1,172 @@
+<%-include ('../include/_header') %>
+
+
+
+    <main id="site-main">
+        <div class="container">
+
+            <div class="box-nav d-flex justify-between">
+
+                <a href="/admin/add-coupon" class="border-shadow" style="margin-left: -7%;">
+                    <span class="new">Add Coupon <i class="fa-solid fa-gift"></i></span>
+                </a>
+
+                <form action="/admin/product-search" method="get">
+                    <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+
+
+            </div>
+
+        </div>
+        <br><br>
+
+        <!-- form handling................... -->
+
+        <!-- <form action="/admin-home" method="post"> -->
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Percentage</th>
+                    <th>Min.Purchase</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% for (var i=0 ; i<coupons.length ; i++ ) { %>
+
+                    <tr>
+                        <td>
+                            <%= i + 1 %>
+                        </td>
+                        <td>
+                            <%= coupons[i].coupon %>
+                        </td>
+                        <td>
+                            <%= coupons[i].percentage %>
+                        </td>
+                        <td>
+                            <%= coupons[i].min %>
+                        </td>
+                        <td>
+                            <%= coupons[i].fromDate.toDateString() %>
+                        </td>
+                        <td>
+                            <%= coupons[i].toDate.toDateString() %>
+                        </td>
+
+
+                        <% if( coupons[i].status) { %>
+                            <form action="/admin/couponStatus/<%= coupons[i]._id%>?_method=patch" method="post">
+                                <td>
+                                    <button onclick="enable()" type="submit" class="btn btn-success">Enabled</button>
+                                </td>
+                            </form>
+                            <% } else { %>
+                                <form action="/admin/couponStatus/<%= coupons[i]._id%>?_method=patch" method="post">
+                                    <td>
+                                        <button onclick="disable()" type="submit"
+                                            class="btn btn-danger">Disabled</button>
+                                    </td>
+                                </form>
+                                <% } %>
+
+                                    <td>
+
+                                        <a href=" /admin/update-coupon/<%= coupons[i]._id%> ">
+                                            <li class="list-inline-item" style="display: grid;">
+                                                <button class="btn btn-success btn-sm rounded-0" type="button"
+                                                    data-toggle="tooltip" data-placement="top" title="Edit"><i
+                                                        class="fa fa-edit"></i></button>
+                                            </li>
+                                        </a>
+
+
+                                        <li class="list-inline-item" style="display: grid;">
+                                            <button onclick="confirmDelete('<%= coupons[i]._id %>')"
+                                                class="btn btn-danger btn-sm rounded-0" type="button"
+                                                data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <i class="fa fa-trash"></i></button>
+                                        </li>
+                                        <!-- </form> -->
+
+                                        <!-- //--------------------------------------------------------------------------------------------// -->
+
+
+                                    </td>
+                    </tr>
+
+                    <% } %>
+
+
+            </tbody>
+
+        </table>
+        </form>
+
+        <!-- form handling.............................. -->
+
+    </main>
+
+    <script>
+
+        function confirmDelete(id) {
+
+            // console.log(id);
+
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You want to delete this coupon !",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    type = "delete",
+                        location.href = `/admin/delete-coupon/${id}?_method=DELETE`;
+                    Swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                }
+            })
+        }
+
+
+        function enable() {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Coupon Deactivated Successfully',
+                        showConfirmButton: false,
+
+                    })
+                }
+                function disable() {
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Coupon Activated Successfully',
+                        showConfirmButton: false,
+
+                    })
+
+                }
+    </script>
+
+
+    <%-include ('../include/_footer') %>

@@ -139,7 +139,28 @@ router.post('/deliveryStatus', order_controller.deliveryStatus);
 router.post('/admin-products', product_controller.addProducts);
 
 //add product.................................. 
-router.get('/admin-coupons', coupon_controller.couponDetails);
+router.get('/coupon', coupon_controller.couponDetails);
+
+//add coupon..................................
+router.get('/add-coupon', coupon_controller.addCoupon);
+
+//adding coupon..................................
+router.post('/adding-coupon', coupon_controller.addingCoupon);
+
+//update coupon..................................
+router.get('/update-coupon/:id', coupon_controller.updateCoupon);
+
+//updating coupon..................................
+router.put('/updating-coupon/:id', coupon_controller.updatingCoupon);
+
+//coupon error validatoin ............................
+router.get('/couponErrorVal', coupon_controller.couponErrorVal);
+
+//delete coupon................................
+router.delete('/delete-coupon/:id', coupon_controller.deleteCoupon);
+
+
+router.patch('/couponStatus/:id', coupon_controller.couponStatus);
 
 //search user.................................. 
 router.get('/user-search', controller.userSearch)

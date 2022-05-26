@@ -1,0 +1,40 @@
+<%-include ("../include/_header") %>
+
+    <section>
+        <div class="container mt-4">
+            <div class="row">
+
+                <div class="col-md-6">
+
+
+                    <h2 class="text-center">Edit Coupon</h2>
+                    <% if (errorMsg) { %>
+                        <p style="color: red;">
+                            <%= errorMsg %>
+                        </p>
+                        <% } %>
+                            <form action="/admin/updating-coupon/<%= coupon._id %>?_method=PUT" method="post" >
+                                <label for="">Name</label>
+                                <input type="text" name="coupon" value="<%= coupon.coupon %>" class="form-control"><br>
+
+                                <label for="">Percentage</label>
+                                <input type="number" name="percentage" value="<%= coupon.percentage %>" class="form-control"><br>
+
+                                <label for="">Min.Purchase</label>
+                                <input type="number" name="min" value="<%= coupon.min %>" class="form-control"><br>
+
+                                <label for="">From date</label>
+                                <input type="date" name="fromDate" value="<%= coupon.fromDate.toISOString().split('T')[0] %>" class="form-control"><br>
+
+                                <label for="">To date</label>
+                                <input type="date" name="toDate" value="<%= coupon.toDate.toISOString().split('T')[0] %>" class="form-control">
+
+                                <button style="color: white; background-color: black; border: none;" type="submit"
+                                    class="btn btn-info mt-4">Submit</button>
+
+                            </form>
+                </div>
+
+            </div>
+        </div>
+    </section>

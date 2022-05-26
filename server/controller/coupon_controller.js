@@ -1,5 +1,7 @@
 const Coupondb = require('../model/coupon_model');
-const Joi = require('joi')
+const FinishedCopondb = require('../model/finishedCoupon_model');
+const Joi = require('joi');
+const { date } = require('joi');
 
 //coupon details..........................................................
 exports.couponDetails = async (req, res) => {
@@ -132,14 +134,32 @@ exports.couponApply = async (req, res) => {
 
     const code = req.body.code;
     const total = req.body.total;
+    const currentDate = new Date();
+
     // console.log('code', code);
+    const finishedCouponObj = {
+        user: req.session.user._id,
+        coupon : code
+    }
 
     const coupon = await Coupondb.findOne({ coupon: code , status: true});
+    const used = await FinishedCopondb.findOne(finishedCouponObj  );
     if(coupon) {
         console.log('coupon', coupon);
-        if(coupon.min < total) {
+        if(used){
+            res.json({error: "Coupon already used"});
+
+        }
+        else if(coupon.toDate.getDate() < currentDate.getDate()){
+            res.json({error: "Coupon expired"});
+        }
+           else if(coupon.min < total) {
+            const finishedCoupon = new FinishedCopondb(finishedCouponObj);
+            await finishedCoupon.save();
+            
             const discount = (coupon.percentage / 100) * total;
-            const newTotal = total - discount;
+            const totalNew = total - discount;
+            const newTotal = parseInt(totalNew)
             res.json({ newTotal });
         }
         else {

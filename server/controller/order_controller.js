@@ -58,11 +58,15 @@ exports.checkout = async (req, res) => {
     }
 
 
+
+
     req.session.payment = orderObject.paymentMethod;
     req.session.total = orderObject.totalAmount;
 
     let orderItems = new Orderdb(orderObject)
 
+
+    console.log('ddddddddddddddddddd', orderItems);
         
         // console.log('product quantity decreasing before.................');
         
@@ -89,11 +93,13 @@ exports.checkout = async (req, res) => {
             }
         ])
 
+        console.log('productIds---------', productIds);
+
         const productIdsArray = [];
         for (i of productIds){
             productIdsArray.push(i.id);
         }
-        // console.log('productIdsArray---------', productIdsArray);
+        console.log('productIdsArray---------', productIdsArray);
 
         req.session.products = productIdsArray;
 //..........................................................................

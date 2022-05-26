@@ -60,7 +60,7 @@
                             <div style="display: flex;">
                                 <input class="form-control" type="text" oninput="mobileValid()" id="mobile"
                                     name="mobile">
-                                <input type="hidden" name="total" value="<%= total %>">
+                                <input type="hidden" id="total" name="total" value="<%= total %>">
 
                                 <button type="button"
                                     onclick="nameValid();addressValid();pincodeValid();mobileValid(); savingAddress(document.getElementById('name').value,document.getElementById('address').value,document.getElementById('pincode').value,document.getElementById('mobile').value)"
@@ -74,37 +74,62 @@
 
                             <h4>Saved Addresses</h4><br>
                             <div style="border: 1px solid; padding: 2rem 0 0 4rem; background-color: white;">
-                            <% for ( i=0; i< saved.length; i++ ) { %>
+                                <% for ( i=0; i< saved.length; i++ ) { %>
 
 
-                                <div style="display: flex;">
-                                    <input type="radio"
-                                        onclick="autofill( '<%= saved[i].name %>',  
+                                    <div style="display: flex;">
+                                        <input type="radio"
+                                            onclick="autofill( '<%= saved[i].name %>',  
                                      '<%= saved[i].address %> ', ' <%= saved[i].pincode %> ','<%= saved[i].mobile %> ')"
-                                        name="saveAddress">
-                                    <div style="margin-left: 1.5rem;">
-                                        <p>
-                                            <%= saved[i].name %>
-                                        </p>
-                                        <p>
-                                            <%= saved[i].address %>
-                                        </p>
-                                        <p>
-                                            <%= saved[i].pincode %>
-                                        </p>
-                                        <p>
-                                            <%= saved[i].mobile %>
-                                        </p>
-                                        <hr style="color: red;">
+                                            name="saveAddress">
+                                        <div style="margin-left: 1.5rem;">
+                                            <p>
+                                                <%= saved[i].name %>
+                                            </p>
+                                            <p>
+                                                <%= saved[i].address %>
+                                            </p>
+                                            <p>
+                                                <%= saved[i].pincode %>
+                                            </p>
+                                            <p>
+                                                <%= saved[i].mobile %>
+                                            </p>
+                                            <hr style="color: red;">
+                                        </div>
                                     </div>
-                                </div>
-                                <% } %>
+                                    <% } %>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-4" style="margin-left: 10rem; margin-top: 3rem;">
+
+
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Coupon    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<                     -->
+
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-group"> <label>Have coupon?</label><br><br>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control coupon" name="" id="coupon"
+                                                placeholder="Coupon code"> <span class="input-group-append">
+                                                <button type="button"
+                                                    onclick="couponApply(document.getElementById('coupon').value, '<%= total %>')"
+                                                    class="btn btn-primary btn-apply coupon"
+                                                    style=" height: 38px;">Apply</button> </span>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p id="errorCoupon" style="color: red; display: none;"></p>
+                            </div>
+                        </div>
+
+                        <!-- >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Coupon    <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<                     -->
+
+
                         <div class="container mt-5 ml-5 checkout" style="background-color: white;">
-                            <h5>Total Amount:Rs.<%= total %>
+                            <h5 id="totalAmount">Total Amount :Rs. <%= total %>
                             </h5>
                             <hr>
                             <div class="payment">
@@ -131,6 +156,29 @@
 
 
     <script>
+
+
+        function couponApply(code, total) {
+            $.ajax({
+                url: '/coupon-apply',
+                type: 'post',
+                data: {
+                    code,
+                    total
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $('#errorCoupon').show();
+                        document.getElementById('errorCoupon').innerHTML = data.error;
+                    }
+                    else if (data.newTotal) {
+                        $('#total').val(data.newTotal);
+                        document.getElementById('totalAmount').innerHTML = `Total Amount : Rs.${data.newTotal}`;
+                    }
+                }
+            });
+        }
+
 
 
         function autofill(name, address, pincode, mobile) {

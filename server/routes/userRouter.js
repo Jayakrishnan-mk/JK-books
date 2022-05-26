@@ -129,7 +129,7 @@ userRouter.get('/place-order', product_controller.placeOrder);
 userRouter.get('/place-order-direct' , product_controller.placeOrderDirect);
  
 //checkout page..............................................
-userRouter.post('/checkout', order_controller.checkout);  
+userRouter.post('/checkout', order_controller.checkout);   
 
 //checkout page from buynow..............................................
 userRouter.post('/checkoutFromBuynow', order_controller.checkoutFromBuynow);

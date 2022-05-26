@@ -112,12 +112,11 @@
                                     <div class="form-group"> <label>Have coupon?</label><br><br>
                                         <div class="input-group">
                                             <input type="text" class="form-control coupon" name="" id="coupon"
-                                                placeholder="Coupon code"> <span class="input-group-append"> 
-                                                    <button
-                                                    type="button"
+                                                placeholder="Coupon code"> <span class="input-group-append">
+                                                <button type="button"
                                                     onclick="couponApply(document.getElementById('coupon').value, '<%= total %>')"
-                                                    class="btn btn-primary btn-apply coupon"  style=" height: 38px;">Apply</button> </span>
-
+                                                    class="btn btn-primary btn-apply coupon"
+                                                    style=" height: 38px;">Apply</button> </span>
                                         </div>
                                     </div>
 
@@ -130,7 +129,7 @@
 
 
                         <div class="container mt-5 ml-5 checkout" style="background-color: white;">
-                            <h5 id="totalAmount">Total Amount:Rs.<%= total %>
+                            <h5 id="totalAmount">Total Amount : Rs.<%= total %>
                             </h5>
                             <hr>
                             <div class="payment">
@@ -171,9 +170,9 @@
                         $('#errorCoupon').show();
                         document.getElementById('errorCoupon').innerHTML = data.error;
                     }
-                    else if(data.newTotal){
-                        document.getElementById('total').innerHTML = data.newTotal;
-                        document.getElementById('totalAmount').innerHTML = data.newTotal;
+                    else if (data.newTotal) {
+                        $('#total').val(data.newTotal);
+                        document.getElementById('totalAmount').innerHTML = `Total Amount : Rs.${data.newTotal}`;
                     }
                 }
             });
@@ -185,7 +184,6 @@
             $('#pincode').val(pincode);
             $('#mobile').val(mobile);
         }
-
 
         //----------------------------------------------------------------------------
         function savingAddress(name, address, pincode, mobile) {
@@ -229,7 +227,7 @@
             }
         }
 
-        //--validation-------------------------------------------------------------------------
+        //--validation----------------------------------------------------------------
 
 
         function nameValid() {
@@ -298,26 +296,31 @@
         $('#checkout-form').submit(function (e) {
             e.preventDefault();
             // console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
-            $.ajax({
-                url: '/checkout',
-                type: 'post',
-                data: $('#checkout-form').serialize(),
-                success: function (data) {
-                    // console.log('lllllllllllllllll', data);
-                    // alert("data  alert coming");
-                    if (data.error) {
-                        location.href = `/place-order-validationError/${data.total}/${data.error}`;
+            nameValid(); mobileValid(); pincodeValid(); addressValid();
+            if (value1 == true && value2 == true && value3 == true && value4 == true && value5 == true) {   
+                $.ajax({
+                    url: '/checkout',
+                    type: 'post',
+                    data: $('#checkout-form').serialize(),
+                    success: function (data) {
+                        // console.log('lllllllllllllllll', data);
+                        // alert("data  alert coming");
+                        if (data.error) {
+                            location.href = `/place-order-validationError/${data.total}/${data.error}`;
+                        }
+                        else if (data.codSuccess) {
+                            // console.log('lllllllllll');
+                            location.href = '/order-success';
+                        }
+                        else {
+                            // console.log('kkkkkkkkkkkkkkkkkkkk');
+                            razorpayPayment(data);
+                        }
                     }
-                    else if (data.codSuccess) {
-                        // console.log('lllllllllll');
-                        location.href = '/order-success';
-                    }
-                    else {
-                        // console.log('kkkkkkkkkkkkkkkkkkkk');
-                        razorpayPayment(data);
-                    }
-                }
-            })
+                })
+            }
+
+
         })
 
         function razorpayPayment(order) {

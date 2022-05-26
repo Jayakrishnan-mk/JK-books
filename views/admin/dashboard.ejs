@@ -2,6 +2,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+
     <!-- ////////////////////////////////////////////// -->
 
     <div class="container-fluid">
@@ -21,7 +24,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 col-lg-3" style=" margin-top: 2rem;  text-align: center; padding: 2rem 0rem 0rem 9rem;">
+            <div class="col-md-5 col-lg-3"
+                style=" margin-top: 2rem;  text-align: center; padding: 2rem 0rem 0rem 9rem;">
                 <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                     <div class="iq-card-body">
                         <div class="d-flex align-items-center">
@@ -36,7 +40,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 col-lg-3" style=" margin-top: 2rem;  text-align: center; padding: 2rem 0rem 0rem 9rem;">
+            <div class="col-md-5 col-lg-3"
+                style=" margin-top: 2rem;  text-align: center; padding: 2rem 0rem 0rem 9rem;">
                 <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                     <div class="iq-card-body">
                         <div class="d-flex align-items-center">
@@ -52,7 +57,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 col-lg-3 " style="  margin-top: 2rem; text-align: center; padding: 2rem 0rem 0rem 9rem;">
+            <div class="col-md-5 col-lg-3 "
+                style="  margin-top: 2rem; text-align: center; padding: 2rem 0rem 0rem 9rem;">
                 <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                     <div class="iq-card-body">
                         <div class="d-flex align-items-center">
@@ -69,48 +75,47 @@
             </div>
 
             <!--------------COD ONLINE---------------------------------------->
-            <canvas id="payment" style="width:100%;max-width:600px ; padding: 1rem; background-color: aliceblue;    margin: 5rem 10rem 0rem 4rem;"></canvas>
-
-            <!--------------CATEGORY---------------------------------------->
-            <!-- <canvas id="category" style="width:100%;max-width:600px ;     margin: 5rem 9rem 0rem 0rem;"></canvas> -->
+            <canvas id="payment"
+                style="width:100%; max-width:600px ; padding: 1rem; background-color: aliceblue; margin: 5rem 10rem 0rem 4rem;"></canvas>
 
             <!--------------USER BLOCK AND UNBLOCK---------------------------------------->
-            <canvas id="userBlock" style="width:100%;max-width:600px ; padding: 1rem; background-color: aliceblue;   margin: 5rem 5rem 0rem 0rem;"></canvas>
+            <canvas id="userBlock"
+                style="width:100%;max-width:600px ; padding: 1rem; background-color: aliceblue; margin: 5rem 5rem 0rem 0rem;"></canvas>
 
             <script>
                 //........payment.............................................................
 
-                var xValues = ["<%= paymentMods[0]._id %>", "<%= paymentMods[1]._id %>"];
-                var yValues = ['<%= paymentMods[0].count %>', '<%= paymentMods[1].count %>'];
-                var barColors = [
-                    "#e8c3b9",
-                    "#1e7145"
-                ];
+                var xValues = ['<%= paymentMods[0]._id %>'];
 
                 new Chart("payment", {
-                    type: "doughnut",
+                    type: "line",
                     data: {
                         labels: xValues,
                         datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
+                            data: [860, 1140, 1060, 1060, 1070, 1110, 1330, 2210, 7830, 2478],
+                            borderColor: "red",
+                            fill: false
+                        }, {
+                            data: [1600, 1700, 1700, 1900, 2000, 2700, 4000, 5000, 6000, 7000],
+                            borderColor: "green",
+                            fill: false
+                        }, {
+                            data: [300, 700, 2000, 5000, 6000, 4000, 2000, 1000, 200, 100],
+                            borderColor: "blue",
+                            fill: false
                         }]
                     },
                     options: {
-                        title: {
-                            display: true,
-                            text: "JK Books Sales"
-                        }
+                        legend: { display: false }
                     }
                 });
 
-              
 
                 //........block...........................................................
                 var xValues = ['<%= userBl[0]._id %>', '<%= userBl[1]._id %>'];
                 var yValues = ['<%= userBl[0].count %>', '<%= userBl[1].count %>'];
                 var barColors = [
-                "#1e7145",
+                    "#1e7145",
                     "#00aba9",
                     // "#2b5797",
                     // "#1e7145"
@@ -133,40 +138,7 @@
                     }
                 });
 
-                  //.......category...........................................................
-
-                  for (let i = 0; i < array.length; i++) {
-                    console.log(array.length);
-
-                    var xValues = ["<%= array[i] %>"];
-                    var yValues = [55, 49, 44, 24, 15];
-                    var barColors = [
-                        "#b91d47",
-                        "#00aba9",
-                        "#2b5797",
-                        "#e8c3b9",
-                        "#1e7145"
-                    ];
-                }
-
-                new Chart("category", {
-                    type: "doughnut",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            backgroundColor: barColors,
-                            data: yValues
-                        }]
-                    },
-                    options: {
-                        title: {
-                            display: true,
-                            text: "JK Books Categories"
-                        }
-                    }
-                });
-
-                console.log('llllllllllllll',userBl[0]._id);
+                  //................................................................
 
 
             </script>

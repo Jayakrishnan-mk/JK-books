@@ -18,75 +18,85 @@
 
 
 <!-- main............................ -->
+
 <body>
 
     <nav class="navBar">
-        <h1 class="nav-head signUpHeader">JK Books</h1>
-        <a href="/user-login" class="loginLink">Log in</a>
+        <a href="/">
+            <h1 class="nav-head signUpHeader">JK Books</h1>
+        </a>
 
-    </nav>
-    
-<main id="site-main">
-    <div class="container">
-        <div class="box-nav d-flex-justify-between">
-
+        <div class="nav">
+            <div style=" margin: 1px 0 0 80rem; width: 3rem;">
+                <a href="/"><button class="h6">Home</button></a>
+            </div>
+            <a href="/user-signup"><button class="h6">Sign Up</button></a>
         </div>
-    </div>
-    <div class="form-title text-center">
-        <h2 class="text-dark">Sign Up</h2>
-        <span class="text-light">Use the below form to create a new account</span>
-    </div>
 
-    <!-- add user form............................................ -->
+        <main id="site-main">
+            <div class="container">
+                <div class="box-nav d-flex-justify-between">
 
-    <!-- form handling................... -->
-    <p style="margin-left: 60rem; color: red;"><%= error %></p>
-    <form action="/user-signup" id="add_user" method="post">
-
-        <div class="new_user">
-            <div class="form-group">
-                <label for="name" class="text-light">Name</label>
-                <input type="hidden" name="id">
-                <input type="text" name="name" placeholder="name" >
-            </div>
-            <div class="form-group">
-                <label for="Email" class="text-light">Email</label>
-                <input type="email" name="email" placeholder="hello@gmail.com">
-            </div> 
-            <div class="form-group">
-                <label for="password" class="text-light">Password</label><br>
-                <input type="password" name="password" placeholder="" >
-            </div>
-            
-            <div class="form-group">
-                <label for="number" class="text-light">Ph no:</label><br>
-                <input type="tel" name="number" placeholder="" >
-            </div>
-            <div class="form-group">
-                <label for="Gender" class="text-light">Gender</label>
-                <div class="radio inline">
-                    <input type="radio" name="gender" value="Male">
-                    <label for="gender" class="text-light">Male</label>
-                </div>
-                <div class="radio inline">
-                    <input type="radio" name="gender" value="Female">
-                    <label for="gender" class="text-light">Female</label>
-                </div>
-
-                <div class="form-group">
-                    <a href="">
-                        <button type="submit" class="btn" style="color: white; background-color: black; width: 15%;">Register</button>
-
-                    </a>
                 </div>
             </div>
-        </div>
-    </form>
+            <div class="form-title text-center">
+                <h2 class="text-dark">Sign Up</h2>
+                <span class="text-light">Use the below form to create a new account</span>
+            </div>
+
+            <!-- add user form............................................ -->
+
+            <!-- form handling................... -->
+            <p style="margin-left: 60rem; color: red;">
+                <%= error %>
+            </p>
+            <form action="/user-signup" id="add_user" method="post">
+
+                <div class="new_user">
+                    <div class="form-group">
+                        <label for="name" class="text-light">Name</label>
+                        <input type="hidden" name="id">
+                        <input type="text" name="name" placeholder="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="Email" class="text-light">Email</label>
+                        <input type="email" name="email" placeholder="hello@gmail.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="text-light">Password</label><br>
+                        <input type="password" name="password" placeholder="">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="number" class="text-light">Ph no:</label><br>
+                        <input type="tel" name="number" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="Gender" class="text-light">Gender</label>
+                        <div class="radio inline">
+                            <input type="radio" name="gender" value="Male">
+                            <label for="gender" class="text-light">Male</label>
+                        </div>
+                        <div class="radio inline">
+                            <input type="radio" name="gender" value="Female">
+                            <label for="gender" class="text-light">Female</label>
+                        </div>
+
+                        <div class="form-group">
+                            <a href="">
+                                <button type="submit" class="btn"
+                                    style="color: white; background-color: black; width: 15%;">Register</button>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
 
 
-</main>
+        </main>
 
-<!-- /main............................................ -->
+        <!-- /main............................................ -->
 
-<%-include ('../include/_footer') %>
+        <%-include ('../include/_footer') %>

@@ -6,6 +6,7 @@ const Categorydb = require('../model/category_model');
 
 const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
+const { date } = require('joi');
 const objectId = require('mongoose').Types.ObjectId;
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Admin   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -162,7 +163,9 @@ exports.adminDashboard = async (req, res) => {
         for (i of total) {
             totalAmount = totalAmount + i.totalAmount;
         }
-        // console.log("total", totalAmount);
+
+        let totalSales = parseInt(totalAmount);
+        // console.log("total", totalSales);
 
         //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
         const payment = await Orderdb.aggregate([
@@ -218,10 +221,20 @@ exports.adminDashboard = async (req, res) => {
         }
        }
 
+       //................................................................
+       const ord = await Orderdb.find()
+       
+       for(i=0; i< ord.length; i++){
+        var d = new Date()
+        d.setDate(d.getDate()-7);
+        console.log('last 7 days orders',d);
 
-    //    console.log('uuuuuuuuuuuuuuu',userBlocked);
+       }
+      //..................................................................
 
-        res.render('admin/dashboard', { users, products, orders, total: totalAmount , paymentMods: payment ,userBl: userBlocked, array })
+    //    console.log('uuuuuuuuuuuuuuu',payment);
+
+        res.render('admin/dashboard', { users, products, orders, total: totalSales , paymentMods: payment ,userBl: userBlocked, array })
     }
     catch (error) {
         console.log(error);
@@ -350,6 +363,11 @@ exports.profileEdit = async (req, res) => {
 
 }
 
+
+exports.bookRequest = async (req,res) => {
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    res.redirect('/user-login')
+}
 
 //validations...........................
 

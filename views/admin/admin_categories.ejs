@@ -1,100 +1,126 @@
 <%-include ('../include/_header') %>
 
 
+    <style>
+        div.dataTables_wrapper {
+            width: 89%;
+            margin: 4rem 0rem 4rem 4rem;
+        }
 
-    <main id="site-main">
-        <div class="container">
+        div.dt-buttons {
+            padding-left: 67px;
+        }
 
-            <div class="box-nav d-flex justify-between">
+        label {
+            padding-right: 67px;
+        }
 
-                <a href="/admin/add-category" class="border-shadow" style="margin-left: -7%;">
-                    <span class="new">Add Category <i class="fa-solid fa-book"></i></span>
-                </a>
+        .dataTables_wrapper .dataTables_info {
+            padding-left: 67px;
+        }
 
+        .dataTables_wrapper .dataTables_paginate {
+            padding-right: 67px;
+        }
+    </style>
 
-
-
-                <form action="/admin/category-search" method="get">
-                    <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
-
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
-
-
-            </div>
-
-        </div>
-        <br><br>
-
-        <!-- form handling................... -->
-
-        <!-- <form action="/admin-home" method="post"> -->
-        <table class="table" id="table-id">
-            <thead class="thead-dark">
-                <tr>
-                    <th>No.</th>
-                    <th>Category</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <% categories.sort((a,b)=> (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)) %>
-                    <% for (var i=0 ; i<categories.length ; i++ ) { %>
-
-                        <tr>
-                            <td>
-                                <%= i + 1 %>
-                            </td>
-                            <td>
-                                <%= categories[i].name %>
-                            </td>
+    <div class="dt-buttons">
 
 
+        <a href="/admin/add-category" class="border-shadow"  style="padding: 39rem;">
+            <span class="new">Add Category <i class="fa-solid fa-book"></i></span>
+        </a>
 
-                            <td>
-                                
-                                <a href="/admin/update-category/<%= categories[i]._id%> ">
-                                    <li class="list-inline-item">
-                                        <button class="btn btn-success btn-sm rounded-0" type="button"
-                                            data-toggle="tooltip" data-placement="top" title="Edit"><i
-                                                class="fa fa-edit"></i></button>
-                                    </li>
-                                </a>
-                            </td>
+    </div>
 
-                            <td>
+    <!-- form handling................... -->
+
+    <!-- <form action="/admin-home" method="post"> -->
+    <table class="table" id="myTable" style="width: 90%;">
+        <thead class="thead-dark">
+            <tr>
+                <th>No.</th>
+                <th>Category</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <% categories.sort((a,b)=> (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)) %>
+                <% for (var i=0 ; i<categories.length ; i++ ) { %>
+
+                    <tr>
+                        <td>
+                            <%= i + 1 %>
+                        </td>
+                        <td>
+                            <%= categories[i].name %>
+                        </td>
 
 
 
-                                <!-- <form action="/delete-category/<%= categories[i]._id%>?_method=DELETE" method="post"> -->
-                                   
-                                        <li class="list-inline-item" >
-                                            <button onclick="confirmDelCat ('<%= categories[i]._id %>')" class="btn btn-danger btn-sm rounded-0" type="button"
-                                                data-toggle="tooltip" data-placement="top" title="Delete">
-                                                <i class="fa fa-trash"></i></button>
-                                        </li>
-                                  
+                        <td>
+
+                            <a href="/admin/update-category/<%= categories[i]._id%> ">
+                                <li class="list-inline-item">
+                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip"
+                                        data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                </li>
+                            </a>
+                        </td>
+
+                        <td>
+
+
+
+                            <!-- <form action="/delete-category/<%= categories[i]._id%>?_method=DELETE" method="post"> -->
+
+                            <li class="list-inline-item">
+                                <button onclick="confirmDelCat ('<%= categories[i]._id %>')"
+                                    class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
+                                    data-placement="top" title="Delete">
+                                    <i class="fa fa-trash"></i></button>
+                            </li>
+
 
 
                         </td>
 
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
 
-                        <% } %>
+                    <% } %>
 
 
-            </tbody>
-        </table>
-        </form>
+        </tbody>
+    </table>
+    </form>
 
-        <!-- form handling.............................. -->
+    <!-- form handling.............................. -->
 
     </main>
 
+
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
 
     <%-include ('../include/_footer') %>

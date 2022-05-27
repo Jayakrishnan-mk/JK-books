@@ -1,123 +1,151 @@
 <%-include ('../include/_header') %>
 
+    <style>
+        div.dataTables_wrapper {
+            width: 89%;
+            margin: 4rem 0rem 4rem 4rem;
+        }
+
+        div.dt-buttons {
+            padding-left: 67px;
+        }
+
+        label {
+            padding-right: 67px;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            padding-left: 67px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            padding-right: 67px;
+        }
+    </style>
 
 
-    <main id="site-main">
-        <div class="container">
-
-            <div class="box-nav d-flex justify-between">
-
-                <a href="/admin/add-coupon" class="border-shadow" style="margin-left: -7%;">
-                    <span class="new">Add Coupon <i class="fa-solid fa-gift"></i></span>
-                </a>
-
-                <form action="/admin/product-search" method="get">
-                    <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
-
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
 
 
-            </div>
+    <div class="dt-buttons">
+        <a href="/admin/add-coupon" class="border-shadow" style="padding: 39rem;">
+            <span class="new">Add Coupon <i class="fa-solid fa-gift"></i></span>
+        </a>
+    </div>
 
-        </div>
-        <br><br>
 
-        <!-- form handling................... -->
+    <!-- form handling................... -->
 
-        <!-- <form action="/admin-home" method="post"> -->
-        <table class="table">
-            <thead class="thead-dark">
+    <table class="table" id="myTable" style="width: 90%;">
+        <thead class="thead-dark">
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Percentage</th>
+                <th>Min.Purchase</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <% for (var i=0 ; i<coupons.length ; i++ ) { %>
+
                 <tr>
-                    <th>No.</th>
-                    <th>Name</th>
-                    <th>Percentage</th>
-                    <th>Min.Purchase</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                <% for (var i=0 ; i<coupons.length ; i++ ) { %>
-
-                    <tr>
-                        <td>
-                            <%= i + 1 %>
-                        </td>
-                        <td>
-                            <%= coupons[i].coupon %>
-                        </td>
-                        <td>
-                            <%= coupons[i].percentage %>
-                        </td>
-                        <td>
-                            <%= coupons[i].min %>
-                        </td>
-                        <td>
-                            <%= coupons[i].fromDate.toDateString() %>
-                        </td>
-                        <td>
-                            <%= coupons[i].toDate.toDateString() %>
-                        </td>
+                    <td>
+                        <%= i + 1 %>
+                    </td>
+                    <td>
+                        <%= coupons[i].coupon %>
+                    </td>
+                    <td>
+                        <%= coupons[i].percentage %>
+                    </td>
+                    <td>
+                        <%= coupons[i].min %>
+                    </td>
+                    <td>
+                        <%= coupons[i].fromDate.toDateString() %>
+                    </td>
+                    <td>
+                        <%= coupons[i].toDate.toDateString() %>
+                    </td>
 
 
-                        <% if( coupons[i].status) { %>
+                    <% if( coupons[i].status) { %>
+                        <form action="/admin/couponStatus/<%= coupons[i]._id%>?_method=patch" method="post">
+                            <td>
+                                <button onclick="enable()" type="submit" class="btn btn-success">Enabled</button>
+                            </td>
+                        </form>
+                        <% } else { %>
                             <form action="/admin/couponStatus/<%= coupons[i]._id%>?_method=patch" method="post">
                                 <td>
-                                    <button onclick="enable()" type="submit" class="btn btn-success">Enabled</button>
+                                    <button onclick="disable()" type="submit" class="btn btn-danger">Disabled</button>
                                 </td>
                             </form>
-                            <% } else { %>
-                                <form action="/admin/couponStatus/<%= coupons[i]._id%>?_method=patch" method="post">
-                                    <td>
-                                        <button onclick="disable()" type="submit"
-                                            class="btn btn-danger">Disabled</button>
-                                    </td>
-                                </form>
-                                <% } %>
+                            <% } %>
 
-                                    <td>
+                                <td>
 
-                                        <a href=" /admin/update-coupon/<%= coupons[i]._id%> ">
-                                            <li class="list-inline-item" style="display: grid;">
-                                                <button class="btn btn-success btn-sm rounded-0" type="button"
-                                                    data-toggle="tooltip" data-placement="top" title="Edit"><i
-                                                        class="fa fa-edit"></i></button>
-                                            </li>
-                                        </a>
-
-
+                                    <a href=" /admin/update-coupon/<%= coupons[i]._id%> ">
                                         <li class="list-inline-item" style="display: grid;">
-                                            <button onclick="confirmDelete('<%= coupons[i]._id %>')"
-                                                class="btn btn-danger btn-sm rounded-0" type="button"
-                                                data-toggle="tooltip" data-placement="top" title="Delete">
-                                                <i class="fa fa-trash"></i></button>
+                                            <button class="btn btn-success btn-sm rounded-0" type="button"
+                                                data-toggle="tooltip" data-placement="top" title="Edit"><i
+                                                    class="fa fa-edit"></i></button>
                                         </li>
-                                        <!-- </form> -->
-
-                                        <!-- //--------------------------------------------------------------------------------------------// -->
+                                    </a>
 
 
-                                    </td>
-                    </tr>
+                                    <li class="list-inline-item" style="display: grid;">
+                                        <button onclick="confirmDelete('<%= coupons[i]._id %>')"
+                                            class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
+                                            data-placement="top" title="Delete">
+                                            <i class="fa fa-trash"></i></button>
+                                    </li>
+                                    <!-- </form> -->
 
-                    <% } %>
+                                    <!-- //--------------------------------------------------------------------------------------------// -->
 
 
-            </tbody>
+                                </td>
+                </tr>
 
-        </table>
-        </form>
+                <% } %>
 
-        <!-- form handling.............................. -->
+
+        </tbody>
+
+    </table>
+    </form>
+
+    <!-- form handling.............................. -->
 
     </main>
+
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
+
 
     <script>
 
@@ -148,24 +176,24 @@
 
 
         function enable() {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Coupon Deactivated Successfully',
-                        showConfirmButton: false,
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Coupon Deactivated Successfully',
+                showConfirmButton: false,
 
-                    })
-                }
-                function disable() {
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Coupon Activated Successfully',
-                        showConfirmButton: false,
+            })
+        }
+        function disable() {
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Coupon Activated Successfully',
+                showConfirmButton: false,
 
-                    })
+            })
 
-                }
+        }
     </script>
 
 

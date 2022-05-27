@@ -1,17 +1,22 @@
 <%- include('../include/header') -%>
 
 
-<div class="nav">
-    <h1>JK Books</h1>
-    <a href="/user-signup"><button class="h6">Sign Up</button></a>
-</div>
+    <div class="nav">
+        <a href="/" style="text-decoration: none;">
+            <h1>JK Books</h1>
+        </a>
+        <div style=" margin: 0rem 0 0rem 60rem; width: 3rem;">
+            <a href="/"><button class="h6">Home</button></a>
+        </div>
+        <a href="/user-signup"><button class="h6">Sign Up</button></a>
+    </div>
     <div class="main">
         <div class="text-center center-div" id="login ">
 
             <div class="container adminhome w-55 border py-5">
                 <div class="title">
                     <h2 class="font-weight-bold">User Login </h2><br>
-                    
+
                     <span><a href="/loginwithOtp"> Log in with otp </a></span>
 
                     <% if(locals.logout){ %>

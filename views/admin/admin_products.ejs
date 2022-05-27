@@ -1,122 +1,150 @@
 <%-include ('../include/_header') %>
 
+    <style>
+        div.dataTables_wrapper {
+            width: 89%;
+            margin: 4rem 0rem 4rem 4rem;
+        }
+
+        div.dt-buttons {
+            padding-left: 67px;
+        }
+
+        label {
+            padding-right: 67px;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            padding-left: 67px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            padding-right: 67px;
+        }
+    </style>
 
 
-    <main id="site-main">
-        <div class="container">
 
-            <div class="box-nav d-flex justify-between">
+    <div class="dt-buttons">
 
-                <a href="/admin/add-product" class="border-shadow" style="margin-left: -7%;">
-                    <span class="new">Add Product <i class="fa-solid fa-book"></i></span>
-                </a>
-
+        <a href="/admin/add-product" class="border-shadow" style="padding: 39rem;">
+            <span class="new">Add Product <i class="fa-solid fa-book"></i></span>
+        </a>
+    </div>
 
 
 
-                <form action="/admin/product-search" method="get">
-                    <input name="searchName" type="search" value="" placeholder="Search" style="height: 33px; ">
 
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+    <!-- form handling................... -->
 
+    <!-- <form action="/admin-home" method="post"> -->
+    <table class="table" id="myTable" style="width: 90%;">
+        <thead class="thead-dark">
+            <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
 
-            </div>
+            <% products.sort((a,b)=> (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)) %>
+                <% for (var i=0 ; i<products.length ; i++ ) { %>
 
-        </div>
-        <br><br>
+                    <tr>
+                        <td>
+                            <%= i + 1 %>
+                        </td>
+                        <td>
+                            <%= products[i].name %>
+                        </td>
+                        <td>
+                            <%= products[i].price %>
+                        </td>
+                        <td>
+                            <%= products[i].quantity %>
+                        </td>
+                        <td>
+                            <%= products[i].category %>
+                        </td>
+                        <td>
+                            <img style="width: 50px; height: 50px;" src=" <%= products[i].image %> ">
+                        </td>
 
-        <!-- form handling................... -->
+                        <td>
 
-        <!-- <form action="/admin-home" method="post"> -->
-        <table class="table">
-            <thead class="thead-dark">
-                <tr>
-                    <th>No.</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Category</th>
-                    <th>Image</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
+                            <a href=" /admin/update-product/<%= products[i]._id%> ">
+                                <li class="list-inline-item" style="display: grid;">
+                                    <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip"
+                                        data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+                                </li>
+                            </a>
 
-                <% products.sort((a,b)=> (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)) %>
-                    <% for (var i=0 ; i<products.length ; i++ ) { %>
-
-                        <tr>
-                            <td>
-                                <%= i + 1 %>
-                            </td>
-                            <td>
-                                <%= products[i].name %>
-                            </td>
-                            <td>
-                                <%= products[i].price %>
-                            </td>
-                            <td>
-                                <%= products[i].quantity %>
-                            </td>
-                            <td>
-                                <%= products[i].category %>
-                            </td>
-                            <td>
-                                <img style="width: 50px; height: 50px;" src=" <%= products[i].image %> ">
-                            </td>
-
-                            <td>
-
-                                <a href=" /admin/update-product/<%= products[i]._id%> ">
-                                    <li class="list-inline-item" style="display: grid;">
-                                        <button class="btn btn-success btn-sm rounded-0" type="button"
-                                            data-toggle="tooltip" data-placement="top" title="Edit"><i
-                                                class="fa fa-edit"></i></button>
-                                    </li>
-                                </a>
-
-                                        <!-- <li class="list-inline-item" style="display: grid;">
+                            <!-- <li class="list-inline-item" style="display: grid;">
                                             <button onclick="confirmDelete()" class="btn btn-danger btn-sm rounded-0" type="button"
                                                 data-toggle="tooltip" data-placement="top" title="Delete">
                                                 <i class="fa fa-trash"></i></button>
                                         </li> -->
 
-                                        <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post"> -->
-                                        <li class="list-inline-item" style="display: grid;">
-                                            <button onclick="confirmDelete('<%= products[i]._id %>')" class="btn btn-danger btn-sm rounded-0" type="button"
-                                                data-toggle="tooltip" data-placement="top" title="Delete">
-                                                <i class="fa fa-trash"></i></button>
-                                        </li>
-                                    <!-- </form> -->
+                            <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post"> -->
+                            <li class="list-inline-item" style="display: grid;">
+                                <button onclick="confirmDelete('<%= products[i]._id %>')"
+                                    class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
+                                    data-placement="top" title="Delete">
+                                    <i class="fa fa-trash"></i></button>
+                            </li>
+                            <!-- </form> -->
 
-                             <!-- //--------------------------------------------------------------------------------------------// -->
+                            <!-- //--------------------------------------------------------------------------------------------// -->
 
-                                <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post">
+                            <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post">
                                     <a href=""                
                                         onclick="return confirm ('Are you want to delete <%= products[i].name %> ?')"> -->
-                                <!-- <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button> -->
-                                <!-- <li class="list-inline-item" style="display: grid;">
+                            <!-- <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button> -->
+                            <!-- <li class="list-inline-item" style="display: grid;">
                                                 <button class="btn btn-danger btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                                             </li>                                    
                                         </a>                     
                                 </form> -->
 
-                            </td>
-                        </tr>
+                        </td>
+                    </tr>
 
-                        <% } %>
+                    <% } %>
 
 
-            </tbody>
-        </table>
-        </form>
+        </tbody>
+    </table>
+    </form>
 
-        <!-- form handling.............................. -->
+    <!-- form handling.............................. -->
 
     </main>
+
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+
+
+
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
+        });
+    </script>
 
 
     <%-include ('../include/_footer') %>

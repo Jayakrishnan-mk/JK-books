@@ -147,6 +147,9 @@ userRouter.get('/my-orders', order_controller.myOrders);
 
 userRouter.get('/my-profile', controller.myProfile);
 
+userRouter.get('/book-req', (req,res) => {console.log('helloooooooooooooooooooooooooooooooooo');})
+// controller.bookRequest);
+
 userRouter.get('/my-wishlist', wishlist_controller.myWishlist);
 
 userRouter.put ('/wishlist-removed', wishlist_controller.wishlistRemoved);

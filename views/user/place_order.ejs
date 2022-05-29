@@ -176,9 +176,9 @@
 
         function autofill(name, address, pincode, mobile) {
             $('#name').val(name);
-            $('#address').val(address);
-            $('#pincode').val(pincode);
-            $('#mobile').val(mobile);
+            $('#address').val(address.split('').filter((e) => e!=' ').join(''));
+            $('#pincode').val(pincode.split('').filter((e) => e!=' ').join(''));
+            $('#mobile').val(mobile.split('').filter((e) => e!=' ').join(''));
         }
 
         //----------------------------------------------------------------------------
@@ -293,7 +293,7 @@
             e.preventDefault();
             // console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
             nameValid(); mobileValid(); pincodeValid(); addressValid();
-            if (value1 == true && value2 == true && value3 == true && value4 == true && value5 == true) {   
+            if (value1 == true && value2 == true && value3 == true && value4 == true && value5 == true) {
                 $.ajax({
                     url: '/checkout',
                     type: 'post',

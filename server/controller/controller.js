@@ -366,7 +366,7 @@ exports.profileEdit = async (req, res) => {
 
 exports.bookRequest = async (req,res) => {
     console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    res.redirect('/user-login')
+    res.render('user/book_request');
 }
 
 //validations...........................

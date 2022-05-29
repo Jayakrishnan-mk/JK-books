@@ -287,12 +287,12 @@ exports.placeOrderDirect = async (req, res) => {
      // res.render('user/placeOrderFromHome', { total , user: req.session.user, error: "" })
 
 }
- 
+   
  
 //validation for adding a new product....................................
 const addValidate = (data) => {
     const schema = Joi.object({
-        name: Joi.string().min(3).max(30).required().label("Name"),
+        name: Joi.string().min(3).max(50).required().label("Name"),
         author: Joi.string().min(3).max(30).required().label("Author"),
         category: Joi.string().min(3).max(20).required().label("Category"),
         price: Joi.number().required().label("Price"),

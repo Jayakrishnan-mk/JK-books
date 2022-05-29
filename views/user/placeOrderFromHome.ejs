@@ -183,9 +183,9 @@
 
         function autofill(name, address, pincode, mobile) {
             $('#name').val(name);
-            $('#address').val(address);
-            $('#pincode').val(pincode);
-            $('#mobile').val(mobile);
+            $('#address').val(address.split('').filter((e) => e!=' ').join(''));
+            $('#pincode').val(pincode.split('').filter((e) => e!=' ').join(''));
+            $('#mobile').val(mobile.split('').filter((e) => e!=' ').join(''));
         }
 
 

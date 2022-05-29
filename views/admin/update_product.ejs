@@ -13,7 +13,7 @@
                     <p style="color: red;"><%= errorMsg %></p>
                     <!-- form handling................... -->
 
-                    <form action="/admin/update-product/<%=product._id%>?_method=PUT" method="post" 
+                    <form action="/admin/update-product/<%=product._id%>?_method=PUT" method="post"
                         enctype="multipart/form-data">
                         <label for="">Name</label>
                         <input type="hidden" name="id" value="<%=product._id%>">

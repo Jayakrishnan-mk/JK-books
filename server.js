@@ -15,12 +15,12 @@ const Productdb = require('./server/model/product_model');
 const Cartdb = require('./server/model/cart_model')
 const Wishlistdb = require('./server/model/wishlist_model')
 const objectId = require('mongoose').Types.ObjectId;
-
+ 
 const app = express();
 
 dotenv.config();
-
-const PORT = 3000;
+ 
+const port=  process.env.PORT;
 //override the method in form......
 app.use(methodOverride('_method'));
 
@@ -97,5 +97,5 @@ app.use((req, res, next) => {
     res.status(404).render('error.ejs')
 })
 
-app.listen(PORT, () => { console.log(`Server running on http://localhost:${PORT}`); });
+app.listen(port, () => { console.log(`Server running on http://localhost:${port}`); });
 

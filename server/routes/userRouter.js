@@ -77,6 +77,8 @@ userRouter.post('/otp', otp_controller.otpChecking);
 //user home page............................................
 userRouter.post('/user-home', controller.userHomePost);
 
+userRouter.get('/book-req', controller.bookRequest);
+ 
 //middleware for route protect..................
 userRouter.use((req, res, next) => {
     if (!req.session.isUserlogin) {
@@ -123,7 +125,7 @@ userRouter.post('/change-product-quantity', product_controller.changeProductQuan
 userRouter.get("/add-to-wishlist/:id", verifyLogin, wishlist_controller.addToWishlist);
 
 //place order............................................. 
-userRouter.get('/place-order', product_controller.placeOrder);
+userRouter.get('/place-order', product_controller.placeOrder); 
 
 //place order route from product details and direct buy now btn route..
 userRouter.get('/place-order-direct' , product_controller.placeOrderDirect);
@@ -133,22 +135,19 @@ userRouter.post('/checkout', order_controller.checkout);
 
 //checkout page from buynow..............................................
 userRouter.post('/checkoutFromBuynow', order_controller.checkoutFromBuynow);
-
+ 
 //coupon applying..............................................
 userRouter.post('/coupon-apply', coupon_controller.couponApply);
 
 //payment of razorpay..................................
 userRouter.post('/verify-payment', order_controller.verifyPayment);
-
+ 
 //order list..............................................
 userRouter.get('/order-success', order_controller.orderSuccess);
 
 userRouter.get('/my-orders', order_controller.myOrders);
 
 userRouter.get('/my-profile', controller.myProfile);
-
-userRouter.get('/book-req', (req,res) => {console.log('helloooooooooooooooooooooooooooooooooo');})
-// controller.bookRequest);
 
 userRouter.get('/my-wishlist', wishlist_controller.myWishlist);
 

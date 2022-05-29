@@ -67,8 +67,12 @@
                         <td>
                             <%= orderItems[i]?.paymentMethod %>
                         </td>
-                        <td>
 
+
+                        <% if ( orderItems[i].status == 'failed' || orderItems[i].status == 'cancelled' ) { %>
+                            <td><%= orderItems[i].status %></td>
+                            <% } else { %>
+                        <td>
                             <div class="">
                                 <select id="status" name="status" onchange="deliveryStatus(value, '<%= orderItems[i]._id %>')" style="border-radius: 2px;">
                                     <option value="<%= orderItems[i].status %>" selected>
@@ -83,10 +87,18 @@
                             </div>
 
                         </td>
+
+                        <% } %>
+
+                        <% if ( orderItems[i].status == 'failed' || orderItems[i].status == 'cancelled' ) { %>
+                            <td><%= orderItems[i].status %></td>
+                            <% } else { %>
                         <td>
                             <a href="/admin/cancelling-order/<%= orderItems[i]?._id %>"><button style="line-height: 23px; font-size: initial; background-color: #f95e5e; color: white;
                                  padding: 2px 8px 2px 8px; border-radius: 3px; border: none;">Cancel</button></a>
+
                         </td>
+                        <% } %>
 
 
 

@@ -62,6 +62,8 @@ exports.checkout = async (req, res) => {
 
     req.session.payment = orderObject.paymentMethod;
     req.session.total = orderObject.totalAmount;
+    req.session.orderDate = orderObject.date;
+
 
 
     let orderItems = new Orderdb(orderObject)
@@ -354,7 +356,7 @@ exports.orderSuccess = async (req, res) => {
     })
 
     const p = await Orderdb.findOne({date: req.session.orderDate})
-    console.log('p]]]]]]]]]]]]]]]]]]]]]]]', p);
+    // console.log('p]]]]]]]]]]]]]]]]]]]]]]]', p);
 
     const pro = await Orderdb.updateOne({date: req.session.orderDate},
         {
@@ -363,7 +365,7 @@ exports.orderSuccess = async (req, res) => {
             }
         })
 
-    console.log('proooooooooooooooo', pro);
+    // console.log('proooooooooooooooo', pro);
 
     // console.log('get cart products through mongodb dollar in', products);
     res.render('user/order_success', { address, payment, total, products })

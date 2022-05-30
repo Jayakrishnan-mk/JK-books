@@ -1,12 +1,23 @@
 const Categorydb = require('../model/category_model');
 const objectId = require('mongoose').Types.ObjectId;
 
-const Joi = require('joi');
 const Productdb = require('../model/product_model');
 //add category......................................
-exports.addCategoryPost = (req, res) => {
+exports.addCategoryPost = async (req, res) => {
+
+    const already = await Categorydb.findOne({ name: req.body.name })
+
     if (!req.body.name) {
-        
+        req.session.error= "Please fill the input field."
+        res.redirect('/admin/admin-categories-validate')
+    } 
+    else if(already){
+        req.session.error= "Category already exist"
+        res.redirect('/admin/admin-categories-validate')
+    }
+    else if(req.body.name.length < 3) {
+        req.session.error= "Category length is too short."
+        res.redirect('/admin/admin-categories-validate')
     }
     else {
         const category = new Categorydb({
@@ -23,6 +34,11 @@ exports.addCategoryPost = (req, res) => {
                 res.redirect('/admin/add-new-category');
             })
     }
+}
+
+//category validation of admin...........
+exports.adminCategoriesValidate = async (req, res) => {
+    res.render('admin/add_category', { error: req.session.error })
 }
 
 
@@ -90,6 +106,6 @@ exports.adminCategories = async (req, res) => {
 //add category...........................................
 exports.addCategoryGet = (req, res) => {
     const categories = Categorydb.find()
-    res.render('admin/add_category', { categories });
+    res.render('admin/add_category', { categories , error: ""});
 }
 

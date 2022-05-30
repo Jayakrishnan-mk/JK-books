@@ -10,9 +10,14 @@
 
 
                     <h2 class="text-center">Add Category</h2>
+
+                    
                     
                     <form action="/admin/adding-category" method="post">
                         <div style="margin-top: 3rem;">
+                            <% if (error) { %>
+                                <p style="color: red;"><%= error %></p>
+                                <% } %>
                         <label for="">Name :</label>
                         <input style="margin-top: 1rem;" type="text" name="name" class="form-control">
 

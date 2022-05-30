@@ -220,16 +220,6 @@ exports.adminDashboard = async (req, res) => {
             userBlocked[i]._id = "Unblocked"
         }
        }
-
-       //................................................................
-       const ord = await Orderdb.find()
-       
-       for(i=0; i< ord.length; i++){
-        var d = new Date()
-        d.setDate(d.getDate()-7);
-        console.log('last 7 days orders',d);
-
-       }
       //..................................................................
 
     //    console.log('uuuuuuuuuuuuuuu',payment);

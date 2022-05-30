@@ -108,6 +108,9 @@ router.get('/update-product/:id', product_controller.updateProductGet)
 //categories.................................. 
 router.get('/admin-categories', category_controller.adminCategories);
 
+//category validation..................................
+router.get('/admin-categories-validate', category_controller.adminCategoriesValidate);
+
 //add category.................................. 
 router.get('/add-category', category_controller.addCategoryGet);
 

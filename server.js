@@ -6,7 +6,6 @@ const morgan = require('morgan');
 const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 const fileUpload = require('express-fileupload');
-const swal = require('sweetalert2');
 
 
 const connectDB = require('./server/database/connection');

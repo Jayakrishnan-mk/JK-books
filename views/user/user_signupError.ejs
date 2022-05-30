@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JK Books</title>
+    <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+
+
+<!-- main............................ -->
+
+<body>
+
+    <nav class="navBar">
+        <a href="/">
+            <h1 class="nav-head signUpHeader">JK Books</h1>
+        </a>
+
+        <div class="nav">
+            <div style=" margin: 1px 0 0 80rem; width: 3rem;">
+                <a href="/"><button class="h6">Home</button></a>
+            </div>
+            <a href="/user-login"><button class="h6">Login</button></a>
+        </div>
+    </nav>
+
+        <main id="site-main" style="margin: auto; margin-top: 4rem; padding-bottom: 1rem; width: 70%; border: 10px solid #dee2e6 !important;">
+            <div class="container">
+                <div class="box-nav d-flex-justify-between">
+
+                </div>
+            </div>
+
+            <div class="form-title text-center">
+                <h2 class="text-dark">Sign Up</h2>
+                <span class="text-light">Use the below form to create a new account</span>
+            </div>
+
+            <!-- add user form............................................ -->
+
+            <!-- form handling................... -->
+            <p style="margin-left: 8em; color: red;">
+                <%= error %>
+            </p>
+            <form action="/user-signup" id="add_user" method="post">
+
+                <div class="new_user">
+                    <div class="form-group">
+                        <label for="name" class="text-light">Name</label>
+                        <input type="hidden" name="id">
+                        <input type="text" name="name" placeholder="name" value="<%= body.name %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="Email" class="text-light">Email</label>
+                        <input type="email" name="email" placeholder="hello@gmail.com" value="<%= body.email %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="text-light">Password</label><br>
+                        <input type="password" name="password" placeholder="" value="<%= body.password %>">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="number" class="text-light">Ph no:</label><br>
+                        <input type="tel" name="number" placeholder="" value="<%= body.number %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="Gender" class="text-light">Gender</label>
+                        <div class="radio inline">
+                            <input type="radio" name="gender" value="Male">
+                            <label for="gender" class="text-light">Male</label>
+                        </div>
+                        <div class="radio inline">
+                            <input type="radio" name="gender" value="Female">
+                            <label for="gender" class="text-light">Female</label>
+                        </div>
+
+                        <div class="form-group">
+                            <a href="">
+                                <button type="submit" class="btn"
+                                    style="color: white; background-color: black; width: 15%;">Register</button>
+
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+
+
+        </main>
+
+        <!-- /main............................................ -->
+
+        <%-include ('../include/_footer') %>

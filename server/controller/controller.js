@@ -1,13 +1,10 @@
+const bcrypt = require('bcrypt');
 const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
-const Wishlistdb = require('../model/wishlist_model');
 const Orderdb = require('../model/order_model');
 const Categorydb = require('../model/category_model');
-
 const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
-const { date } = require('joi');
-const objectId = require('mongoose').Types.ObjectId;
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Admin   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -188,43 +185,43 @@ exports.adminDashboard = async (req, res) => {
 
         const array = [];
 
-        for(i of categories){
+        for (i of categories) {
             // console.log(i.name);
             array.push(i.name)
         }
 
         // console.log(array);
-       //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
-       const userBlocks = await Userdb.find()
-       const userBlocked = await Userdb.aggregate([
-        {
-            $project: {
-                isBlocked: 1,
-                _id: 0
+        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+        const userBlocks = await Userdb.find()
+        const userBlocked = await Userdb.aggregate([
+            {
+                $project: {
+                    isBlocked: 1,
+                    _id: 0
+                }
+            },
+            {
+                $group: {
+                    _id: "$isBlocked",
+                    count: { $sum: 1 }
+                }
             }
-        },
-        {
-            $group: {
-                _id: "$isBlocked",
-                count: { $sum: 1 }
+
+        ])
+
+        for (i = 0; i < 2; i++) {
+            if (userBlocked[i]._id == true) {
+                userBlocked[i]._id = "Blocked"
+            }
+            else {
+                userBlocked[i]._id = "Unblocked"
             }
         }
+        //..................................................................
 
-       ])
+        //    console.log('uuuuuuuuuuuuuuu',payment);
 
-       for(i=0; i< 2; i++){
-        if(userBlocked[i]._id == true){
-            userBlocked[i]._id = "Blocked"
-        }
-        else{
-            userBlocked[i]._id = "Unblocked"
-        }
-       }
-      //..................................................................
-
-    //    console.log('uuuuuuuuuuuuuuu',payment);
-
-        res.render('admin/dashboard', { users, products, orders, total: totalSales , paymentMods: payment ,userBl: userBlocked, array })
+        res.render('admin/dashboard', { users, products, orders, total: totalSales, paymentMods: payment, userBl: userBlocked, array })
     }
     catch (error) {
         console.log(error);
@@ -268,7 +265,7 @@ exports.adminOrdersList = async (req, res) => {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  User   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 //user signup page..................
-exports.userSignup = (req, res) => {
+exports.userSignup = async (req, res) => {
     // console.log(req.body);
     //validate request
 
@@ -281,11 +278,26 @@ exports.userSignup = (req, res) => {
         number: req.body.number,
         gender: req.body.gender
     }
+
+    userObj.password = await bcrypt.hash(userObj.password, 10)
+
+    // console.log('this is the hashinggggggggggggg',userObj.password);
+    const alreadyEmail = await Userdb.findOne({ email: (userObj.email) })
+    const alreadyNum = await Userdb.findOne({ number: (userObj.number) })
+
+    if (alreadyEmail || alreadyNum) {
+        req.session.body = req.body;
+        req.session.error = "User already exist";
+        res.redirect('/signup-error')
+
+    }
+
     const user = new Userdb(userObj)
     const error = validate(userObj);
     if (error.error) {
-        // res.redirect('/user-signup-validation')
-        res.render('user/user_signup', { error: error.error.details[0].message })
+        req.session.body = req.body;
+        req.session.error = error.error.details[0].message;
+        res.status(200).redirect('/signup-error')
 
     }
 
@@ -300,75 +312,93 @@ exports.userSignup = (req, res) => {
         })
 }
 
+//user signup error page..................
+exports.signupError = async (req, res) => {
+    const error = req.session.error;
+    req.session.error = null;
+    res.render('user/user_signupError', { error , body: req.body });
+}
 
 //user home page............................
 exports.userHomePost = async (req, res) => {
 
     const user = await Userdb.findOne({
-        email: req.body.email,
-        password: req.body.password
+        email: req.body.email
     })
 
     if (user) {
         req.session.user = user;
-        req.session.isUserlogin = true;
-        res.status(200).redirect('/')
+        if (user.isBlocked == true) {
+            req.session.error = "Your account is blocked";
+            res.redirect('/user-login')
+        }
+        else {
+            if (await bcrypt.compare(req.body.password, user.password)) {
+                req.session.isUserlogin = true;
+                res.status(200).redirect('/')
+
+            }
+            else {
+                req.session.error = "Invalid Password";
+                res.redirect('/user-login')
+            }
+        }
+    }
+    else{
+        req.session.error = "Invalid Email";
+        res.redirect('/user-login')
+    }
+}
+
+    exports.myProfile = async (req, res) => {
+
+        const userId = req.session.user._id;
+        const user = await Userdb.findByIdAndUpdate(userId, {
+            name: req.body.name,
+            email: req.body.email,
+            number: req.body.number,
+        })
+        res.render('user/my_profile', { user });
+    }
+
+    //user profile edit..................................
+    exports.profileEdit = async (req, res) => {
+
+        // console.log('hhhhhhhh',req.body);
+
+        const user = req.session.user._id;
+
+        // const userDetails = await Userdb.findOne({_id: user})
+
+        const updatedUser = await Userdb.updateOne({ _id: user }, {
+            name: req.body.name,
+            email: req.body.email,
+            gender: req.body.gender,
+            number: req.body.number,
+        })
+
+        // console.log('userrrrrrrrrrrrrrr', updatedUser);
+
+        res.redirect('/my-profile')
 
     }
-    else {
-        res.redirect('/user-login-error')
+
+
+    exports.bookRequest = async (req, res) => {
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+        res.render('user/book_request');
     }
-}
 
-exports.myProfile = async (req,res) => {
+    //validations...........................
 
-    const userId = req.session.user._id;
-    const user = await Userdb.findByIdAndUpdate(userId, {
-        name: req.body.name,
-        email: req.body.email,
-        number: req.body.number,
-    })
-    res.render('user/my_profile', { user }); 
-}
+    const validate = (data) => {
+        const schema = Joi.object({
+            name: Joi.string().pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/).min(3).label("Name").required(),
+            email: Joi.string().email().label("Email").required(),
+            password: new passwordComplexity({ min: 8, max: 100, lowerCase: 1, upperCase: 1, numeric: 1 }).required().label("Password"),
+            number: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),
+            gender: Joi.allow()
 
-//user profile edit..................................
-exports.profileEdit = async (req, res) => {
-
-    // console.log('hhhhhhhh',req.body);
-
-    const user = req.session.user._id;
-
-    // const userDetails = await Userdb.findOne({_id: user})
-
-    const updatedUser = await Userdb.updateOne({_id: user}, {
-        name: req.body.name,
-        email: req.body.email,
-        gender: req.body.gender,
-        number: req.body.number,
-    })
-
-    // console.log('userrrrrrrrrrrrrrr', updatedUser);
-
-    res.redirect('/my-profile')
-
-}
-
-
-exports.bookRequest = async (req,res) => {
-    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    res.render('user/book_request');
-}
-
-//validations...........................
-
-const validate = (data) => {
-    const schema = Joi.object({
-        name: Joi.string().pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/).min(3).label("Name").required(),
-        email: Joi.string().email().label("Email").required(),
-        password: passwordComplexity().label("Password").required(),
-        number: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),
-        gender: Joi.allow()
-
-    })
-    return schema.validate(data)
-}
+        })
+        return schema.validate(data)
+    }

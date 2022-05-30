@@ -259,9 +259,6 @@ exports.checkoutFromBuynow = async (req, res) => {
 }
 
 
-
-
-
 // my orders page..............................................
 exports.myOrders = async (req, res) => {
 

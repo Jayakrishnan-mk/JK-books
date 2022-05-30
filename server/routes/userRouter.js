@@ -26,7 +26,9 @@ userRouter.get('/user-login', (req, res) => {
         res.redirect('/user-home')
     }
     else {
-        res.render('user/user_login')
+        const error = req.session.error;
+        req.session.error = null;
+        res.render('user/user_login', {error});
     }
 })
 
@@ -53,9 +55,10 @@ userRouter.get('/user-signup', (req, res) => {
 //user home.............................................
 userRouter.post('/user-signup', controller.userSignup);
 
+// signup validation............................................
+userRouter.get('/signup-error', controller.signupError);
 
 //product details..........................................
-
 userRouter.get('/product-details', product_controller.productDetails);
 
 
@@ -90,12 +93,7 @@ userRouter.use((req, res, next) => {
 })
 
 
-
-//user home page............................................
-// userRouter.get('/user-home', controller.userHomeGet);
-
-
-
+//user logout............................................
 userRouter.get('/user-logout', async (req, res) => {
     // req.session.destroy();
     // // res.render('user/user_login', {logout: "User Logged out successfully."})

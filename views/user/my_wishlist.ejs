@@ -10,12 +10,10 @@
                 style="width: 85%; position: absolute; margin-left: 7rem;  display: flex; justify-content: center;">
                 <div class="card" style="border: none;">
                     <div class="table-responsive">
-                        <!-- <h1 class="emptyCart">Your Cart is Empty</h1> -->
-                        <!-- <img style="width: 3rem; height: 3rem;" src="../../public/assets/img/cart.png" alt="cart empty"> -->
+
                         <% if (wishlist.length===0) { %>
                             <div>
                                 <img style="margin-top: 7rem;" src="img/wishempty.jpg">
-                                <!-- <video src="img/animatedWishlist"></video> -->
                             </div>
 
                             <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
@@ -33,19 +31,20 @@
                                     </thead>
                                     <tbody>
 
-
                                         <% for(i=0; i <wishlist.length; i++ ) { %>
                                             <tr style="border: 1px solid;">
                                                 <td style="border: 1px solid;">
                                                     <figure class="itemside align-items-center">
                                                         <div class="aside">
-                                                            <a href="/product-details?id=<%=wishlist[i].productItems[0]._id%>">
-                                                                <img
-                                                                src="<%= wishlist[i].productItems[0]?.image%>"
-                                                                class="img-sm">
-                                                            </a></div>
-                                                        <figcaption class="info"> <a href="/product-details?id=<%=wishlist[i].productItems[0]._id%>" class="title text-dark"
-                                                                data-abc="true">
+                                                            <a
+                                                                href="/product-details?id=<%=wishlist[i].productItems[0]._id%>">
+                                                                <img src="<%= wishlist[i].productItems[0]?.image%>"
+                                                                    class="img-sm">
+                                                            </a>
+                                                        </div>
+                                                        <figcaption class="info"> <a
+                                                                href="/product-details?id=<%=wishlist[i].productItems[0]._id%>"
+                                                                class="title text-dark" data-abc="true">
                                                                 <%= wishlist[i].productItems[0]?.name %>
                                                             </a>
                                                             <p class="text-muted small">
@@ -69,17 +68,14 @@
                                                         class="btn btn-light" data-toggle="tooltip" data-abc="true">
                                                     </a>
 
-                                                    <button onclick="removeButton('<%= wishlist[i].productItems[0]._id %>')" class="remove-btn"
-                                                        style="margin: 3em 3em 3em 3.5em;">
+                                                    <button
+                                                        onclick="removeButton('<%= wishlist[i].productItems[0]._id %>')"
+                                                        class="remove-btn" style="margin: 3em 3em 3em 3.5em;">
                                                         <i class="fa fa-trash-o"></i>
 
                                                     </button>
-
-
                                                 </td>
-
                                             </tr>
-
                                             <% } %>
 
                                                 <% } %>
@@ -127,7 +123,6 @@
                                                 )
                                             }
                                         })
-                                        // alert("Removed from Wishlist");
                                     }
                                 </script>
                     </div>

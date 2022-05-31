@@ -1,233 +1,117 @@
 <%- include('../include/pro_header') -%>
 
-
-
-<section id="cart-view">
+  <section id="cart-view">
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
-        <h1 align="center">Request the book you need</h1>
-          <br>
-          <p align="center">
-              We are in partnership with multiple book markets, wholesalers and retailers. We take efforts to arrange whichever book you request. Please leave your details below and we shall contact you as soon as possible
+        <div class="col-md-12" style=" width: 70%; margin: auto; margin-top: 1rem;">
+          <h1 align="center" style="font-size: xx-large; margin-bottom: 7px;">Request the book you need</h1><br>
+          <p align="center" style="margin-top: 0;">
+            We are in partnership with multiple book markets, wholesalers and retailers. We take efforts to arrange
+            whichever book you request. Please leave your details below and we shall contact you as soon as possible
           </p>
           <div class="cart-view-area">
-            <div class="cart-view-table aa-wishlist-table">
+            <div class="cart-view-table aa-wishlist-table"
+              style=" text-align: -webkit-center;   background-color: #dfdfdf; padding: 1rem 0rem 1rem 3rem;">
               <p>
-              If the book you need is not availble in our inventory list, please add them using the section below.             
-                 </p>
-                 <div class="table-responsive">
-                     <form id="book_request" action="/books/request/" method="POST" novalidate="novalidate">
-                     <input type="hidden" name="csrfmiddlewaretoken" value="6o056hiTL2gBtBvoZTnqazYjnzCAc3TntAUcUl713XMne1YVKNdhncL4ZWCBNbmS">
-                         
-                         <table class="table table-bordered">
-                                 <thead>
-                                   <tr>
-                                     <th>Detail</th>
-                                     <th>Input information</th>
-                                   </tr>
-                                 </thead>
-                                 <tbody>
-                                         <tr>
-                                                 <td>Book Name &amp; Author
-                                                 </td>
-                                                 <td>	
-                                                     <div class="aa-checkout-single-bill">
-                                                        <textarea cols="40" rows="4" type="text" id="book_details" name="book_details"> </textarea>
-                                                      </div>
-                                                      (Enter edition if you are specific)
-                                                 </td>
-                                         </tr>
-                                         <tr>
-                                                 <td>Name</td>
-                                                 <td>
-                                                     <div class="aa-checkout-single-bill">
-                                                          <input type="text" id="name" name="name">
-                                                      </div>							    		
-                                                 </td>
-                                         </tr>
-                                         <tr>
-                                                 <td>Phone</td>
-                                                 <td>
-                                                     <div class="aa-checkout-single-bill">
-                                                          <input type="number" id="phone" name="phone">
-                                                      </div>							    		
-                                                 </td>
-                                         </tr>
-                                         <tr>
-                                                 <td>Email</td>
-                                                 <td>
-                                                     <div class="aa-checkout-single-bill">
-                                                          <input type="email" id="email" name="email">
-                                                      </div>							    		
-                                                 </td>
-                                         </tr>
-                                         <tr>
-                                                 <td>State</td>
-                                                 <td>
-                                                     <div class="aa-checkout-single-bill">
-                                                         <select id="state" name="state">
-                                                         <option value="">Select</option>
-                                                         
-                                                             
-                                                             <option value="ANDHRA PRADESH">ANDHRA PRADESH</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="ANDAMAN AND NICOBAR">ANDAMAN AND NICOBAR</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="ARUNACHAL PRADESH">ARUNACHAL PRADESH</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="ASSAM">ASSAM</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="BIHAR">BIHAR</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="CHANDIGARH">CHANDIGARH</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="CHHATTISGARH">CHHATTISGARH</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="DADRA AND NAGAR HAVELI">DADRA AND NAGAR HAVELI</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="DAMAN AND DIU">DAMAN AND DIU</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="DELHI">DELHI</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="GOA">GOA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="GUJARAT">GUJARAT</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="HARYANA">HARYANA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="HIMACHAL PRADESH">HIMACHAL PRADESH</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="JAMMU AND KASHMIR">JAMMU AND KASHMIR</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="JHARKHAND">JHARKHAND</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="KARNATAKA">KARNATAKA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="KERALA">KERALA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="LAKSHADWEEP">LAKSHADWEEP</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="MADHYA PRADESH">MADHYA PRADESH</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="MAHARASHTRA">MAHARASHTRA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="MANIPUR">MANIPUR</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="MEGHALAYA">MEGHALAYA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="MIZORAM">MIZORAM</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="NAGALAND">NAGALAND</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="ODISHA">ODISHA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="PUDUCHERRY">PUDUCHERRY</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="PUNJAB">PUNJAB</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="RAJASTHAN">RAJASTHAN</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="SIKKIM">SIKKIM</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="TAMIL NADU">TAMIL NADU</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="TELANGANA">TELANGANA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="TRIPURA">TRIPURA</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="UTTAR PRADESH">UTTAR PRADESH</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="UTTARAKHAND">UTTARAKHAND</option>
-                                                             
-                                                         
-                                                             
-                                                             <option value="WEST BENGAL">WEST BENGAL</option>
-                                                             
-                                                         
-                                                         </select>
-                                                       </div>						    		
-                                                 </td>
-                                         </tr>
-                                         <tr>
-                                         <td colspan="2"><button id="submit_button" type="submit" class="aa-browse-btn">Submit request</button></td>
-                                         </tr>								    	
-                                                                                 
-                                 </tbody>
-                         </table>
-                     </form>
-                     </div>
+                If the book you need is not availble in our inventory list, please add them using the section below.
+              </p>
+              <h3>
+                <%= err %>
+              </h3>
+              <div class="table-responsive">
+
+                <form id="book_request" action="" novalidate="novalidate">
+                  <input type="hidden" name="csrfmiddlewaretoken"
+                    value="6o056hiTL2gBtBvoZTnqazYjnzCAc3TntAUcUl713XMne1YVKNdhncL4ZWCBNbmS">
+
+                  <table class="table table-bordered"
+                    style=" border: 1px solid;  padding: 2rem 7rem 2rem 4rem; text-align: center; margin: 3rem 0rem 1rem 0rem;">
+                    <thead>
+                      <tr>
+                        <th>Detail</th>
+                        <th>Input information</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Book Name &amp; Author &nbsp&nbsp&nbsp
+                        </td>
+                        <td>
+                          <div class="aa-checkout-single-bill">
+                            <textarea cols="40" rows="4" type="text" id="book_details" name="bookDetails"> </textarea>
+                          </div>
+                          (Enter edition if you are specific)
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Name</td>
+                        <td>
+                          <div class="aa-checkout-single-bill">
+                            <input type="text" id="name" name="name">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Email</td>
+                        <td>
+                          <div class="aa-checkout-single-bill">
+                            <input type="email" id="email" name="email">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Address</td>
+                        <td>
+                          <div class="aa-checkout-single-bill">
+                            <input type="text" id="address" name="address">
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Phone</td>
+                        <td>
+                          <div class="aa-checkout-single-bill">
+                            <input type="number" id="phone" name="phone">
+                          </div>
+                        </td>
+                      </tr>
+                      <p style="color: red;">
+                        <%= err %>
+                      </p>
+                      </tr>
+                      <tr>
+                        <td colspan="2"><button style=" margin: 2rem 0rem 0rem 12rem; width: 8rem; height: 3rem; border-radius: 1rem; background-color: #e43b4c;
+                          color: white;" id="submit_button" onclick="bookRequesting()" type="button"
+                            class="aa-browse-btn">Submit
+                            request</button></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+
+
+  <script>
+
+    function bookRequesting() {
+      $.ajax({
+        url: '/book-request',
+        type: 'POST',
+        success: (response) => {
+          if (response.success) {
+
+            swal.fire("Request sent successfully");
+          }
+        }
+
+      })
+    }
+  </script>

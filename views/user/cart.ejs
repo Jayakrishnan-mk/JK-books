@@ -1,30 +1,23 @@
 <%- include('../include/pro_header') -%>
 
-  
-                     
-                        <% if (products.length===0) { %>
-<!-- 
-                            <h1 style="    text-align: center;
-                            margin-top: 3em; color: #f53f51;     font-size: xx-large;">Your Cart is Empty</h1> -->
-                            <div>
-                                <img style=" margin: 4rem 0rem 0rem 30rem;  height: 33rem;  width: 33rem;" src="img/cartEmpty.svg">
-                            </div>
+    <% if (products.length===0) { %>
+        <div>
+            <img style=" margin: 4rem 0rem 0rem 30rem;  height: 33rem;  width: 33rem;" src="img/cartEmpty.svg">
+        </div>
 
-                            <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
+        <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
 
-                            <% } else { %>
+        <% } else { %>
 
-                                <h3 style="width: 0px;  margin: auto; padding-top: 1rem; color: #fe3d3d; font-size: xx-large; position: relative;">
-                                    Cart</h3>
-                            
-                            
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
-                                            <div class="card" style="border: none;">
-                                                <div class="table-responsive">
-                            
+            <h3
+                style="width: 0px;  margin: auto; padding-top: 1rem; color: #fe3d3d; font-size: xx-large; position: relative;">
+                Cart</h3>
 
+            <div class="container-fluid">
+                <div class="row">
+                    <aside class="col-lg-9" style="width: 52%; position: absolute; margin-left: 7rem;  display: flex;">
+                        <div class="card" style="border: none;">
+                            <div class="table-responsive">
 
                                 <table class="table table-borderless ">
                                     <thead class="text-muted">
@@ -37,17 +30,20 @@
                                     </thead>
                                     <tbody>
 
-
-                                        <% for(i=0; i<products.length; i++ ) { %>
+                                        <% for( i=0; i<products.length; i++ ) { %>
 
                                             <tr>
                                                 <td>
                                                     <figure class="itemside align-items-center">
                                                         <div class="aside">
-                                                            <a href="/product-details?id=<%=products[i].product[0]._id%>"><img src="<%= products[i].product[0].image%>"
-                                                                class="img-sm"></a></div>
-                                                        <figcaption class="info"> <a href="/product-details?id=<%=products[i].product[0]._id%>" class="title text-dark"
-                                                                data-abc="true">
+                                                            <a
+                                                                href="/product-details?id=<%= products[i].product[0]._id %>"><img
+                                                                    src="<%= products[i].product[0].image%>"
+                                                                    class="img-sm"></a>
+                                                        </div>
+                                                        <figcaption class="info"> <a
+                                                                href="/product-details?id=<%=products[i].product[0]._id%>"
+                                                                class="title text-dark" data-abc="true">
                                                                 <%= products[i].product[0].name %>
                                                             </a>
                                                             <p class="text-muted small">
@@ -67,11 +63,10 @@
                                                             <%= pros.products[i].quantity %>
                                                         </span>
                                                     </p>
-                                                    %>
+
                                                     <button
                                                         onclick="changeQuantity('<%= pros._id %>', '<%= products[i].product[0]._id %>',1)"
                                                         class="cart-item-count mr-3 quantityChange">+</button>
-
 
                                                 </td>
                                                 <td>
@@ -98,130 +93,118 @@
 
                                                 <% } %>
 
-
                                     </tbody>
                                 </table>
                                 <!-- ---------------------------------------------------------------------------------------------------------------------------------------------- -->
-
-                    </div>
-                </div>
-            </aside>
-
-
-
-
-
-
-            <% if (products.length !=0 ) { %>
-
-
-                <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
-
-                    <div class="card">
-                        <div class="card-body">
-                            <dl class="dlist-align">
-                                <dt>Total price:</dt>
-                                <dd class="text-right ml-3">₹<%= totalAmount %>
-
-                                </dd>
-                            </dl>
-                            <dl class="dlist-align">
-                                <dt>Discount:</dt>
-                                <dd class="text-right text-danger ml-3">- ₹0.00</dd>
-                            </dl>
-                            <dl class="dlist-align">
-                                <dt>Total:</dt>
-                                <dd class="text-right text-dark b ml-3"><strong>₹<%= totalAmount %></strong>
-                                </dd>
-                            </dl>
-                            <hr>
-                            <a href="/place-order"><button class="orderBtn">Place order</button></a>
+                            </div>
                         </div>
-                    </div>
-                </aside>
-                <% } %>
-        </div>
-    </div>
+                    </aside>
 
-    <script>
-        function changeQuantity(cartId, proId, count) {
-            let quantity = parseInt(document.getElementById(proId).innerHTML)
-            // console.log("count----------------------------------------------------------", typeof (count));
-            // console.log("quantity-------------------------------------------------------", quantity);
-            $.ajax({
-                url: ('/change-product-quantity'),
-                data: {
-                    cart: cartId,
-                    product: proId,
-                    count: count,
-                    quantity: quantity
-                },
-                type: 'post',
-                success: (response) => {
-                    // alert(response)
-                    if (response.status && response.removeProduct) {
+                    <% if (products.length !=0 ) { %>
 
-                        const Toast = Swal.mixin({
-                            toast: true,
-                            position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 1000,
-                            timerProgressBar: true,
-                            didOpen: (toast) => {
-                                toast.addEventListener('mouseenter', Swal.stopTimer)
-                                toast.addEventListener('mouseleave', Swal.resumeTimer)
-                            }
-                        })
-                        setTimeout(() => {
-                            location.reload();
-                        }, 1000);
+                        <aside class="col-lg-3" style="width: 30%; position: absolute; margin-left: 60rem;">
+                            <div class="card">
+                                <div class="card-body">
+                                    <dl class="dlist-align">
+                                        <dt>Total price:</dt>
+                                        <dd class="text-right ml-3">₹<%= totalAmount %>
+                                        </dd>
+                                    </dl>
+                                    <dl class="dlist-align">
+                                        <dt>Discount:</dt>
+                                        <dd class="text-right text-danger ml-3">- ₹0.00</dd>
+                                    </dl>
+                                    <dl class="dlist-align">
+                                        <dt>Total:</dt>
+                                        <dd class="text-right text-dark b ml-3"><strong>₹<%= totalAmount %></strong>
+                                        </dd>
+                                    </dl>
+                                    <hr>
+                                    <a href="/place-order"><button class="orderBtn">Place order</button></a>
+                                </div>
+                            </div>
+                        </aside>
+                        <% } %>
+                </div>
+            </div>
 
-                        Toast.fire({
-                            icon: 'success',
-                            title: 'Item removed successfully!'
-                        })
+            <script>
+                function changeQuantity(cartId, proId, count) {
+                    let quantity = parseInt(document.getElementById(proId).innerHTML)
 
-
-                        // location.reload();
-                    }
-                    else {
-                        document.getElementById(proId).innerHTML = quantity + count;
-                        location.reload()
-                    }
-                }
-            })
-        }
-
-        function removeBtn(proId, cartId) {
-            Swal.fire({
-                title: 'Are you sure?',
-                text: "You want to remove this item?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                if (result.isConfirmed) {
                     $.ajax({
-
-                        url: ('/pro-remove'),
+                        url: ('/change-product-quantity'),
                         data: {
                             cart: cartId,
-                            product: proId
+                            product: proId,
+                            count: count,
+                            quantity: quantity
                         },
                         type: 'post',
                         success: (response) => {
-                            location.reload()
+
+                            if (response.status && response.removeProduct) {
+
+                                const Toast = Swal.mixin({
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 1000,
+                                    timerProgressBar: true,
+                                    didOpen: (toast) => {
+                                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                                    }
+                                })
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000);
+
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: 'Item removed successfully!'
+                                })
+
+                            }
+                            else {
+                                document.getElementById(proId).innerHTML = quantity + count;
+                                location.reload()
+                            }
                         }
                     })
                 }
-            })
-        }
 
-    </script>
+                function removeBtn(proId, cartId) {
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You want to remove this item?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+
+                                url: ('/pro-remove'),
+                                data: {
+                                    cart: cartId,
+                                    product: proId
+                                },
+                                type: 'post',
+                                success: (response) => {
+                                    location.reload()
+                                }
+                            })
+                        }
+                    })
+                }
+
+            </script>
 
 
-    </body>
+            </body>
 
-    </html>
+            </html>

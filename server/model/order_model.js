@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const schemaOrder = new mongoose.Schema({
+
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userdb'
@@ -13,7 +14,7 @@ const schemaOrder = new mongoose.Schema({
         type: String,
         required: true
     },
-    date : {
+    date: {
         type: Date,
         default: Date.now,
         required: true

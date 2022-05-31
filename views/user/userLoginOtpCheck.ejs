@@ -1,9 +1,9 @@
 <%- include('../include/header') -%>
 
 
-<div class="nav">
-    <h1>JK Books</h1>
-</div>
+    <div class="nav">
+        <h1>JK Books</h1>
+    </div>
     <div class="main">
         <div class="text-center center-div" id="login ">
 
@@ -27,12 +27,12 @@
                 <form action="/otp" method="post" class="pt-3">
                     <div class="form-group">
                         <input type="hidden" name="number" value="<%=number%>">
-                        <label for="name" >Enter Your otp</label><br>
-                        <input type="number"  name="otp" placeholder="otp" >
+                        <label for="name">Enter Your otp</label><br>
+                        <input type="number" name="otp" placeholder="otp">
                     </div><br>
                     <div class="form-group">
-                       
-                    </div>  
+
+                    </div>
                     <br>
                     <button type="submit" class="btn btn-primary rounded-pill" style="width: 15%;">Submit</button>
                     <p id="err"></p>

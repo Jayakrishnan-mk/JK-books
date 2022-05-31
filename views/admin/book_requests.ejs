@@ -1,10 +1,9 @@
 <%-include ('../include/_header') %>
 
-
     <style>
         div.dataTables_wrapper {
             width: 89%;
-            margin: 4rem 0rem 4rem 4rem;
+            margin: 3rem 0rem 4rem 4rem;
         }
 
         div.dt-buttons {
@@ -25,36 +24,49 @@
     </style>
 
 
-    <div class="dt-buttons">
-        <a href="/admin/add-user" class="border-shadow" style="padding: 39rem;">
-            <span class="new">New User <i class="fa-solid fa-user-plus"></i> </span>
-        </a>
-    </div>
-
-    <!-- form handling................... -->
-
-    <table class="table" id="myTable" style="width: 90%;">
+    <table class="table " id="myTable" style="width: 90%;">
         <thead class="thead-dark">
             <tr>
                 <th>No.</th>
+                <th>Book Details</th>
                 <th>Name</th>
-                <th>@email</th>
-                <th>number</th>
-                <th>Gender</th>
-                <th>Status</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Phone no</th>
+                <th>Action</th>
+
             </tr>
         </thead>
         <tbody>
 
-            <%-include ('../include/_show') %>
+            <% for (let i=0 ; i<request.length ; i++ ) { %>
+
+                <tr>
+                    <td>
+                        <%= i + 1 %>
+                    </td>
+                    <td>
+                        <%= request[i].bookDetails %>
+                    </td>
+                    <td>
+                        <%= request[i].name %>
+                    </td>
+                    <td>
+                        <%= request[i].email %>
+                    </td>
+                    <td>
+                        <%= request[i].address %>
+                    </td>
+                    <td>
+                        <%= request[i].phone %>
+                    </td>
+
+                    <% } %>
+
+                </tr>
 
         </tbody>
     </table>
-    </form>
-
-    <!-- form handling.............................. -->
-
-    </main>
 
 
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
@@ -79,4 +91,15 @@
     </script>
 
 
-    <%-include ('../include/_footer') %>
+    <script>
+        function deliveryStatus(value, orderId) {
+            $.ajax({
+                url: '/admin/deliveryStatus',
+                type: 'post',
+                data: {
+                    status: value,
+                    orderId: orderId
+                }
+            })
+        }
+    </script>

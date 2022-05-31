@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const schemaProducts = new mongoose.Schema({
+
     name: {
         type: "string",
         required: true
@@ -23,12 +24,11 @@ const schemaProducts = new mongoose.Schema({
     },
     image: {
         type: "string",
-        // required: true
     },
     description: "string"
 
 })
-  
+
 const Productdb = mongoose.model('productdb', schemaProducts);
 
 module.exports = Productdb;

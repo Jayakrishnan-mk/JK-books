@@ -1,26 +1,19 @@
 const Productdb = require('../model/product_model');
 const Cartdb = require('../model/cart_model');
-const objectId = require('mongoose').Types.ObjectId;
 const Categorydb = require('../model/category_model');
 const SavedAddressdb = require('../model/savedAddress_model');
-
+const objectId = require('mongoose').Types.ObjectId;
 const Joi = require('joi');
 
 //add products..................
 exports.addProducts = async (req, res) => {
-    // console.log(req.body);
-
 
     let image = req.files?.image;
     if (image) {
         var imgPath = './public/product_images/' + Date.now() + '.jpg';
         var imagePath = '/public/product_images/' + Date.now() + '.jpg';
-        image.mv(imgPath, (err) => {
-            // console.log(err);
-        })
+        image.mv(imgPath, (err) => { })
     }
-
-
 
     const productObject = {
 
@@ -33,18 +26,17 @@ exports.addProducts = async (req, res) => {
         image: imagePath
     }
 
-    const error  = addValidate(productObject)
+    const error = addValidate(productObject)
 
     //new product
     const product = new Productdb(productObject)
 
-    // console.log(error,'errorlllllllllllll');
     if (error.error) {
         let errorMsg = error.error?.details[0].message;
         const category = await Categorydb.find({});
-        res.render('admin/add_product', {category, errorMsg })
+        res.render('admin/add_product', { category, errorMsg })
     }
-    else{
+    else {
 
         //save product in the database
         product
@@ -58,22 +50,20 @@ exports.addProducts = async (req, res) => {
                 res.status(500).send({ message: err.message || "Some error occured while adding a product operation" })
             })
 
-}
+    }
 }
 
 //update product put......................................
-
 exports.updateProductPut = async (req, res) => {
+
     const id = req.params.id;
-    // console.log("paramsid productid>>>>>>>---------->>>>----------", id);
+
     let image = req.files?.image;
     if (image) {
         let imgPath = './public/product_images/' + Date.now() + '.jpg';
         var imagePath = '/public/product_images/' + Date.now() + '.jpg';
         image.mv(imgPath, (err) => { })
     }
-    
-
 
     const product = {
         name: req.body.name,
@@ -84,21 +74,20 @@ exports.updateProductPut = async (req, res) => {
         description: req.body.description,
         image: imagePath
     }
-    
-    const error = editValidate (product);
-    
-    // console.log("product>>>>>>>>>>>>+++++>>>>>>>>>>>>>>>>", product);
-    
+
+    const error = editValidate(product);
+
     if (error.error) {
-        
-        // console.log('lllllkkk',error.error.details[0].message);
+
         let errorMsg = error.error?.details[0].message;
+
         const category = await Categorydb.find({});
-        // console.log('mmmmmmmmmmm,',product);
+
         const pro = await Productdb.findById(id);
-        res.render('admin/update_product', {  product:pro, category, errorMsg })
-        
-        
+
+        res.render('admin/update_product', { product: pro, category, errorMsg })
+
+
     }
     else {
         await Productdb.updateOne({ _id: id }, { $set: product })
@@ -109,20 +98,21 @@ exports.updateProductPut = async (req, res) => {
 
 //update product get......................................
 exports.updateProductGet = async (req, res) => {
+
     const id = req.params.id;
+
     const product = await Productdb.findById(id);
+
     const category = await Categorydb.find();
-    res.render('admin/update_product', { product , category, errorMsg: "" })
+
+    res.render('admin/update_product', { product, category, errorMsg: "" })
 }
 
 //delete product......................................
 
 exports.deleteProduct = (req, res) => {
+
     const id = req.params.id;
-    // console.log(id);
-
-
-    
 
     Productdb.findByIdAndDelete(id)
         .then(data => {
@@ -143,19 +133,15 @@ exports.productSearch = (req, res) => {
 
 //product products....................................
 exports.productDetails = async (req, res) => {
-    // console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<');
-    const products = await Productdb.findById(req.query.id)
-    // console.log("products>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>", products);
-    // const count = cartCount[0].products.length;
 
-
+    const products = await Productdb.findById(req.query.id);
 
     const count = null;
     if (req.session.user) {
         const cartCount = await Cartdb.find({ userId: objectId(req.session.user._id) })
         const count = cartCount[0]?.products?.length;
 
-        res.render('user/user_productDetails', { products, count , isUserlogin: req.session.isUserlogin })
+        res.render('user/user_productDetails', { products, count, isUserlogin: req.session.isUserlogin })
     }
 
     res.render('user/user_productDetails', { products, count, isUserlogin: req.session.isUserlogin })
@@ -164,35 +150,30 @@ exports.productDetails = async (req, res) => {
 
 //remove products....................................
 exports.productRemove = async (req, res) => {
-    // console.log("req.body-------->>>>>>>>>>>--", req.body);
+
     const proId = req.body.product;
-    const cartId = req.body.cart;
-    // console.log("proid--------", proId);
     const userId = req.session.user._id;
     await Cartdb.updateOne({ userId: objectId(userId) },
         {
-
             $pull: { products: { id: objectId(proId) } }
 
         })
+
     res.json({ status: true })
 
 }
 
 //product quantity changing....................................
 exports.changeProductQuantity = async (req, res) => {
-    // console.log("req.body----------", req.body);
+
     const cart = req.body.cart;
     const product = req.body.product;
+
     let count = req.body.count;
     let quantity = req.body.quantity;
+
     count = parseInt(count)
     quantity = parseInt(quantity)
-    // console.log("type of count ---", typeof (count));
-    // console.log("type of quantity ---", typeof (quantity));
-    // console.log("quantity----------------",req.body.quantity);
-    // console.log(count);  
-
 
     if (quantity == 1 && count == -1) {
 
@@ -200,6 +181,7 @@ exports.changeProductQuantity = async (req, res) => {
             {
                 $pull: { products: { id: objectId(product) } }
             })
+
         res.json({ status: true, removeProduct: true })
     }
     else {
@@ -207,6 +189,7 @@ exports.changeProductQuantity = async (req, res) => {
             {
                 $inc: { "products.$.quantity": count }
             })
+
         res.json({ status: true })
 
     }
@@ -215,8 +198,6 @@ exports.changeProductQuantity = async (req, res) => {
 //order placing....................................
 exports.placeOrder = async (req, res) => {
     const userId = req.session.user?._id;
-    // console.log("userId-----", userId);
-    // console.log("req.body>>>>>>>>>>", req.body);
 
     let cartItems = await Cartdb.aggregate([
         {
@@ -258,39 +239,39 @@ exports.placeOrder = async (req, res) => {
         }
 
     ])
-    // console.log("cartItems----------------------------------------------------------------------", cartItems);
+
     let total = cartItems[0]?.total;
-    // console.log("total----------", total);
 
-    const saved = await SavedAddressdb.find({ userId: objectId(userId) }).sort({date: -1}).limit(3);
+    const saved = await SavedAddressdb.find({ userId: objectId(userId) }).sort({ date: -1 }).limit(3);
 
-    res.render('user/place_order', { total,saved, user: req.session.user, error: "" })
+    res.render('user/place_order', { total, saved, user: req.session.user, error: "" })
 }
+
 
 //place order direct from home page and product details page. buy now button.....
 exports.placeOrderDirect = async (req, res) => {
+
     const proId = req.query.id;
-    // console.log('ghghgghgghhghhg', proId);
 
     const userId = req.session.user?._id;
-    // console.log("userId-----", userId);
 
     const product = await Productdb.findById(proId);
+
     const total = product.price;
-    // console.log(';;;;;;;;;;;;;;;;;;;;;;;', product);
+
     req.session.dirBuynowProduct = product;
 
-    const saved = await SavedAddressdb.find({userId: objectId(userId)}).sort({date: -1}).limit(3);
+    const saved = await SavedAddressdb.find({ userId: objectId(userId) }).sort({ date: -1 }).limit(3);
 
 
-    res.render('user/placeOrderFromHome', {saved, total , user: req.session.user, error: "" })
-     // res.render('user/placeOrderFromHome', { total , user: req.session.user, error: "" })
+    res.render('user/placeOrderFromHome', { saved, total, user: req.session.user, error: "" })
 
 }
-   
- 
+
+
 //validation for adding a new product....................................
 const addValidate = (data) => {
+
     const schema = Joi.object({
         name: Joi.string().min(3).max(50).required().label("Name"),
         author: Joi.string().min(3).max(30).required().label("Author"),
@@ -300,11 +281,13 @@ const addValidate = (data) => {
         description: Joi.string().min(10).max(1000).required().label("Description"),
         image: Joi.string().required().label("Image")
     })
+
     return schema.validate(data)
 }
 
 //validation for update a new product....................................
 const editValidate = (data) => {
+
     const schema = Joi.object({
         name: Joi.string().min(3).max(30).required().label("Name"),
         author: Joi.string().min(3).max(30).required().label("Author"),
@@ -314,6 +297,7 @@ const editValidate = (data) => {
         description: Joi.string().min(10).max(1000).required().label("Description"),
         image: Joi.allow()
     })
+
     return schema.validate(data)
 }
 

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const Userdb = require('../model/model');
 const Productdb = require('../model/product_model');
 const Orderdb = require('../model/order_model');
+const BookRequestdb = require('../model/bookReq_model');
 const Categorydb = require('../model/category_model');
 const Joi = require('joi');
 const passwordComplexity = require('joi-password-complexity');
@@ -11,7 +12,7 @@ const passwordComplexity = require('joi-password-complexity');
 
 //admin home page..........................................
 exports.adminHomeGet = (req, res) => {
-    // console.log(req.session.isAdminlogin);
+
     if (req.session.isAdminlogin) {
         Userdb.find()
             .then(data => {
@@ -25,6 +26,7 @@ exports.adminHomeGet = (req, res) => {
 
 //users list.................................................
 exports.allUsers = (req, res) => {
+
     Userdb.find()
         .then(data => {
             res.render('admin/admin_home', { users: data })
@@ -33,10 +35,10 @@ exports.allUsers = (req, res) => {
 
 //admin products list........................................
 exports.adminProducts = async (req, res) => {
+
     try {
         const products = await Productdb.find()
-        // console.log(products);
-        // console.log(products[0].image);
+
         res.render('admin/admin_products', { products: products })
     }
     catch (error) {
@@ -47,13 +49,8 @@ exports.adminProducts = async (req, res) => {
 //update product page........................................
 exports.updateProduct = async (req, res) => {
 
-    // console.log(req.query.id + "----------------------------query id");
-    // console.log(typeof (req.query.id));
-
     const product = await Productdb.findOne({ _id: req.query.id })
     res.render('admin/update_product', { product })
-
-    // console.log('--------------------------------------------compiler');
 
 }
 
@@ -61,6 +58,7 @@ exports.updateProduct = async (req, res) => {
 
 //create and save a user........................................
 exports.create = (req, res) => {
+
     //validate request
     if (!req.body) {
         res.status(400).send({ message: "Content can not be empty!!" });
@@ -83,11 +81,11 @@ exports.create = (req, res) => {
         user
             .save(user)
             .then(data => {
-                // console.log(data);
 
                 res.render('admin/add_user', { user: "New User added successfully.", error: "" })
             })
             .catch(err => {
+
                 res.render('admin/add_user', { user: "", error: "User already exist" })
             })
     }
@@ -96,12 +94,10 @@ exports.create = (req, res) => {
 
 //admin block unblock user......................................
 exports.block = async (req, res) => {
-    // console.log('idddddddddddddddd');
+
     try {
-        // console.log(req.params.id, "...................................................");
         const user = await Userdb.findOne({ _id: req.params.id })
-        // console.log("user.isBlocked", user.isBlocked);
-        // console.log("req.params.id", req.params.id);
+
         if (user.isBlocked) {
             await Userdb.updateOne({ _id: req.params.id }, { isBlocked: false })
             setTimeout(() => {
@@ -137,6 +133,7 @@ exports.userSearch = (req, res) => {
 
 //admin dashboard........................................
 exports.adminDashboard = async (req, res) => {
+
     try {
         const user = await Userdb.find()
         const users = user.length;
@@ -162,9 +159,8 @@ exports.adminDashboard = async (req, res) => {
         }
 
         let totalSales = parseInt(totalAmount);
-        // console.log("total", totalSales);
 
-        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
         const payment = await Orderdb.aggregate([
             {
                 $project: {
@@ -179,8 +175,7 @@ exports.adminDashboard = async (req, res) => {
                 }
             }
         ])
-        // console.log('ppppppppppppppppppppp',payment);
-        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+        //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
         const categories = await Categorydb.find()
 
         const array = [];
@@ -192,7 +187,6 @@ exports.adminDashboard = async (req, res) => {
 
         // console.log(array);
         //]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
-        const userBlocks = await Userdb.find()
         const userBlocked = await Userdb.aggregate([
             {
                 $project: {
@@ -219,7 +213,6 @@ exports.adminDashboard = async (req, res) => {
         }
         //..................................................................
 
-        //    console.log('uuuuuuuuuuuuuuu',payment);
 
         res.render('admin/dashboard', { users, products, orders, total: totalSales, paymentMods: payment, userBl: userBlocked, array })
     }
@@ -254,21 +247,22 @@ exports.adminOrdersList = async (req, res) => {
 
     ])
 
-    // const orderedProduct =  orderItems[0].orderProducts[0];
-    // console.log("ord-----", orderItems);
-
-    // console.log("order-----", orderItems[0].userDetails[0]);
-
     res.render('admin/admin_orders', { orders: orderItems })
 }
+
+//users book requests list........................................
+exports.requestList = async (req, res) => {
+
+    const request = await BookRequestdb.find();
+
+    res.render('admin/book_requests', { request })
+}
+
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  User   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 //user signup page..................
 exports.userSignup = async (req, res) => {
-    // console.log(req.body);
-    //validate request
-
 
     //new user
     const userObj = {
@@ -281,7 +275,6 @@ exports.userSignup = async (req, res) => {
 
     userObj.password = await bcrypt.hash(userObj.password, 10)
 
-    // console.log('this is the hashinggggggggggggg',userObj.password);
     const alreadyEmail = await Userdb.findOne({ email: (userObj.email) })
     const alreadyNum = await Userdb.findOne({ number: (userObj.number) })
 
@@ -307,16 +300,16 @@ exports.userSignup = async (req, res) => {
             res.redirect('/user-login')
         })
         .catch(error => {
-            // res.send({ message: error }) 
             console.log("error----", error);
         })
 }
 
 //user signup error page..................
 exports.signupError = async (req, res) => {
+
     const error = req.session.error;
     req.session.error = null;
-    res.render('user/user_signupError', { error , body: req.body });
+    res.render('user/user_signupError', { error, body: req.body });
 }
 
 //user home page............................
@@ -344,61 +337,107 @@ exports.userHomePost = async (req, res) => {
             }
         }
     }
-    else{
+    else {
         req.session.error = "Invalid Email";
         res.redirect('/user-login')
     }
 }
 
-    exports.myProfile = async (req, res) => {
+// user profile........................................
+exports.myProfile = async (req, res) => {
 
-        const userId = req.session.user._id;
-        const user = await Userdb.findByIdAndUpdate(userId, {
-            name: req.body.name,
-            email: req.body.email,
-            number: req.body.number,
-        })
-        res.render('user/my_profile', { user });
+    const userId = req.session.user._id;
+    const user = await Userdb.findByIdAndUpdate(userId, {
+        name: req.body.name,
+        email: req.body.email,
+        number: req.body.number,
+    })
+    res.render('user/my_profile', { user });
+}
+
+//user profile edit..................................
+exports.profileEdit = async (req, res) => {
+
+    const user = req.session.user._id;
+
+    await Userdb.updateOne({ _id: user }, {
+        name: req.body.name,
+        email: req.body.email,
+        gender: req.body.gender,
+        number: req.body.number,
+    })
+
+    res.redirect('/my-profile')
+
+}
+
+//book request page...............................
+exports.bookRequest = async (req, res) => {
+
+    res.render('user/book_request', { err: "" });
+}
+
+//book request post..................................
+exports.bookRequestPost = async (req, res) => {
+
+    const bookReq = {
+        bookDetails: req.body.bookDetails,
+        name: req.body.name,
+        email: req.body.email,
+        address: req.body.address,
+        phone: req.body.phone
+
     }
 
-    //user profile edit..................................
-    exports.profileEdit = async (req, res) => {
-
-        // console.log('hhhhhhhh',req.body);
-
-        const user = req.session.user._id;
-
-        // const userDetails = await Userdb.findOne({_id: user})
-
-        const updatedUser = await Userdb.updateOne({ _id: user }, {
-            name: req.body.name,
-            email: req.body.email,
-            gender: req.body.gender,
-            number: req.body.number,
-        })
-
-        // console.log('userrrrrrrrrrrrrrr', updatedUser);
-
-        res.redirect('/my-profile')
-
+    const bookRequest = new BookRequestdb(bookReq);
+    const { error } = bookReqValidate(bookReq);
+    if (error) {
+        req.session.error = error.details[0].message;
+        res.redirect('/book-request-error');
     }
+    else {
 
+        await bookRequest.save();
 
-    exports.bookRequest = async (req, res) => {
-        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-        res.render('user/book_request');
+        res.json({ success: true });
     }
+}
 
-    //validations...........................
+//book request validation error page................
+exports.bookRequestError = async (req, res) => {
 
-    const validate = (data) => {
-        const schema = Joi.object({
-            name: Joi.string().pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/).min(3).label("Name").required(),
-            email: Joi.string().email().label("Email").required(),
-            password: new passwordComplexity({ min: 8, max: 100, lowerCase: 1, upperCase: 1, numeric: 1 }).required().label("Password"),
-            number: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),
-            gender: Joi.allow()
+    const error = req.session.error;
+    req.session.error = null;
+    // console.log('errordddddddddddd>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', error);
+    res.render('user/book_request', { err: error });
+}
 
-        })
-        return schema.validate(data)
-    }
+//validations...........................
+
+const validate = (data) => {
+
+    const schema = Joi.object({
+        name: Joi.string().pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/).min(3).label("Name").required(),
+        email: Joi.string().email().label("Email").required(),
+        password: new passwordComplexity({ min: 8, max: 100, lowerCase: 1, upperCase: 1, numeric: 1 }).required().label("Password"),
+        number: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),
+        gender: Joi.allow()
+
+    })
+
+    return schema.validate(data)
+}
+
+
+const bookReqValidate = (data) => {
+
+    const schema = Joi.object({
+        bookDetails: Joi.string().min(9).label("Book Details").required(),
+        name: Joi.string().pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/).min(3).label("Name").required(),
+        email: Joi.string().email().label("Email").required(),
+        address: Joi.string().min(3).label("Address").required(),
+        phone: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),
+    })
+
+    return schema.validate(data)
+}

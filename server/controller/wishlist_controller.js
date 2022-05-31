@@ -1,8 +1,5 @@
 const Wishlistdb = require('../model/wishlist_model');
-const Productdb = require('../model/product_model');
 const objectId = require('mongoose').Types.ObjectId;
-
-
 
 //product adding to wishlist.......................................................
 exports.addToWishlist = async (req, res) => {
@@ -23,20 +20,21 @@ exports.addToWishlist = async (req, res) => {
             }
         })
         if (proExist != -1) {
-            // console.log("Removed from wishlist");
+
             await Wishlistdb.updateOne({ userId: objectId(userId) },
                 {
                     $pull: { products: objectId(proId) } //remove product from wishlist..........................
                 })
+
             res.json({ status: false })
 
         }
         else {
-            // console.log("Added to wishlist");
             await Wishlistdb.updateOne({ userId: objectId(userId) },
                 {
                     $push: { products: objectId(proId) } //add product to wishlist................................
                 })
+
             res.json({ status: true });
         }
     }
@@ -48,13 +46,11 @@ exports.addToWishlist = async (req, res) => {
 
         wishlist
             .save()
-        // console.log(" saved. in wishlist...............");
         res.json({ status: true })
     }
 }
 
 exports.myWishlist = async (req, res) => {
-
 
     const userId = req.session.user._id;
 
@@ -75,12 +71,7 @@ exports.myWishlist = async (req, res) => {
         }
     ])
 
-    // console.log('wwwwwwwwwww', wishlist);
-
-
-
     if (wishlist) {
-        // console.log('wwwwwwwwwwwww',userWishlist);
         res.render('user/my_wishlist', { wishlist })
     }
     else {
@@ -91,15 +82,14 @@ exports.myWishlist = async (req, res) => {
 //Item removing from wishlist...................................................... 
 exports.wishlistRemoved = async (req, res) => {
     const proId = req.body.id;
-    // console.log('[[[[[[[[[',proId);
 
     const userId = req.session.user._id;
-    // console.log(userId);
 
     await Wishlistdb.updateOne({ userId: objectId(userId) },
         {
             $pull: { products: objectId(proId) } //remove product from wishlist..........................
         })
+
     res.json({ status: true })
 
 }

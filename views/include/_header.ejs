@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JK books</title>
   <link rel="icon" type="image/x-icon" href="img/jklogo.jpg">
-  
+
   <!-- data tables....................................... -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
@@ -55,7 +55,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
-       
+
         <li class="nav-item active">
           <a class="nav-link" href="/admin/admin-dashboard">Dashboard </a>
         </li>
@@ -74,22 +74,18 @@
         <li class="nav-item">
           <a class="nav-link" href="/admin/admin-ordersList">Orders</a>
         </li>
-
-
+        <li class="nav-item">
+          <a class="nav-link" href="/admin/requestList">Book-Requests</a>
+        </li>
 
       </ul>
     </div>
-    <!-- <a href="/admin-logout" class="border-shadow" style="margin: right; padding-right: 7%;">
-      <span class="new"><i class="fa-solid fa-arrow-right"></i> Log out </span>
-  </a> -->
-
 
     <button class="btn btn-dark" style="margin-right: 5%;" onclick="logoutBtn()"> Log out</button>
 
-
     <script>
       function logoutBtn() {
-        // console.log('hhhhhhhhhhhhhhh');  
+
         Swal.fire({
           title: 'Are you sure?',
           text: "You want to logout!",
@@ -107,8 +103,6 @@
 
 
       function confirmDelete(id) {
-
-        // console.log(id);
 
         Swal.fire({
           title: 'Are you sure?',
@@ -134,8 +128,6 @@
 
 
       function confirmDelCat(id) {
-
-        // console.log(id);
 
         Swal.fire({
           title: 'Are you sure?',

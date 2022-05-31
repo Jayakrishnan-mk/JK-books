@@ -1,6 +1,5 @@
 <%-include ('../include/_header') %>
 
-
     <style>
         div.dataTables_wrapper {
             width: 89%;
@@ -25,17 +24,13 @@
     </style>
 
     <div class="dt-buttons">
-
-
-        <a href="/admin/add-category" class="border-shadow"  style="padding: 39rem;">
+        <a href="/admin/add-category" class="border-shadow" style="padding: 39rem;">
             <span class="new">Add Category <i class="fa-solid fa-book"></i></span>
         </a>
-
     </div>
 
     <!-- form handling................... -->
 
-    <!-- <form action="/admin-home" method="post"> -->
     <table class="table" id="myTable" style="width: 90%;">
         <thead class="thead-dark">
             <tr>
@@ -58,10 +53,7 @@
                             <%= categories[i].name %>
                         </td>
 
-
-
                         <td>
-
                             <a href="/admin/update-category/<%= categories[i]._id%> ">
                                 <li class="list-inline-item">
                                     <button class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip"
@@ -71,28 +63,18 @@
                         </td>
 
                         <td>
-
-
-
-                            <!-- <form action="/delete-category/<%= categories[i]._id%>?_method=DELETE" method="post"> -->
-
                             <li class="list-inline-item">
                                 <button onclick="confirmDelCat ('<%= categories[i]._id %>')"
                                     class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
                                     data-placement="top" title="Delete">
-                                    <i class="fa fa-trash"></i></button>
+                                    <i class="fa fa-trash"></i>
+                                </button>
                             </li>
-
-
-
                         </td>
 
-                        </td>
                     </tr>
 
                     <% } %>
-
-
         </tbody>
     </table>
     </form>
@@ -122,5 +104,7 @@
             });
         });
     </script>
+
+
 
     <%-include ('../include/_footer') %>

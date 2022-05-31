@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const savedSchema = new mongoose.Schema({
+
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userdb'
@@ -24,7 +25,7 @@ const savedSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true
-    } 
+    }
 });
 
 const savedAddressModel = mongoose.model('savedAddressDb', savedSchema);

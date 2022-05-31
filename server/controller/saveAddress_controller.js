@@ -16,18 +16,17 @@ exports.saveAddress = async (req, res) => {
         userId: objectId(req.session.user._id),
         name: req.body.name,
         address: req.body.address,
-        pincode:req.body.pincode,
+        pincode: req.body.pincode,
         mobile: req.body.mobile,
     }
     const addressExist = await SavedAddressdb.findOne(checkexist);
 
-    // console.log('ssssssssssssssss', saveObject);
     const savedAddress = new SavedAddressdb(saveObject);
-    
-    if(addressExist){
+
+    if (addressExist) {
         res.json({ status: true });
     }
-    else{
+    else {
         await savedAddress.save();
         res.json({ status: false });
     }

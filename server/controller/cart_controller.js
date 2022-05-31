@@ -1,19 +1,12 @@
 const Cartdb = require('../model/cart_model');
-const Productdb = require('../model/product_model');
-
 const objectId = require('mongoose').Types.ObjectId;
-
-
-
-
 
 //add to cart.......................................................
 exports.addToCart = async (req, res) => {
+
     const userId = req.session.user._id;
-    // console.log('userid printed...................................', userId);
     const proId = req.params.id;
-    // console.log("productid printed.................................", proId);
-    console.log(req.body);
+
     const product = {
         id: objectId(proId),
         quantity: 1
@@ -23,14 +16,13 @@ exports.addToCart = async (req, res) => {
 
     if (userCart) {
         let proExist = userCart.products.findIndex(product => product.id == proId)
-        // console.log("proExist-------------", proExist);
+
         if (proExist != -1) {
-            // console.log(objectId(proId));
             await Cartdb.updateOne({ userId: objectId(userId), 'products.id': objectId(proId) },
                 {
                     $inc: { "products.$.quantity": 1 }
                 })
-            res.json({ status: true }) 
+            res.json({ status: true })
         }
 
         else {
@@ -44,13 +36,13 @@ exports.addToCart = async (req, res) => {
     }
 
     else {
-        // console.log("else part");
         const cart = new Cartdb({
             userId: objectId(userId),
             products: [product]
         })
+
         await cart.save()
-        // console.log('cart saved...................................');
+
         res.json({ status: true })
     }
 }
@@ -59,7 +51,7 @@ exports.addToCart = async (req, res) => {
 exports.cart = async (req, res) => {
 
     const userId = req.session.user?._id;
-    // console.log("userId-----", userId);
+
     let cartItems = await Cartdb.aggregate([
         {
             $match: { userId: objectId(userId) }
@@ -127,18 +119,11 @@ exports.cart = async (req, res) => {
         }
     ])
 
-    
-    
+
+
     const pros = await Cartdb.find({ id: objectId(userId) })
-    // console.log("pros>>>>>>>>>>>>>>>>>>", pros[0]);
-    // console.log("cartItems>>>>>>>>>>>==============", cartItems[0]); 
-    
-    
+
     let totalAmount = totalAmt[0]?.total;
-    // console.log("totalamount----->----------", totalAmt);
-
-
-   
 
     res.render('user/cart', { products: cartItems, pros: pros[0], totalAmount })
 

@@ -4,6 +4,7 @@ const Joi = require('joi');
 
 //coupon details..........................................................
 exports.couponDetails = async (req, res) => {
+
     const coupons = await Coupondb.find();
 
     res.render('admin/coupon', { coupons });
@@ -11,7 +12,7 @@ exports.couponDetails = async (req, res) => {
 
 //add coupon get..................................
 exports.addCoupon = async (req, res) => {
-    // console.log('couponssssssssssssssssss');
+
     res.render('admin/add_coupon', { errorMsg: "" });
 }
 
@@ -36,15 +37,15 @@ exports.addingCoupon = async (req, res) => {
     }
     else {
         await coupon.save();
-        // console.log('saveddddddddddddddddddddddddddddddddddddddddd');
+
         res.redirect('/admin/coupon');
     }
 }
 
 //update coupon ..................................
 exports.updateCoupon = async (req, res) => {
+
     const couponId = req.params.id;
-    // console.log('couponId', couponId);
 
     const coupon = await Coupondb.findById(couponId);
     res.render('admin/update_coupon', { coupon, errorMsg: "" });
@@ -52,8 +53,8 @@ exports.updateCoupon = async (req, res) => {
 
 //updating coupon put..................................
 exports.updatingCoupon = async (req, res) => {
+
     const couponId = req.params.id;
-    // console.log('couponId>>>>>>>>>>>>>', couponId);
 
     const couponObj = {
         coupon: req.body.coupon,
@@ -62,16 +63,12 @@ exports.updatingCoupon = async (req, res) => {
         fromDate: req.body.fromDate,
         toDate: req.body.toDate
 
-    } 
-    // console.log('couponObj>>>>>>>>>>>>>', couponObj);
+    }
 
     const error = addValidate(couponObj);
 
     if (error.error) {
         let errorMsg = error.error.details[0].message;
-        // const coupon = await Coupondb.findById(couponId);
-        // res.render('admin/update_coupon', { coupon, errorMsg });
-
 
         req.session.errorMsg = errorMsg;
         req.session.couponId = couponId;
@@ -89,11 +86,11 @@ exports.updatingCoupon = async (req, res) => {
 
 //error validation coupon updating....................................
 exports.couponErrorVal = async (req, res) => {
+
     const couponId = req.session.couponId;
     const errorMsg = req.session.errorMsg;
     const coupon = await Coupondb.findById(couponId);
-    // console.log('errorMsg7777777777', errorMsg);
-    console.log('coupon77777777', coupon);
+
     res.render('admin/update_coupon', { coupon, errorMsg });
 }
 
@@ -101,7 +98,6 @@ exports.couponErrorVal = async (req, res) => {
 exports.deleteCoupon = async (req, res) => {
 
     const couponId = req.params.id;
-    // console.log('couponId', couponId);
 
     await Coupondb.findByIdAndDelete(couponId);
     res.redirect('/admin/coupon');
@@ -112,7 +108,6 @@ exports.deleteCoupon = async (req, res) => {
 exports.couponStatus = async (req, res) => {
 
     const couponId = req.params.id;
-    // console.log('couponId', couponId);
 
     const coupon = await Coupondb.findById(couponId)
     if (coupon.status) {
@@ -122,6 +117,7 @@ exports.couponStatus = async (req, res) => {
     else {
         await Coupondb.findByIdAndUpdate(couponId, { status: true });
     }
+
     setTimeout(() => {
 
         res.redirect('/admin/coupon');
@@ -129,51 +125,51 @@ exports.couponStatus = async (req, res) => {
 }
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   user side coupon apply   <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 exports.couponApply = async (req, res) => {
 
     const code = req.body.code;
     const total = req.body.total;
     const currentDate = new Date();
 
-    // console.log('code', code);
     const finishedCouponObj = {
         user: req.session.user._id,
-        coupon : code
+        coupon: code
     }
 
-    const coupon = await Coupondb.findOne({ coupon: code , status: true});
-    const used = await FinishedCoupondb.findOne(finishedCouponObj  );
-    if(coupon) {
-        // console.log('coupon', coupon);
-        if(used){
-            res.json({error: "Coupon already used"});
+    const coupon = await Coupondb.findOne({ coupon: code, status: true });
+    const used = await FinishedCoupondb.findOne(finishedCouponObj);
+    if (coupon) {
+        if (used) {
+            res.json({ error: "Coupon already used" });
 
         }
-        else if(coupon.toDate.getDate() > currentDate.getDate()){
-            res.json({error: "Coupon expired"});
+        else if (coupon.toDate.getDate() > currentDate.getDate()) {
+            res.json({ error: "Coupon expired" });
         }
-           else if(coupon.min < total) {
+        else if (coupon.min < total) {
             const finishedCoupon = new FinishedCoupondb(finishedCouponObj);
             await finishedCoupon.save();
-            
+
             const discount = (coupon.percentage / 100) * total;
             const totalNew = total - discount;
             const newTotal = parseInt(totalNew)
             res.json({ newTotal });
         }
         else {
-            res.json({error: `minimum purchase is  ${coupon.min}`})
+            res.json({ error: `minimum purchase is  ${coupon.min}` })
         }
     }
     else {
-        res.json({error: 'Coupon Invalid'});
-    } 
+        res.json({ error: 'Coupon Invalid' });
+    }
 }
 
 
 
 //validation for adding a new product....................................
 const addValidate = (data) => {
+
     const schema = Joi.object({
         coupon: Joi.string().required().label("Name"),
         percentage: Joi.number().min(1).max(99).required().label("Percentage"),
@@ -181,5 +177,6 @@ const addValidate = (data) => {
         fromDate: Joi.date().required().label("From Date"),
         toDate: Joi.date().required().label("To Date"),
     })
+
     return schema.validate(data)
 }

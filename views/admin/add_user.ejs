@@ -6,39 +6,34 @@
         <div class="container">
             <div class="box-nav d-flex-justify-between">
                 <div class="filter" style="margin-top: -4%;">
-                    <!-- <a href="users-list" style="margin-left: -18%; text-decoration: none;"><i
-                            class="fas fa-angle-double-left"></i> All Users
-                    </a> -->
-                <!-- </div> -->
+                </div>
             </div>
-        </div>
+
+            <div class="alter alert-success text-center">
+                <%= user %>
+            </div>
+
+            <div class="alter alert-danger text-center">
+                <%= error %>
+            </div>
 
 
-        <div class="alter alert-success text-center">
-            <%= user %>
-        </div>
+            <div class="form-title text-center">
+                <div id="confirmation"></div>
+                <h2 class="text-dark">New User</h2>
 
-        <div class="alter alert-danger text-center">
-            <%= error %>
-        </div>
+                <a href="users-list" class="allusers">
+                    <i class="fas fa-angle-double-left"></i> All Users
+                </a>
+                <span>Use the below form to create a new account</span>
+            </div>
 
+            <!-- add user form............................................ -->
 
-        <div class="form-title text-center">
-            <div id="confirmation"></div>
-            <h2 class="text-dark">New User</h2>
-            
-            <a href="users-list" class="allusers">
-                <i class="fas fa-angle-double-left"></i> All Users
-            </a>
-            <span >Use the below form to create a new account</span>
-        </div>
-
-        <!-- add user form............................................ -->
-
-        <%-include ('../include/_form') %>
+            <%-include ('../include/_form') %>
 
     </main>
 
     <!-- /main............................................ -->
 
-    <%-include ('../include/_footer') %> 
+    <%-include ('../include/_footer') %>

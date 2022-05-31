@@ -2,8 +2,6 @@
 
     <link rel="stylesheet" href="css/style.css">
 
-    <!-- <link rel="stylesheet" href="css/magiczoomplus.css"> -->
-
     <script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
 
     <!-- //-------------------------------------------------------------------// -->
@@ -12,15 +10,10 @@
         <div style="padding: 6rem 0 0 7rem;">
             <div style="display: flex;" id="img-container" style="width: 400px">
 
-                <!-- <img class="prod-img" src="<%= products.image %>" /> -->
-
-                <!-- <a href="<%= products.image  %>" class="prod-img" > -->
                 <img src="<%= products.image  %>" id="imaage" style="max-width: 300px max-height 300px; " />
-                <!-- </a>` -->
+
             </div>
         </div>
-
-
 
         <div class="product-des">
             <h2 style="text-align: center;color: #f53f51; padding: 3rem 11rem 3rem 0rem; margin-left: 4rem;">
@@ -47,54 +40,38 @@
                         <a href="/place-order-direct?id=<%= products._id%>"><button class="buyNowBtn btn  mt-4">Buy
                                 Now</button></a>
                         <div>
-                            <a href="/cart"><button style="width: 12rem;   height: 3rem;      background-color: #5391ae;
-                                color: white;
-                                margin-left: 3rem; ">Go
+                            <a href="/cart"><button
+                                    style="width: 12rem; height: 3rem; background-color: #5391ae; color: white;  margin-left: 3rem; ">Go
                                     to Cart</button></a>
                         </div>
-                        <% } else { %> 
+                        <% } else { %>
                             <button onclick="stockBtn()" style="width: 12rem;   height: 3rem;      background-color: #f53f51; font-size: large;
                         color: white;">Out of Stock</button>
                             <a href="/cart"><button style="width: 12rem;   height: 3rem;      background-color: #5391ae;
                         color: white;
                         margin-left: 3rem; "> Go to Cart</button></a>
                             <% } %>
-
-
-
-
                                 <% } else { %>
                                     <% if (products.quantity) { %>
 
-                                        <button onclick="loginRqstBtn()" style=" width: 12rem; 
-                        height: 3rem; font-size: large;
-                        background-color: #f53f51;; border: none;
-                         color: white;" class="btn mt-4" >Add to Cart</button>
-                                        <button onclick="loginRqstBtn()" style="    background-color: #fb854d;    border: none;
-                         width: 12rem; 
-                        height: 3rem; font-size: large;
-                         color: white;  border: none; margin-left: 3rem;
-    padding: 5px;" class="btn  mt-4" >Buy Now</button>
+                                        <button onclick="loginRqstBtn()"
+                                            style=" width: 12rem;  height: 3rem; font-size: large; background-color: #f53f51;; border: none; color: white;"
+                                            class="btn mt-4">Add to Cart</button>
+                                        <button onclick="loginRqstBtn()"
+                                            style="background-color: #fb854d; border: none; width: 12rem;  height: 3rem; font-size: large; color: white;  border: none; margin-left: 3rem; padding: 5px;"
+                                            class="btn  mt-4">Buy Now</button>
                                         <% } else { %>
-                                            <button onclick="stockBtn()" style="width: 12rem;   height: 3rem;      background-color: #f53f51;
-                            color: white; border: none; font-size: x-large;
-                             ">Out of Stock</button>
-                                            <button onclick="loginRqstBtn()" style="width: 12rem;   height: 3rem;      background-color: #5391ae;
-                            color: white; border: none; font-size: large; 
-                            margin-left: 3rem; ">Go to Cart</button>
+                                            <button onclick="stockBtn()"
+                                                style="width: 12rem; height: 3rem; background-color: #f53f51; color: white; border: none; font-size: x-large;">Out
+                                                of Stock</button>
+                                            <button onclick="loginRqstBtn()"
+                                                style="width: 12rem; height: 3rem; background-color: #5391ae; color: white; border: none; font-size: large;  margin-left: 3rem; ">Go
+                                                to Cart</button>
                                             <% } %>
                                                 <% } %>
             </div>
         </div>
-
     </div>
-
-    <!-- <td valign="top" align="left">
-        <iframe style="margin-left: 8rem;"
-            src="https://www.facebook.com/plugins/like.php?href=https://www.bookswagon.com/book/rich-poor-dad-t-robert/9781612680194&amp;width=62&amp;layout=button_count&amp;action=like&amp;size=small&amp;show_faces=false&amp;share=false&amp;height=21&amp;appId=1910926215834205"
-            width="62" height="21" style="border: none; overflow: hidden" scrolling="no" frameborder="0"
-            allowtransparency="true"></iframe>
-    </td> -->
 
     <!-- image zoom................................................................ -->
     <script>
@@ -103,11 +80,9 @@
             height: 350,
             zoomWidth: 350,
             offset: { vertical: 5, horizontal: 100 }
-            // zoomPosition: 'right'
         };
         new ImageZoom(document.getElementById("img-container"), options);
     </script>
-
 
     <script>
         function addCart(proId) {
@@ -122,7 +97,6 @@
                     }
                     console.log("ajaxcartttttttttttt", proId);
                     Swal.fire('Product added to cart successfully');
-
                 },
             });
         }

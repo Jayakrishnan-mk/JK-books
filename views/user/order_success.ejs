@@ -11,7 +11,7 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
     </style>
-    
+
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -28,7 +28,6 @@
 
 <body style="overflow-x: hidden;">
 
-
     <nav class="prod-nav">
         <a href="/">
             <h2 class="prod-head" style="width: 20%"> JK Books</h2>
@@ -40,22 +39,21 @@
     </nav>
 
     <div class="main"
-        style="position: relative; background-color: #ffffff; width: 90%; height: 10rem;     margin: 2rem 3rem 0rem 4rem;">
+        style="position: relative; background-color: #ffffff; width: 90%; height: 10rem; margin: 2rem 3rem 0rem 4rem;">
         <img src="img/order2.jpg" style=" width: 7%; height: 44%; margin: 2em 0em 0em 4em; " alt="">
         <h3
             style="left: 14rem; top: 3rem; position: absolute; color: #f53f51; font-weight: bolder; font-style: italic;">
             Order Placed for ₹ <%= total %>
-                <%= %>
         </h3>
 
         <a href="/my-orders"><button
                 style=" float: right;  margin: 3em 6em 0 0; background-color: cornsilk; border-radius: 11px; padding: 1rem;">Go
                 to My Orders</button></a>
         <a href="/#trending"><button
-                style=" float: right;  margin: 3em 6em 0 0; background-color: cornsilk; border-radius: 11px; padding: 1rem;">Continue Shopping</button></a>
+                style=" float: right;  margin: 3em 6em 0 0; background-color: cornsilk; border-radius: 11px; padding: 1rem;">Continue
+                Shopping</button></a>
     </div>
 
-   
 
     <!-- product<<<<<<<<<<<<<<<<<<<<<<<<<<<............................................................................................................................... -->
 
@@ -78,11 +76,8 @@
                         <%= products[0].author %>
                     </h6>
 
-
-
                 </div>
             </div>
-
         </div>
 
 
@@ -107,14 +102,8 @@
                 </p>
             </div>
             </p>
-
         </div>
-
     </div>
-
-
-
-
 
     <% for( i=1; i< products.length; i++ ) { %>
 
@@ -142,17 +131,13 @@
 
         <% } %>
 
-
-
-            <img src="img/books.jpg" style="    margin: 1em 0em 1rem 4rem;
-    width: 90%;
-    height: 12rem; position: absolute;" alt="">
-    <h3 style="position: relative;    margin: 4rem 0rem 0rem 65rem; font-family: 'Pacifico', cursive; color: #564444;">
-        JK Books</h3>
-    <h1 style="color: #772830; font-size: revert;  margin: 2rem 0rem 0rem 63rem;font-style: oblique;
-    font-size: large; position: relative;"> Expect more , Explore more.....</h1>
-
-
+            <img src="img/books.jpg" style=" margin: 1em 0em 1rem 4rem; width: 90%; height: 12rem; position: absolute;">
+            <h3
+                style="position: relative; margin: 4rem 0rem 0rem 65rem; font-family: 'Pacifico', cursive; color: #564444;">
+                JK Books</h3>
+            <h1
+                style="color: #772830; font-size: revert;  margin: 2rem 0rem 0rem 63rem;font-style: oblique; font-size: large; position: relative;">
+                Expect more , Explore more.....</h1>
 
 </body>
 

@@ -11,6 +11,7 @@ const coupon_controller = require('../controller/coupon_controller');
 
 
 const verifyLogin = (req, res, next) => {
+
     if (req.session.isUserlogin) {
         next();
     }
@@ -22,18 +23,21 @@ const verifyLogin = (req, res, next) => {
 
 //user login............................................
 userRouter.get('/user-login', (req, res) => {
+
     if (req.session.isUserlogin) {
         res.redirect('/user-home')
     }
     else {
         const error = req.session.error;
         req.session.error = null;
-        res.render('user/user_login', {error});
+
+        res.render('user/user_login', { error });
     }
 })
 
 //user login error............................................
 userRouter.get('/user-login-error', (req, res) => {
+
     if (req.session.isUserlogin) {
         res.redirect('/user-home')
     }
@@ -47,11 +51,6 @@ userRouter.get('/user-signup', (req, res) => {
     res.render('user/user_signup', { error: "" })
 })
 
-// userRouter.get('/user-signup-validation', (req, res) => {
-//     console.log('kkkkkkkkkk', error.error.details[0].message);
-//     res.render('user/user_signup', { error: error.error.details[0].message })
-// })
-
 //user home.............................................
 userRouter.post('/user-signup', controller.userSignup);
 
@@ -61,14 +60,10 @@ userRouter.get('/signup-error', controller.signupError);
 //product details..........................................
 userRouter.get('/product-details', product_controller.productDetails);
 
-
 //user login with otp....................
 userRouter.get('/loginwithOtp', (req, res) => {
-    console.log('login with otp');
     res.render('user/userLoginwithOtp')
 })
-
-
 
 //login with otp....................
 userRouter.post('/mobile', otp_controller.otpPage);
@@ -76,14 +71,21 @@ userRouter.post('/mobile', otp_controller.otpPage);
 //otp checks....................
 userRouter.post('/otp', otp_controller.otpChecking);
 
-
 //user home page............................................
 userRouter.post('/user-home', controller.userHomePost);
 
+//user book request get............................................
 userRouter.get('/book-req', controller.bookRequest);
- 
+
+//user book request post............................................
+userRouter.post('/book-request', controller.bookRequestPost);
+
+//book request error validation............................................
+userRouter.get('/book-request-error', controller.bookRequestError);
+
 //middleware for route protect..................
 userRouter.use((req, res, next) => {
+
     if (!req.session.isUserlogin) {
         res.redirect('/')
     }
@@ -95,16 +97,11 @@ userRouter.use((req, res, next) => {
 
 //user logout............................................
 userRouter.get('/user-logout', async (req, res) => {
-    // req.session.destroy();
-    // // res.render('user/user_login', {logout: "User Logged out successfully."})
-    // const products = await Productdb.find()
-    // res.render('landing', { products })
 
     req.session.isUserlogin = false;
     req.session.user = null;
     res.redirect('/')
 })
-
 
 
 //user cart....................
@@ -123,40 +120,46 @@ userRouter.post('/change-product-quantity', product_controller.changeProductQuan
 userRouter.get("/add-to-wishlist/:id", verifyLogin, wishlist_controller.addToWishlist);
 
 //place order............................................. 
-userRouter.get('/place-order', product_controller.placeOrder); 
+userRouter.get('/place-order', product_controller.placeOrder);
 
 //place order route from product details and direct buy now btn route..
-userRouter.get('/place-order-direct' , product_controller.placeOrderDirect);
- 
+userRouter.get('/place-order-direct', product_controller.placeOrderDirect);
+
 //checkout page..............................................
-userRouter.post('/checkout', order_controller.checkout);   
+userRouter.post('/checkout', order_controller.checkout);
 
 //checkout page from buynow..............................................
 userRouter.post('/checkoutFromBuynow', order_controller.checkoutFromBuynow);
- 
+
 //coupon applying..............................................
 userRouter.post('/coupon-apply', coupon_controller.couponApply);
 
 //payment of razorpay..................................
 userRouter.post('/verify-payment', order_controller.verifyPayment);
- 
+
 //order list..............................................
 userRouter.get('/order-success', order_controller.orderSuccess);
 
+//my orders list..............................................
 userRouter.get('/my-orders', order_controller.myOrders);
 
+// my profile page..............................................
 userRouter.get('/my-profile', controller.myProfile);
 
+//my wishlist page..............................................
 userRouter.get('/my-wishlist', wishlist_controller.myWishlist);
 
-userRouter.put ('/wishlist-removed', wishlist_controller.wishlistRemoved);
+//wishlist removing..............................................
+userRouter.put('/wishlist-removed', wishlist_controller.wishlistRemoved);
 
-userRouter.get('/cancel-order/:id' , order_controller.cancellingOrder)
+//my cancelling order..............................................
+userRouter.get('/cancel-order/:id', order_controller.cancellingOrder)
 
+//edit profile..............................................
 userRouter.post('/profile-edit', controller.profileEdit);
 
+//users address saving.......................................
 userRouter.post('/save-address', saveAddress_controller.saveAddress);
 
 
- 
 module.exports = userRouter;

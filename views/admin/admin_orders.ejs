@@ -1,23 +1,27 @@
 <%-include ('../include/_header') %>
 
-<style>
-    div.dataTables_wrapper {
-        width: 89%;
-    margin: 3rem 0rem 4rem 4rem;
-    }
-    div.dt-buttons {
-        padding-left: 67px;
-    }
-    label{
-        padding-right: 67px;
-    }
-    .dataTables_wrapper .dataTables_info {
-        padding-left: 67px;
-    }
-    .dataTables_wrapper .dataTables_paginate {
-        padding-right: 67px;
-    }
-</style>
+    <style>
+        div.dataTables_wrapper {
+            width: 89%;
+            margin: 3rem 0rem 4rem 4rem;
+        }
+
+        div.dt-buttons {
+            padding-left: 67px;
+        }
+
+        label {
+            padding-right: 67px;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            padding-left: 67px;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            padding-right: 67px;
+        }
+    </style>
 
 
     <table class="table " id="myTable" style="width: 90%;">
@@ -69,43 +73,46 @@
                         </td>
 
 
-                        <% if ( orderItems[i].status == 'failed' || orderItems[i].status == 'cancelled' ) { %>
-                            <td><%= orderItems[i].status %></td>
+                        <% if ( orderItems[i].status=='failed' || orderItems[i].status=='cancelled' ) { %>
+                            <td>
+                                <%= orderItems[i].status %>
+                            </td>
                             <% } else { %>
-                        <td>
-                            <div class="">
-                                <select id="status" name="status" onchange="deliveryStatus(value, '<%= orderItems[i]._id %>')" style="border-radius: 2px;">
-                                    <option value="<%= orderItems[i].status %>" selected>
-                                        <%= orderItems[i].status %>
-                                    </option>
-                                    <option value="Dispatched">Dispatched</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Pending">Pending</option>
-                                    <option value="Shipped">Shipped</option>
-                                    <option value="Cancelled">Cancelled</option>
-                                </select>
-                            </div>
+                                <td>
+                                    <div>
+                                        <select id="status" name="status"
+                                            onchange="deliveryStatus(value, '<%= orderItems[i]._id %>')"
+                                            style="border-radius: 2px;">
+                                            <option value="<%= orderItems[i].status %>" selected>
+                                                <%= orderItems[i].status %>
+                                            </option>
+                                            <option value="Dispatched">Dispatched</option>
+                                            <option value="Delivered">Delivered</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Shipped">Shipped</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                </td>
 
-                        </td>
+                                <% } %>
 
-                        <% } %>
-
-                        <% if ( orderItems[i].status == 'failed' || orderItems[i].status == 'cancelled' ) { %>
-                            <td><%= orderItems[i].status %></td>
-                            <% } else { %>
-                        <td>
-                            <a href="/admin/cancelling-order/<%= orderItems[i]?._id %>"><button style="line-height: 23px; font-size: initial; background-color: #f95e5e; color: white;
+                                    <% if ( orderItems[i].status=='failed' || orderItems[i].status=='cancelled' ) { %>
+                                        <td>
+                                            <%= orderItems[i].status %>
+                                        </td>
+                                        <% } else { %>
+                                            <td>
+                                                <a href="/admin/cancelling-order/<%= orderItems[i]?._id %>"><button
+                                                        style="line-height: 23px; font-size: initial; background-color: #f95e5e; color: white;
                                  padding: 2px 8px 2px 8px; border-radius: 3px; border: none;">Cancel</button></a>
 
-                        </td>
-                        <% } %>
-
-
+                                            </td>
+                                            <% } %>
 
                     </tr>
 
                     <% } %>
-
 
         </tbody>
     </table>
@@ -121,29 +128,26 @@
 
 
 
-<script type="text/javascript" charset="utf-8">
-    $(document).ready(function () {
-        $('#myTable').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            });
         });
-    });
-</script>
-
-
-
+    </script>
 
     <script>
         function deliveryStatus(value, orderId) {
-            $.ajax ({
-            url: '/admin/deliveryStatus',
-            type : 'post',
-            data : {
-                status: value,
-                orderId: orderId
-            }
-        })
+            $.ajax({
+                url: '/admin/deliveryStatus',
+                type: 'post',
+                data: {
+                    status: value,
+                    orderId: orderId
+                }
+            })
         }
     </script>

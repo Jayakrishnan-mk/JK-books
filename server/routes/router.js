@@ -10,23 +10,21 @@ const coupon_controller = require('../controller/coupon_controller');
 const admin = require('../model/admin_model');
 const Categorydb = require('../model/category_model');
 
-
-
-
 //admin check .........................
 router.get('/', (req, res) => {
+
     if (req.session.isAdminlogin) {
-        // console.log('isAdminlogin');
+
         res.redirect('/admin/admin-dashboard');
     } else {
-        // console.log('no admin login');
+
         res.render('admin/admin_login');
     }
-})    
+})
 
 //admin home post.........................
 router.post('/admin-home', async (req, res) => {
-    // console.log(req.body);
+
     const Admin = await admin.findOne({
         email: req.body.email,
         password: req.body.password
@@ -35,7 +33,6 @@ router.post('/admin-home', async (req, res) => {
 
         req.session.admin = req.body.email;
         req.session.isAdminlogin = true;
-        // console.log(req.session.isAdminlogin);
 
         res.redirect('/admin/admin-dashboard');
     }
@@ -47,6 +44,7 @@ router.post('/admin-home', async (req, res) => {
 
 //middleware for route protect..................
 router.use((req, res, next) => {
+
     if (!req.session.isAdminlogin) {
         res.redirect('/admin')
     }
@@ -57,6 +55,7 @@ router.use((req, res, next) => {
 
 // ajax query deleting not supporting time (method overriding not possible time) i sent that in query............................
 router.use((req, res, next) => {
+
     if (req.query._method == "DELETE") {
         req.method = "DELETE";
         req.url = req.path
@@ -78,19 +77,16 @@ router.get('/users-list', controller.allUsers);
 
 //admin logout.................................. 
 router.get('/admin-logout', (req, res) => {
-    // console.log(req.session.isAdminlogin);
     req.session.isAdminlogin = false;
     res.redirect('/')
 })
 
-
-
-
-
 //add products.................................. 
 router.get('/add-product', async (req, res) => {
+
     const category = await Categorydb.find({});
-    res.render('admin/add_product', { category , errorMsg: ""})
+
+    res.render('admin/add_product', { category, errorMsg: "" })
 })
 
 //new category adding time category already exist...................................
@@ -133,7 +129,7 @@ router.delete('/delete-product/:id', product_controller.deleteProduct);
 router.put('/update-product/:id', product_controller.updateProductPut);
 
 //cancel order..................................
-router.get('/cancelling-order/:id', order_controller.cancelOrderInAdminside); 
+router.get('/cancelling-order/:id', order_controller.cancelOrderInAdminside);
 
 // delivery status in dropdown
 router.post('/deliveryStatus', order_controller.deliveryStatus);
@@ -162,7 +158,7 @@ router.get('/couponErrorVal', coupon_controller.couponErrorVal);
 //delete coupon................................
 router.delete('/delete-coupon/:id', coupon_controller.deleteCoupon);
 
-
+//status of coupon................................
 router.patch('/couponStatus/:id', coupon_controller.couponStatus);
 
 //search user.................................. 
@@ -186,6 +182,8 @@ router.get('/admin-ordersList', controller.adminOrdersList)
 //admin dashboard..................................
 router.get('/admin-dashboard', controller.adminDashboard);
 
+//users book requests..................................
+router.get('/requestList', controller.requestList);
 
 
 module.exports = router;  

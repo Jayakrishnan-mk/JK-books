@@ -7,19 +7,19 @@ const session = require('express-session');
 const { v4: uuidv4 } = require('uuid');
 const fileUpload = require('express-fileupload');
 
-
 const connectDB = require('./server/database/connection');
+
 const Userdb = require('./server/model/model');
 const Productdb = require('./server/model/product_model');
 const Cartdb = require('./server/model/cart_model')
 const Wishlistdb = require('./server/model/wishlist_model')
 const objectId = require('mongoose').Types.ObjectId;
- 
+
 const app = express();
 
 dotenv.config();
- 
-const port=  process.env.PORT;
+
+const port = process.env.PORT;
 //override the method in form......
 app.use(methodOverride('_method'));
 
@@ -42,7 +42,6 @@ app.use('/img', express.static(path.join(__dirname, "public/assets/img")));
 app.use('/fonts', express.static(path.join(__dirname, "public/assets/fonts")));
 app.use('/js', express.static(path.join(__dirname, "public/assets/js")));
 app.use('/public/product_images', express.static(path.join(__dirname, "public/product_images")))
-// app.use('/Datatables', express.static(path.join(__dirname, "public/Datatables")));
 
 app.use(fileUpload());
 
@@ -74,9 +73,9 @@ app.get('/', async (req, res) => {
         const cartCount = await Cartdb.find({ userId: objectId(req.session.user._id) })
         count = cartCount[0]?.products?.length;
 
-        const wishlist = await Wishlistdb.findOne({userId : objectId(user._id)});
+        const wishlist = await Wishlistdb.findOne({ userId: objectId(user._id) });
 
-        res.render('user/user_home', { user, userHome , products , count , wishlist })  
+        res.render('user/user_home', { user, userHome, products, count, wishlist })
     }
 
     else {

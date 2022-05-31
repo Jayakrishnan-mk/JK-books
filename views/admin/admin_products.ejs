@@ -23,21 +23,14 @@
         }
     </style>
 
-
-
     <div class="dt-buttons">
-
         <a href="/admin/add-product" class="border-shadow" style="padding: 39rem;">
             <span class="new">Add Product <i class="fa-solid fa-book"></i></span>
         </a>
     </div>
 
-
-
-
     <!-- form handling................... -->
 
-    <!-- <form action="/admin-home" method="post"> -->
     <table class="table" id="myTable" style="width: 90%;">
         <thead class="thead-dark">
             <tr>
@@ -84,32 +77,12 @@
                                 </li>
                             </a>
 
-                            <!-- <li class="list-inline-item" style="display: grid;">
-                                            <button onclick="confirmDelete()" class="btn btn-danger btn-sm rounded-0" type="button"
-                                                data-toggle="tooltip" data-placement="top" title="Delete">
-                                                <i class="fa fa-trash"></i></button>
-                                        </li> -->
-
-                            <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post"> -->
                             <li class="list-inline-item" style="display: grid;">
                                 <button onclick="confirmDelete('<%= products[i]._id %>')"
                                     class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
                                     data-placement="top" title="Delete">
                                     <i class="fa fa-trash"></i></button>
                             </li>
-                            <!-- </form> -->
-
-                            <!-- //--------------------------------------------------------------------------------------------// -->
-
-                            <!-- <form action="/delete-product/<%= products[i]._id%>?_method=DELETE" method="post">
-                                    <a href=""                
-                                        onclick="return confirm ('Are you want to delete <%= products[i].name %> ?')"> -->
-                            <!-- <button type="submit"  class="fa-solid fa-trash-can trash-icon"></button> -->
-                            <!-- <li class="list-inline-item" style="display: grid;">
-                                                <button class="btn btn-danger btn-sm rounded-0" type="submit" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                            </li>                                    
-                                        </a>                     
-                                </form> -->
 
                         </td>
                     </tr>

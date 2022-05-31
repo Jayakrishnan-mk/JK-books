@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const schemaWishlist = new mongoose.Schema({
+
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'userdb'

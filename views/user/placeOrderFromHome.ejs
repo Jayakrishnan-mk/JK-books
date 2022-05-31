@@ -22,7 +22,6 @@
 
 <body style="overflow-x: hidden;">
 
-
     <nav class="prod-nav">
         <a href="/">
             <h2 class="prod-head" style="width: 20%"> JK Books</h2>
@@ -75,7 +74,6 @@
                             <h4>Saved Addresses</h4><br>
                             <div style="border: 1px solid; padding: 2rem 0 0 4rem; background-color: white;">
                                 <% for ( i=0; i< saved.length; i++ ) { %>
-
 
                                     <div style="display: flex;">
                                         <input type="radio"
@@ -183,15 +181,15 @@
 
         function autofill(name, address, pincode, mobile) {
             $('#name').val(name);
-            $('#address').val(address.split('').filter((e) => e!=' ').join(''));
-            $('#pincode').val(pincode.split('').filter((e) => e!=' ').join(''));
-            $('#mobile').val(mobile.split('').filter((e) => e!=' ').join(''));
+            $('#address').val(address.split('').filter((e) => e != ' ').join(''));
+            $('#pincode').val(pincode.split('').filter((e) => e != ' ').join(''));
+            $('#mobile').val(mobile.split('').filter((e) => e != ' ').join(''));
         }
 
 
         //----------------------------------------------------------------------------
         function savingAddress(name, address, pincode, mobile) {
-            // console.log('EEELLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+
             if (value1 == true && value2 == true && value3 == true && value4 == true) {
 
                 $.ajax({
@@ -302,24 +300,18 @@
             e.preventDefault();
             if (value1 && value2 && value3 && value4 && value5) {
 
-
-                // console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
                 $.ajax({
                     url: '/checkoutFromBuynow',
                     type: 'post',
                     data: $('#checkout-form').serialize(),
                     success: function (data) {
-                        // console.log('lllllllllllllllll', data);
-                        // alert("data  alert coming");
                         if (data.error) {
                             location.href = `/place-order-validationError/${data.total}/${data.error}`;
                         }
                         else if (data.codSuccess) {
-                            // console.log('lllllllllll');
                             location.href = '/order-success';
                         }
                         else {
-                            // console.log('kkkkkkkkkkkkkkkkkkkk');
                             razorpayPayment(data);
                         }
                     }
@@ -341,9 +333,6 @@
 
                 "handler": function (response) {
 
-
-                    // console.log('paymohjouihuhu+++++++++++++++++++++++++++++++++++++++++++++++++++++', payment, order);
-
                     verifyPayment(response, order);
 
                 },
@@ -359,13 +348,9 @@
                     "color": "#3399cc"
                 }
             };
-            // console.log('lllllllllllll');
             var rzp1 = new Razorpay(options);
             rzp1.open();
         }
-
-
-
 
         function verifyPayment(payment, order) {
             console.log('payment+++++++++++++++++++++++++++++++++++++++++++++++++++++', order);
@@ -377,7 +362,6 @@
                 },
                 method: "post",
                 success: (response) => {
-                    // console.log('response+++++++++++++++++++++++++++++++++++++++++++++++++++++', response); 
                     if (response.status) {
                         location.href = '/order-success';
                     }

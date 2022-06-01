@@ -3,24 +3,19 @@ const mongoose = require('mongoose');
 const schemaBookRequests = new mongoose.Schema({
 
     bookDetails: {
-        type: "string",
-        required: true
+        type: "string"
     },
     name: {
-        type: "string",
-        required: true
+        type: "string"
     },
     email: {
-        type: "string",
-        required: true
+        type: "string"
     },
     address: {
-        type: "string",
-        required: true
+        type: "string"
     },
     phone: {
-        type: "number",
-        required: true
+        type: "number"
     }
 })
 

@@ -15,9 +15,7 @@
               <p>
                 If the book you need is not availble in our inventory list, please add them using the section below.
               </p>
-              <h3>
-                <%= err %>
-              </h3>
+
               <div class="table-responsive">
 
                 <form id="book_request" action="" novalidate="novalidate">
@@ -75,14 +73,11 @@
                           </div>
                         </td>
                       </tr>
-                      <p style="color: red;">
-                        <%= err %>
-                      </p>
                       </tr>
                       <tr>
-                        <td colspan="2"><button style=" margin: 2rem 0rem 0rem 12rem; width: 8rem; height: 3rem; border-radius: 1rem; background-color: #e43b4c;
-                          color: white;" id="submit_button" onclick="bookRequesting()" type="button"
-                            class="aa-browse-btn">Submit
+
+                        <td colspan="2"><button style="margin: 1rem 8rem 0rem 10rem; width: 8rem; height: 3rem; border-radius: 1rem; background-color: #e43b4c;
+                          color: white;" id="submit_button" type="submit" class="aa-browse-btn">Submit
                             request</button></td>
                       </tr>
 
@@ -101,10 +96,12 @@
 
   <script>
 
-    function bookRequesting() {
+    $('#book_request').submit(function (e) {
+      e.preventDefault();
       $.ajax({
         url: '/book-request',
         type: 'POST',
+        data: $('#book_request').serialize(),
         success: (response) => {
           if (response.success) {
 
@@ -113,5 +110,6 @@
         }
 
       })
-    }
+    })
+  
   </script>

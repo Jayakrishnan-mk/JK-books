@@ -2,11 +2,11 @@ const Userdb = require('../model/model');
 
 const serviceSID = "VA75b5e7e997850aab64166f43c82d9a0e";
 const accountSID = "ACc126eca5b1a3058319ed7c5da0e1baea";
-const authToken = "b4cd10e87bbf2e2ba0c88b84c6b6a567";
+const authToken = "dffd0695bfc546426e82d0aca5f4607a";
 
 const client = require("twilio")(accountSID, authToken);
 
-//otp page for user login............................................
+//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<       otp page for user login         >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 exports.otpPage = async (req, res) => {
 
     const user = await Userdb.findOne({
@@ -14,7 +14,9 @@ exports.otpPage = async (req, res) => {
     })
 
     if (!user) {
-        res.render('user/userLoginwithOtp', { error: "User not found" })
+        const error = "User not found";
+        req.session.error = error;
+        res.redirect('/user-loginWithOtp')
     }
     else {
 
@@ -25,11 +27,34 @@ exports.otpPage = async (req, res) => {
                 channel: "sms"
             })
             .then((resp) => {
-
-                res.render('user/userLoginOtpCheck', { number: req.body.number })
-                res.status(200).json({ resp })
+                req.session.number = req.body.number;
+                res.redirect('/user-loginOtpChecking')
             })
     }
+}
+
+
+exports.otpPageLogin =  (req,res)=>{
+    const error = req.session.error;
+    req.session.error = null;
+    res.render('user/userLoginwithOtp', { error })
+}
+
+exports.otpLoginChecking = (req,res) => {
+    const number = req.session.number;
+    req.session.number = null;
+    res.render('user/userLoginOtpCheck', { number })
+
+}
+
+exports.userLoginWithOtpChecking = (req,res) => {
+
+    const error = req.session.error;
+    const number = req.session.number;
+    req.session.number = null;
+    req.session.error = null;
+    res.render('user/userLoginOtpCheck', { error, number })
+
 }
 
 //otp checking for user login............................................
@@ -58,7 +83,9 @@ exports.otpChecking = (req, res) => {
 
             }
             else {
-                res.render('user/userLoginOtpCheck', { error: "Invalid OTP", number: req.body.number })
+                const error = "Invalid OTP";
+                const number = req.body.number;
+                res.redirect('/user-loginWithOtpChecking');
             }
         })
 }

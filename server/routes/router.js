@@ -51,7 +51,7 @@ router.use((req, res, next) => {
     else {
         next();
     }
-})
+}) 
 
 // ajax query deleting not supporting time (method overriding not possible time) i sent that in query............................
 router.use((req, res, next) => {
@@ -160,6 +160,9 @@ router.delete('/delete-coupon/:id', coupon_controller.deleteCoupon);
 
 //status of coupon................................
 router.patch('/couponStatus/:id', coupon_controller.couponStatus);
+
+//status of book requests................................
+router.delete('/bookReqStatus/:id', controller.bookStatus);
 
 //search user.................................. 
 router.get('/user-search', controller.userSearch)

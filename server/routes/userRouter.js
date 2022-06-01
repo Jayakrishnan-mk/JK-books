@@ -65,8 +65,17 @@ userRouter.get('/loginwithOtp', (req, res) => {
     res.render('user/userLoginwithOtp')
 })
 
+//user login with otp check....................
+userRouter.get('/user-loginWithOtpChecking', otp_controller.userLoginWithOtpChecking);
+
 //login with otp....................
 userRouter.post('/mobile', otp_controller.otpPage);
+
+//otp checking for user login....................
+userRouter.get('/user-loginWithOtp', otp_controller.otpPageLogin);
+
+//otp checking for user login....................
+userRouter.get('/user-loginOtpChecking', otp_controller.otpLoginChecking);
 
 //otp checks....................
 userRouter.post('/otp', otp_controller.otpChecking);
@@ -79,9 +88,6 @@ userRouter.get('/book-req', controller.bookRequest);
 
 //user book request post............................................
 userRouter.post('/book-request', controller.bookRequestPost);
-
-//book request error validation............................................
-userRouter.get('/book-request-error', controller.bookRequestError);
 
 //middleware for route protect..................
 userRouter.use((req, res, next) => {

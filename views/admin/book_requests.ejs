@@ -61,9 +61,13 @@
                         <%= request[i].phone %>
                     </td>
 
-                    <% } %>
 
+                    <td>
+                        <button onclick="approval('<%= request[i]._id%>')" type="submit"
+                            class="btn btn-success">Approve</button>
+                    </td>
                 </tr>
+                <% } %>
 
         </tbody>
     </table>
@@ -100,6 +104,28 @@
                     status: value,
                     orderId: orderId
                 }
+            })
+        }
+
+
+        function approval(id) {
+            $.ajax({
+                url: `/admin/bookReqStatus/${id}?_method=DELETE`,
+                type: 'post',
+                data: { id },
+                success: (response) => {
+
+
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Request approved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                    location.reload()
+                }
+
             })
         }
     </script>

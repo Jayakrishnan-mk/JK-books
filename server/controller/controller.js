@@ -374,7 +374,7 @@ exports.profileEdit = async (req, res) => {
 //book request page...............................
 exports.bookRequest = async (req, res) => {
 
-    res.render('user/book_request', { err: "" });
+    res.render('user/book_request');
 }
 
 //book request post..................................
@@ -386,31 +386,32 @@ exports.bookRequestPost = async (req, res) => {
         email: req.body.email,
         address: req.body.address,
         phone: req.body.phone
-
     }
 
     const bookRequest = new BookRequestdb(bookReq);
-    const { error } = bookReqValidate(bookReq);
-    if (error) {
-        req.session.error = error.details[0].message;
-        res.redirect('/book-request-error');
-    }
-    else {
-
-        await bookRequest.save();
+    
+    await bookRequest.save();
 
         res.json({ success: true });
-    }
+    
 }
 
-//book request validation error page................
-exports.bookRequestError = async (req, res) => {
+//book status checking..................................
+exports.bookStatus = async (req, res) => {
 
-    const error = req.session.error;
-    req.session.error = null;
-    // console.log('errordddddddddddd>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', error);
-    res.render('user/book_request', { err: error });
+    const reqId = req.params.id;
+
+    await BookRequestdb.findByIdAndDelete(reqId)
+  
+
+    setTimeout(() => {
+
+        res.redirect('/admin/requestList');
+    }, 1000);
+
 }
+
+
 
 //validations...........................
 
@@ -429,15 +430,3 @@ const validate = (data) => {
 }
 
 
-const bookReqValidate = (data) => {
-
-    const schema = Joi.object({
-        bookDetails: Joi.string().min(9).label("Book Details").required(),
-        name: Joi.string().pattern(/^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/).min(3).label("Name").required(),
-        email: Joi.string().email().label("Email").required(),
-        address: Joi.string().min(3).label("Address").required(),
-        phone: Joi.string().min(10).max(13).pattern(/^[0-9]+$/).label("Number").required(),
-    })
-
-    return schema.validate(data)
-}

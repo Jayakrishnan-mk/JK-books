@@ -5,8 +5,8 @@ const Razorpay = require('razorpay');
 const objectId = require('mongoose').Types.ObjectId;
 
 var instance = new Razorpay({
-    key_id: 'rzp_test_ypSBEwW22pVLiL',
-    key_secret: 'ycRd6fwBkLO7GmZGjm2REW9a'
+    key_id: process.env.KEYID,
+    key_secret: process.env.KEYSECRET
 })
 
 //checkout page....................................

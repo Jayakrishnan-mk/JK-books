@@ -1,8 +1,8 @@
 const Userdb = require('../model/model');
 
-const serviceSID = "VA75b5e7e997850aab64166f43c82d9a0e";
-const accountSID = "ACc126eca5b1a3058319ed7c5da0e1baea";
-const authToken = "dffd0695bfc546426e82d0aca5f4607a";
+const serviceSID = process.env.SERVICESID;
+const accountSID = process.env.ACCOUNTSID;
+const authToken = process.env.AUTHTOKEN;
 
 const client = require("twilio")(accountSID, authToken);
 

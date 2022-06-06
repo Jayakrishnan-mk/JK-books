@@ -90,15 +90,15 @@ userRouter.get('/book-req', controller.bookRequest);
 userRouter.post('/book-request', controller.bookRequestPost);
 
 //middleware for route protect..................
-userRouter.use((req, res, next) => {
+// userRouter.use((req, res, next) => {
 
-    if (!req.session.isUserlogin) {
-        res.redirect('/')
-    }
-    else {
-        next();
-    }
-})
+//     if (!req.session.isUserlogin) {
+//         res.redirect('/')
+//     }
+//     else {
+//         next();
+//     }
+// })
 
 
 //user logout............................................

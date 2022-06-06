@@ -1879,12 +1879,15 @@ h1, h2, h3, h4, h5, h6 {
 #header {
   padding: 14px 0;
   position: fixed;
+  background-color: #f53e53;
+  justify-content: space-between;
   left: 0;
   top: 0;
   right: 0rem;
   transition: all 0.5s;
   z-index: 997;
 }
+
 
 #header.header-scrolled {
   box-shadow: -21.213px 21.213px 30px 0px rgba(158, 158, 158, 0.3);

@@ -9,7 +9,7 @@ const connectDB = async () => {
             console.log("Could not connect to database");
         }
         else {
-            console.log("Connected to database");
+            console.log("Connected to database...");
         }
     })
 }

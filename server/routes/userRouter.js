@@ -10,15 +10,15 @@ const saveAddress_controller = require('../controller/saveAddress_controller');
 const coupon_controller = require('../controller/coupon_controller');
 
 
-// const verifyLogin = (req, res, next) => {
+const verifyLogin = (req, res, next) => {
 
-//     if (req.session.isUserlogin) {
-//         next();
-//     }
-//     else {
-//         res.redirect('/user-login');
-//     }
-// }
+    if (req.session.isUserlogin) {
+        next();
+    }
+    else {
+        res.redirect('/user-login');
+    }
+}
 
 
 //user login............................................
@@ -90,15 +90,15 @@ userRouter.get('/book-req', controller.bookRequest);
 userRouter.post('/book-request', controller.bookRequestPost);
 
 //middleware for route protect..................
-// userRouter.use((req, res, next) => {
+userRouter.use((req, res, next) => {
 
-//     if (!req.session.isUserlogin) {
-//         res.redirect('/')
-//     }
-//     else {
-//         next();
-//     }
-// })
+    if (!req.session.isUserlogin) {
+        res.redirect('/')
+    }
+    else {
+        next();
+    }
+})
 
 
 //user logout............................................

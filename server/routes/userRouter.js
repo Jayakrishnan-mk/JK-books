@@ -10,15 +10,15 @@ const saveAddress_controller = require('../controller/saveAddress_controller');
 const coupon_controller = require('../controller/coupon_controller');
 
 
-const verifyLogin = (req, res, next) => {
+// const verifyLogin = (req, res, next) => {
 
-    if (req.session.isUserlogin) {
-        next();
-    }
-    else {
-        res.redirect('/user-login');
-    }
-}
+//     if (req.session.isUserlogin) {
+//         next();
+//     }
+//     else {
+//         res.redirect('/user-login');
+//     }
+// }
 
 
 //user login............................................

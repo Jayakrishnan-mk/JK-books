@@ -315,9 +315,13 @@ exports.signupError = async (req, res) => {
 //user home page............................
 exports.userHomePost = async (req, res) => {
 
+    console.log('im going to check the user');
+
     const user = await Userdb.findOne({
         email: req.body.email
     })
+
+    console.log('user is', user);
 
     if (user) {
         req.session.user = user;
@@ -327,11 +331,17 @@ exports.userHomePost = async (req, res) => {
         }
         else {
             if (await bcrypt.compare(req.body.password, user.password)) {
+
+                console.log('im going to login');
+                
                 req.session.isUserlogin = true;
                 res.status(200).redirect('/')
 
             }
             else {
+                
+                console.log('password is wrong');
+
                 req.session.error = "Invalid Password";
                 res.redirect('/user-login')
             }
